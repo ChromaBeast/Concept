@@ -1,4 +1,4 @@
-package com.concept.app.concept
+package com.sheersh.concept
 
 import io.flutter.embedding.android.FlutterActivity
 
