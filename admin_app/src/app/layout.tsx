@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
-import { AdminNavbar } from '@/components/layout/AdminNavbar';
 import { AuthProvider } from '@/lib/authContext';
 
 const ibmSans = IBM_Plex_Sans({
@@ -34,10 +33,7 @@ export default function RootLayout({
       <body className="bg-paper-bg text-paper-text font-sans min-h-screen selection:bg-ochre/20">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           <AuthProvider>
-            <AdminNavbar />
-            <main className="w-full">
-              {children}
-            </main>
+            {children}
           </AuthProvider>
         </ThemeProvider>
       </body>

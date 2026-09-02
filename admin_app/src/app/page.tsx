@@ -41,7 +41,7 @@ export default function AdminDashboardPage() {
 
   return (
     <AuthGuard>
-      <div className="flex min-h-[calc(100vh-4rem)] -m-4 sm:-m-6 lg:-m-8">
+      <div className="flex min-h-screen bg-paper-bg font-sans">
         {/* Collapsible Modern Sidebar */}
         <DashboardSidebar
           currentTab={currentTab}
@@ -49,15 +49,15 @@ export default function AdminDashboardPage() {
           stats={stats}
         />
 
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 bg-paper-bg">
+        {/* Main Content Viewport */}
+        <div className="flex-1 flex flex-col min-w-0 bg-paper-bg overflow-x-hidden">
           <DashboardHeader
             currentTab={currentTab}
             onOpenCommand={() => setCommandOpen(true)}
             onSelectTab={setCurrentTab}
           />
 
-          <div className="p-4 sm:p-6 lg:p-8 space-y-6 flex-1 max-w-7xl w-full mx-auto">
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
             {currentTab === 'overview' && (
               <DashboardOverviewView stats={stats} onNavigate={setCurrentTab} />
             )}
@@ -81,7 +81,7 @@ export default function AdminDashboardPage() {
             {currentTab === 'courses' && (
               <CoursesTab />
             )}
-          </div>
+          </main>
         </div>
       </div>
 

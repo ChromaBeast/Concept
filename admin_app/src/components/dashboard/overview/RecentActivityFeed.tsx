@@ -3,7 +3,7 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, CheckCircle2, Clock, AlertTriangle } from 'lucide-react';
+import { Sparkles, CheckCircle2, Clock } from 'lucide-react';
 
 const ACTIVITIES = [
   { id: '1', title: 'Synthesized: Raft Consensus Algorithm', time: '10m ago', type: 'published', category: 'System Design' },
@@ -15,35 +15,35 @@ const ACTIVITIES = [
 
 export function RecentActivityFeed() {
   return (
-    <Card className="shadow-sm">
-      <CardHeader className="pb-3">
+    <Card className="shadow-sm bg-paper-card">
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <div>
+          <div className="space-y-0.5">
             <CardTitle>Recent Activity Stream</CardTitle>
             <CardDescription>Live telemetry from Go Cloud Engine and Gemini pipelines.</CardDescription>
           </div>
-          <Badge variant="outline">Real-time Stream</Badge>
+          <Badge variant="outline" className="font-mono text-[10px]">Real-time</Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3 font-mono text-xs">
+        <div className="space-y-2.5 font-sans text-xs">
           {ACTIVITIES.map((act) => (
             <div
               key={act.id}
-              className="flex items-center justify-between p-3 rounded-xl border border-paper-border bg-paper-surface/30 hover:bg-paper-surface/60 transition-colors"
+              className="flex items-center justify-between p-3 rounded-xl border border-paper-border bg-paper-surface/30 hover:bg-paper-surface/60 transition-colors gap-3"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 min-w-0">
                 <div className="w-7 h-7 rounded-lg bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
                   {act.type === 'published' && <CheckCircle2 className="w-3.5 h-3.5 text-teal" />}
                   {act.type === 'expand' && <Sparkles className="w-3.5 h-3.5 text-ochre" />}
                   {act.type === 'seed' && <Clock className="w-3.5 h-3.5 text-paper-muted" />}
                 </div>
-                <div>
-                  <div className="font-semibold text-paper-text font-sans">{act.title}</div>
-                  <div className="text-[10px] text-paper-muted">{act.category}</div>
+                <div className="truncate">
+                  <div className="font-semibold text-paper-text truncate font-sans">{act.title}</div>
+                  <div className="text-[10px] text-paper-muted font-mono">{act.category}</div>
                 </div>
               </div>
-              <span className="text-[10px] text-paper-muted">{act.time}</span>
+              <span className="text-[10px] text-paper-muted font-mono shrink-0">{act.time}</span>
             </div>
           ))}
         </div>

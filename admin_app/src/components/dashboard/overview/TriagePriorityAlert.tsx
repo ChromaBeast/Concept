@@ -1,32 +1,39 @@
 'use client';
 
 import React from 'react';
-import { AlertCircle, ArrowRight, ShieldAlert } from 'lucide-react';
+import { ArrowRight, ShieldAlert } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
-export function TriagePriorityAlert({ count = 0, onReview }: { count?: number; onReview: () => void }) {
+export function TriagePriorityAlert({ count = 0, onReview }: { count?: number; countStr?: string; onReview: () => void }) {
   if (count === 0) return null;
 
   return (
-    <div className="p-4 rounded-2xl border border-amber-500/30 bg-amber-500/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs shadow-sm">
-      <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0">
+    <div className="p-4 sm:p-5 rounded-2xl border border-ochre/25 bg-ochre/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 font-sans shadow-sm">
+      <div className="flex items-center gap-3.5">
+        <div className="w-10 h-10 rounded-xl bg-ochre/15 text-ochre flex items-center justify-center shrink-0">
           <ShieldAlert className="w-5 h-5" />
         </div>
-        <div>
-          <div className="font-bold text-paper-text font-sans text-sm flex items-center gap-2">
-            <span>Editorial Action Required</span>
-            <Badge variant="warning">{count} Drafts Flagged</Badge>
+        <div className="space-y-0.5">
+          <div className="font-bold text-paper-text text-sm flex items-center gap-2">
+            <span>Editorial Review Queue</span>
+            <Badge variant="accent" className="font-mono text-[10px]">
+              {count} Flagged Drafts
+            </Badge>
           </div>
-          <p className="text-paper-muted text-xs font-mono">
-            {count} AI-synthesized concepts exceeded word count limits or triggered self-check flags.
+          <p className="text-paper-muted text-xs leading-relaxed font-sans">
+            AI-synthesized concepts pending manual inspection for word count limits and accuracy verification.
           </p>
         </div>
       </div>
-      <Button size="sm" variant="primary" onClick={onReview} className="shrink-0 font-mono">
-        <span>Open Review Triage</span>
-        <ArrowRight className="w-3.5 h-3.5 ml-1" />
+      <Button
+        size="sm"
+        variant="primary"
+        onClick={onReview}
+        className="shrink-0 font-mono text-xs w-full sm:w-auto"
+      >
+        <span>Open Review Drawer</span>
+        <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
       </Button>
     </div>
   );

@@ -1,9 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Search, Sparkles, Plus, Database } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Breadcrumbs, BreadcrumbItem } from '../ui/breadcrumbs';
-import { Button } from '../ui/button';
 import { ThemeToggle } from './ThemeToggle';
 import { APPWRITE_CONFIG } from '@/lib/appwrite';
 
@@ -28,31 +27,29 @@ export function DashboardHeader({ currentTab, onOpenCommand, onSelectTab }: Dash
   ];
 
   return (
-    <header className="sticky top-0 z-30 h-16 border-b border-paper-border bg-paper-bg/95 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between gap-4 font-mono select-none">
+    <header className="sticky top-0 z-20 h-16 border-b border-paper-border bg-paper-bg/90 backdrop-blur-md px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4 select-none">
       {/* Left: Breadcrumbs */}
-      <div className="flex items-center gap-4">
-        <div className="w-8 h-8 rounded-xl bg-ochre flex items-center justify-center font-bold text-white text-base shadow-sm shrink-0 md:hidden">
-          C
-        </div>
+      <div className="flex items-center gap-3">
         <Breadcrumbs items={breadcrumbItems} />
       </div>
 
-      {/* Center/Right: Quick Command Bar & Actions */}
+      {/* Right: Quick Command Bar & Controls */}
       <div className="flex items-center gap-3">
         <button
           onClick={onOpenCommand}
-          className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-paper-border bg-paper-card hover:bg-paper-surface text-xs text-paper-muted hover:text-paper-text shadow-sm transition-all cursor-pointer"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-paper-border bg-paper-card hover:bg-paper-surface text-xs text-paper-muted hover:text-paper-text shadow-sm transition-all cursor-pointer font-sans"
         >
           <Search className="w-3.5 h-3.5 text-ochre" />
-          <span className="font-sans">Search anything...</span>
+          <span className="hidden sm:inline">Search anything...</span>
           <kbd className="text-[10px] px-1.5 py-0.5 rounded bg-paper-surface border border-paper-border font-mono">
             ⌘K
           </kbd>
         </button>
 
-        <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-full border border-teal/25 bg-teal/10 text-teal text-xs">
+        <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full border border-teal/25 bg-teal/10 text-teal text-xs font-mono">
           <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
-          <span>Appwrite DB Live</span>
+          <span>Appwrite:</span>
+          <span className="font-bold">{APPWRITE_CONFIG.projectId.slice(0, 8)}...</span>
         </div>
 
         <ThemeToggle />

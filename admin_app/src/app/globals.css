@@ -4,12 +4,13 @@
 
 :root {
   --color-bg: #FBF9F5;
-  --color-surface: #F4EFEB;
+  --color-surface: #F3ECE5;
   --color-card: #FFFFFF;
-  --color-border: rgba(28, 27, 24, 0.08);
+  --color-border: rgba(28, 27, 24, 0.09);
+  --color-border-subtle: rgba(28, 27, 24, 0.05);
   --color-text: #1C1B18;
-  --color-text-muted: #6B6558;
-  --color-text-sub: #8C8474;
+  --color-text-muted: #736C5E;
+  --color-text-sub: #9E9685;
   --color-accent: #B5720A;
   --color-accent-dim: #8E5704;
   --color-accent-2: #1F6F5C;
@@ -17,16 +18,17 @@
 }
 
 .dark {
-  --color-bg: #15130F;
-  --color-surface: #1B1914;
-  --color-card: #201E18;
-  --color-border: rgba(242, 238, 230, 0.08);
-  --color-text: #F2EEE6;
-  --color-text-muted: #A69C89;
-  --color-text-sub: #706859;
+  --color-bg: #11100D;
+  --color-surface: #181612;
+  --color-card: #1E1B16;
+  --color-border: rgba(244, 239, 235, 0.08);
+  --color-border-subtle: rgba(244, 239, 235, 0.04);
+  --color-text: #F4EFEB;
+  --color-text-muted: #9E9584;
+  --color-text-sub: #6E6759;
   --color-accent: #E8A33D;
   --color-accent-dim: #B5720A;
-  --color-accent-2: #4FB0A0;
+  --color-accent-2: #3DA892;
   --color-accent-2-dim: #1F6F5C;
 }
 
@@ -34,21 +36,40 @@
   *, ::before, ::after {
     border-color: var(--color-border);
   }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+    font-family: var(--font-ibm-sans), system-ui, -apple-system, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
 }
 
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  min-height: 100vh;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+/* Custom subtle scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(3px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.15s ease-out forwards;
+  animation: fadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
