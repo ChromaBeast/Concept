@@ -25,28 +25,28 @@ export function ConceptSidebar({
 }: ConceptSidebarProps) {
   return (
     <div className="space-y-8">
-      {/* Quick Action Buttons */}
-      <div className="grid grid-cols-2 gap-2">
+      {/* Unified Segmented Study Utility Bar */}
+      <div className="flex items-center gap-1 p-1 rounded-xl bg-paper-surface border border-paper-border font-mono shadow-inner">
         <button
           type="button"
           onClick={onToggleLearned}
-          className={`py-2 px-3 rounded-xl border text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
             learned
-              ? 'bg-teal/15 border-teal/40 text-teal'
-              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text'
+              ? 'bg-teal text-white shadow-sm'
+              : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
           }`}
         >
           <CheckCircle2 className="w-3.5 h-3.5" />
-          <span>{learned ? 'Learned' : 'Mark Learned'}</span>
+          <span>{learned ? 'Mastered' : 'Mark Learned'}</span>
         </button>
 
         <button
           type="button"
           onClick={onToggleBookmark}
-          className={`py-2 px-3 rounded-xl border text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
             bookmarked
-              ? 'bg-ochre/15 border-ochre/40 text-ochre'
-              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text'
+              ? 'bg-ochre text-white shadow-sm'
+              : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
           }`}
         >
           <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />

@@ -1,75 +1,77 @@
-﻿"use client";
+'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { Search, BookOpen, Layers, Bookmark, User, Shield, ArrowRight, X } from "lucide-react";
-import { allSeedConcepts, seedCourses } from "../../lib/seed";
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
+import { Search, BookOpen, Layers, Bookmark, User, Shield, ArrowRight, X } from 'lucide-react';
+import { allSeedConcepts, seedCourses } from '@/lib/seed';
 
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
 
   const handleOpen = useCallback(() => {
     setIsOpen(true);
-    setQuery("");
+    setQuery('');
     setSelectedIndex(0);
   }, []);
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
-    setQuery("");
+    setQuery('');
   }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setIsOpen((prev) => !prev);
-      } else if (e.key === "Escape" && isOpen) {
+      } else if (e.key === 'Escape' && isOpen) {
         e.preventDefault();
         handleClose();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, handleClose]);
 
   const results = useMemo(() => {
     const q = query.toLowerCase().trim();
     if (!q) {
       return [
-        { id: "browse", title: "Browse all concepts", category: "Navigation", icon: BookOpen, url: "/browse" },
-        { id: "courses", title: "Explore structured tracks", category: "Navigation", icon: Layers, url: "/courses" },
-        { id: "bookmarks", title: "View saved bookmarks", category: "Navigation", icon: Bookmark, url: "/bookmarks" },
-        { id: "profile", title: "View learning profile & streaks", category: "Navigation", icon: User, url: "/profile" },
-        { id: "admin", title: "Admin dashboard & image queue", category: "Navigation", icon: Shield, url: "/admin" },
+        { id: 'browse', title: 'Browse All Concepts', group: 'Navigation', icon: BookOpen, url: '/browse' },
+        { id: 'courses', title: 'Explore Curated Tracks', group: 'Navigation', icon: Layers, url: '/courses' },
+        { id: 'bookmarks', title: 'Saved References', group: 'Navigation', icon: Bookmark, url: '/bookmarks' },
+        { id: 'profile', title: 'Learning Habit & Profile', group: 'Navigation', icon: User, url: '/profile' },
+        { id: 'admin', title: 'Admin Console & Image Queue', group: 'Navigation', icon: Shield, url: '/admin' },
       ];
     }
 
-    const matchedConcepts = allSeedConcepts.filter(
-      (c) => c.title.toLowerCase().includes(q) || c.oneLiner.toLowerCase().includes(q)
-    ).slice(0, 5).map((c) => ({
-      id: `concept-${c.id}`,
-      title: c.title,
-      subtitle: c.oneLiner,
-      category: "Concept",
-      icon: BookOpen,
-      url: `/concepts/${c.slug}`,
-    }));
+    const matchedConcepts = allSeedConcepts
+      .filter((c) => c.title.toLowerCase().includes(q) || c.oneLiner.toLowerCase().includes(q))
+      .slice(0, 5)
+      .map((c) => ({
+        id: `concept-${c.id}`,
+        title: c.title,
+        subtitle: c.oneLiner,
+        group: 'Concepts',
+        icon: BookOpen,
+        url: `/concepts/${c.slug}`,
+      }));
 
-    const matchedCourses = seedCourses.filter(
-      (c) => c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)
-    ).slice(0, 3).map((c) => ({
-      id: `course-${c.id}`,
-      title: c.title,
-      subtitle: `${c.conceptIds.length} concepts`,
-      category: "Track",
-      icon: Layers,
-      url: `/courses/${c.slug}`,
-    }));
+    const matchedCourses = seedCourses
+      .filter((c) => c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q))
+      .slice(0, 3)
+      .map((c) => ({
+        id: `course-${c.id}`,
+        title: c.title,
+        subtitle: `${c.conceptIds.length} concepts`,
+        group: 'Tracks',
+        icon: Layers,
+        url: `/courses/${c.slug}`,
+      }));
 
     return [...matchedConcepts, ...matchedCourses];
   }, [query]);
@@ -92,46 +94,55 @@ export function CommandPalette() {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-background/80 backdrop-blur-md animate-fade-in">
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+      onClick={handleClose}
+    >
       <div
-        className="relative w-full max-w-xl bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+        className="relative w-full max-w-xl bg-paper-card border border-paper-border rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh] font-sans"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center px-4 py-3.5 border-b border-border gap-3">
-          <Search className="w-5 h-5 text-text-tertiary shrink-0" />
+        {/* Search Header */}
+        <div className="flex items-center px-4 py-3.5 border-b border-paper-border gap-3">
+          <Search className="w-4 h-4 text-paper-muted shrink-0" />
           <input
             autoFocus
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "ArrowDown") {
+              if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 setSelectedIndex((prev) => (prev + 1) % results.length);
-              } else if (e.key === "ArrowUp") {
+              } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
                 setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
-              } else if (e.key === "Enter" && results.length > 0) {
+              } else if (e.key === 'Enter' && results.length > 0) {
                 e.preventDefault();
                 selectResult(selectedIndex);
               }
             }}
-            placeholder="Search concepts, courses, topics... (or ESC to close)"
-            className="w-full bg-transparent text-sm text-text-primary placeholder:text-text-tertiary focus:outline-none"
+            placeholder="Search concepts, tracks, topics... (or ESC to close)"
+            className="w-full bg-transparent text-sm text-paper-text placeholder:text-paper-muted focus:outline-none font-sans"
           />
           {query && (
-            <button onClick={() => setQuery("")} className="p-1 text-text-tertiary hover:text-text-primary">
+            <button
+              type="button"
+              onClick={() => setQuery('')}
+              className="p-1 text-paper-muted hover:text-paper-text transition-colors"
+            >
               <X className="w-4 h-4" />
             </button>
           )}
-          <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-semibold text-text-tertiary bg-surface-variant border border-border rounded">
+          <kbd className="hidden sm:inline-block px-1.5 py-0.5 text-[10px] font-mono font-semibold text-paper-muted bg-paper-surface border border-paper-border rounded-md">
             ESC
           </kbd>
         </div>
 
-        <div className="overflow-y-auto p-2 divide-y divide-border/40">
+        {/* Results List without ugly divide-y borders */}
+        <div className="overflow-y-auto p-2 space-y-1">
           {results.length === 0 ? (
-            <div className="py-12 text-center text-sm text-text-tertiary">
+            <div className="py-12 text-center text-xs font-mono text-paper-muted">
               No matching concepts or courses found.
             </div>
           ) : (
@@ -144,26 +155,36 @@ export function CommandPalette() {
                   key={item.id}
                   onClick={() => selectResult(idx)}
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`flex items-center justify-between p-3 rounded-xl cursor-pointer transition-colors ${
-                    isSelected ? "bg-primary-500/10 text-primary-400" : "hover:bg-surface-variant text-text-secondary"
+                  className={`flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-colors select-none ${
+                    isSelected
+                      ? 'bg-ochre/15 border border-ochre/30 text-ochre'
+                      : 'text-paper-text hover:bg-paper-surface border border-transparent'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className={`p-2 rounded-lg ${isSelected ? "bg-primary-500/20 text-primary-400" : "bg-surface-variant text-text-tertiary"}`}>
-                      <Icon className="w-4 h-4 shrink-0" />
+                    <div
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border ${
+                        isSelected
+                          ? 'bg-ochre/20 border-ochre/40 text-ochre'
+                          : 'bg-paper-surface border-paper-border text-paper-muted'
+                      }`}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-semibold text-text-primary truncate">{item.title}</div>
-                      {"subtitle" in item && item.subtitle && (
-                        <div className="text-xs text-text-tertiary truncate">{item.subtitle}</div>
+                      <div className={`text-xs font-semibold truncate ${isSelected ? 'text-ochre' : 'text-paper-text'}`}>
+                        {item.title}
+                      </div>
+                      {'subtitle' in item && item.subtitle && (
+                        <div className="text-[11px] text-paper-muted truncate font-mono">
+                          {item.subtitle}
+                        </div>
                       )}
                     </div>
                   </div>
+
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-surface-variant text-text-tertiary">
-                      {item.category}
-                    </span>
-                    <ArrowRight className={`w-4 h-4 ${isSelected ? "text-primary-400 opacity-100" : "opacity-0"}`} />
+                    <ArrowRight className={`w-3.5 h-3.5 transition-opacity ${isSelected ? 'opacity-100 text-ochre' : 'opacity-0'}`} />
                   </div>
                 </div>
               );
@@ -171,12 +192,14 @@ export function CommandPalette() {
           )}
         </div>
 
-        <div className="px-4 py-2 bg-surface-variant/50 border-t border-border flex items-center justify-between text-[11px] text-text-tertiary">
+        {/* Footer */}
+        <div className="px-4 py-2 bg-paper-surface/60 border-t border-paper-border flex items-center justify-between text-[11px] font-mono text-paper-muted">
           <div className="flex items-center gap-3">
-            <span>Navigate <kbd className="font-mono">↑↓</kbd></span>
-            <span>Select <kbd className="font-mono">↵</kbd></span>
+            <span><kbd className="font-semibold">↑↓</kbd> navigate</span>
+            <span><kbd className="font-semibold">↵</kbd> select</span>
+            <span><kbd className="font-semibold">esc</kbd> close</span>
           </div>
-          <span>Concept Microlearning</span>
+          <span className="hidden sm:inline-block">Concept Reference</span>
         </div>
       </div>
     </div>
