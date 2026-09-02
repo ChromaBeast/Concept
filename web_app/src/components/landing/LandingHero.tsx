@@ -39,7 +39,7 @@ export function LandingHero() {
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-paper-text leading-[1.05] font-sans">
-              <BlurText text="Engineering mental models," as="span" /> <br />
+              <BlurText text="Core engineering concepts," as="span" /> <br />
               <ShinyText shineColor="rgba(255, 255, 255, 0.95)">
                 <span className="text-ochre">without the scroll.</span>
               </ShinyText>
@@ -54,7 +54,7 @@ export function LandingHero() {
                 href="/browse"
                 className="px-6 py-3.5 rounded-xl bg-ochre hover:bg-ochre-dim text-white font-bold font-mono text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
-                <span>Browse {conceptCount} Reference Models</span>
+                <span>Browse {conceptCount} Concepts</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 

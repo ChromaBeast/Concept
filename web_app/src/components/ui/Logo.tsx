@@ -71,19 +71,14 @@ export function Logo({
     <div className={cn('inline-flex items-center gap-2.5 group select-none', className)}>
       <ConceptLogoIcon size={size} />
       {showText && (
-        <div className="flex flex-col">
-          <span
-            className={cn(
-              'font-bold tracking-tight text-paper-text group-hover:text-ochre transition-colors font-sans leading-none',
-              textSizeMap[size]
-            )}
-          >
-            Concept
-          </span>
-          <span className="text-[10px] font-mono text-paper-muted tracking-wider uppercase mt-0.5">
-            Mental Models
-          </span>
-        </div>
+        <span
+          className={cn(
+            'font-bold tracking-tight text-paper-text group-hover:text-ochre transition-colors font-sans leading-none',
+            textSizeMap[size]
+          )}
+        >
+          Concept
+        </span>
       )}
     </div>
   );

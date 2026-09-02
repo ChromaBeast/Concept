@@ -23,8 +23,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Concept — Technical Reference & Engineering Mental Models in <2 Minutes',
-  description: 'Dense architectural invariants, failure modes, and daily spaced repetition loops for senior engineers.',
+  title: 'Concept — Technical Reference & Architecture Fundamentals in <2 Minutes',
+  description: 'Dense architecture patterns, failure modes, and daily spaced repetition loops for senior engineers.',
 };
 
 export default function RootLayout({

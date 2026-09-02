@@ -23,7 +23,7 @@ export function RelatedConcepts({ relatedConceptIds }: RelatedConceptsProps) {
     <div className="space-y-3 pt-6 border-t border-paper-border font-sans">
       <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted flex items-center gap-1.5">
         <BookOpen className="w-3.5 h-3.5 text-ochre" />
-        <span>Related Mental Models</span>
+        <span>Related Concepts</span>
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

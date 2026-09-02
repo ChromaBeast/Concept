@@ -16,7 +16,7 @@ export function GiantWatermarkFooter() {
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-paper-text font-sans">
               Build your technical intuition. <br />
-              <span className="text-ochre">One mental model a day.</span>
+              <span className="text-ochre">One concept a day.</span>
             </h2>
             <p className="text-xs sm:text-sm text-paper-muted leading-relaxed font-sans">
               Join working and senior engineers reviewing distributed invariants, database algorithms, and systems failure modes daily.
@@ -86,7 +86,7 @@ export function GiantWatermarkFooter() {
         {/* Footer Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-paper-muted pt-6 border-t border-paper-border gap-2">
           <div className="space-y-0.5 text-center sm:text-left">
-            <div className="text-paper-text font-semibold">Concept &mdash; Engineering Mental Models in &lt;2 minutes.</div>
+            <div className="text-paper-text font-semibold">Concept &mdash; Architectural reference in &lt;2 minutes.</div>
             <div>&copy; 2026 Concept.</div>
           </div>
           <div className="flex items-center gap-4">

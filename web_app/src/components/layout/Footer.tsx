@@ -16,7 +16,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex flex-col items-center md:items-start gap-0.5">
           <p className="text-paper-text font-bold text-sm font-sans">
-            Concept &mdash; Engineering Mental Models in &lt;2 minutes.
+            Concept &mdash; Architectural reference in &lt;2 minutes.
           </p>
           <p className="text-paper-muted text-xs">
             &copy; 2026 Concept.

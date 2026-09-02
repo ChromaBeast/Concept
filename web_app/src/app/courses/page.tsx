@@ -18,7 +18,7 @@ export default function CoursesPage() {
           </h1>
         </div>
         <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-2xl leading-relaxed">
-          Structured, ordered tracks of architectural mental models. Progress automatically synchronizes with your personal learning habit.
+          Structured, ordered tracks covering core architecture and systems fundamentals. Progress automatically synchronizes with your personal learning habit.
         </p>
       </div>
 
