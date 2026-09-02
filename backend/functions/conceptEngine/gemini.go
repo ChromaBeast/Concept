@@ -10,6 +10,16 @@ import (
 	"time"
 )
 
+var defaultModelCascade = []string{
+	"gemini-3.7-flash",
+	"gemini-3.6-flash",
+	"gemini-3.5-flash",
+	"gemini-3.5-flash-lite",
+	"gemini-3.1-flash-lite",
+	"gemini-2.0-flash",
+	"gemini-1.5-flash",
+}
+
 type GeminiClient struct {
 	apiKey string
 	client *http.Client
@@ -22,7 +32,7 @@ func NewGeminiClient(apiKey string) *GeminiClient {
 	}
 }
 
-func (g *GeminiClient) GenerateConcept(topic, category, difficulty, model string) (*ConceptDraft, error) {
+func (g *GeminiClient) GenerateConcept(topic, category, difficulty, preferredModel string) (*ConceptDraft, error) {
 	prompt := fmt.Sprintf(
 		`You are a staff software engineer creating a concise reference on "%s".
 Category: %s, Difficulty: %s.
@@ -60,7 +70,7 @@ Return strictly JSON matching this structure:
 		topic, category, difficulty, topic, category, difficulty,
 	)
 
-	respText, err := g.callGemini(prompt, model)
+	respText, err := g.callGeminiWithFallback(prompt, preferredModel)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +83,7 @@ Return strictly JSON matching this structure:
 	return &draft, nil
 }
 
-func (g *GeminiClient) FactCheckConcept(draft *ConceptDraft, model string) (bool, string, error) {
+func (g *GeminiClient) FactCheckConcept(draft *ConceptDraft, preferredModel string) (bool, string, error) {
 	prompt := fmt.Sprintf(
 		`Fact-check this technical concept reference for "%s":
 Definition: %s
@@ -82,11 +92,11 @@ Example: %s
 Common Pitfall: %s
 
 Is this technically accurate? Respond in JSON:
-{"accurate": true/false, "feedback": "reason if inaccurate or 'OK'"}`,
+{"accurate": true, "feedback": "OK"}`,
 		draft.Title, draft.Body.Definition, draft.Body.WhyItMatters, draft.Body.Example, draft.Body.CommonPitfall,
 	)
 
-	respText, err := g.callGemini(prompt, model)
+	respText, err := g.callGeminiWithFallback(prompt, preferredModel)
 	if err != nil {
 		return false, "", err
 	}
@@ -102,16 +112,16 @@ Is this technically accurate? Respond in JSON:
 	return res.Accurate, res.Feedback, nil
 }
 
-func (g *GeminiClient) ExpandTopics(category, existingTopics, model string) ([]ExpandedTopic, error) {
+func (g *GeminiClient) ExpandTopics(category, existingTopics, preferredModel string) ([]ExpandedTopic, error) {
 	prompt := fmt.Sprintf(
 		`Suggest 15 essential software engineering topics for category "%s".
 Avoid these existing topics: %s.
 Return strictly JSON:
-{"topics": [{"topic": "Name", "category": "%s", "difficulty": "beginner|intermediate|advanced", "priority": 1}]}`,
+{"topics": [{"topic": "Name", "category": "%s", "difficulty": "beginner", "priority": 1}]}`,
 		category, existingTopics, category,
 	)
 
-	respText, err := g.callGemini(prompt, model)
+	respText, err := g.callGeminiWithFallback(prompt, preferredModel)
 	if err != nil {
 		return nil, err
 	}
@@ -124,10 +134,31 @@ Return strictly JSON:
 	return res.Topics, nil
 }
 
-func (g *GeminiClient) callGemini(prompt, model string) (string, error) {
-	if model == "" {
-		model = "gemini-3.7-flash"
+func (g *GeminiClient) callGeminiWithFallback(prompt, preferredModel string) (string, error) {
+	models := make([]string, 0, len(defaultModelCascade)+1)
+	if preferredModel != "" {
+		models = append(models, preferredModel)
 	}
+	for _, m := range defaultModelCascade {
+		if m != preferredModel {
+			models = append(models, m)
+		}
+	}
+
+	var lastErr error
+	for _, model := range models {
+		resp, err := g.callSingleModel(prompt, model)
+		if err == nil {
+			return resp, nil
+		}
+		lastErr = err
+		// If rate limit (429) or unavailable, pause for backoff and try next model
+		time.Sleep(3 * time.Second)
+	}
+	return "", fmt.Errorf("all fallback models exhausted: %w", lastErr)
+}
+
+func (g *GeminiClient) callSingleModel(prompt, model string) (string, error) {
 	url := fmt.Sprintf("https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s", model, g.apiKey)
 
 	reqBody := map[string]interface{}{
@@ -153,7 +184,7 @@ func (g *GeminiClient) callGemini(prompt, model string) (string, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("Gemini API error (status %d): %s", resp.StatusCode, string(body))
+		return "", fmt.Errorf("model %s returned %d: %s", model, resp.StatusCode, string(body))
 	}
 
 	var geminiResp struct {
@@ -167,7 +198,7 @@ func (g *GeminiClient) callGemini(prompt, model string) (string, error) {
 	}
 
 	if err := json.Unmarshal(body, &geminiResp); err != nil || len(geminiResp.Candidates) == 0 || len(geminiResp.Candidates[0].Content.Parts) == 0 {
-		return "", fmt.Errorf("empty response from Gemini API: %s", string(body))
+		return "", fmt.Errorf("empty response from model %s", model)
 	}
 
 	return geminiResp.Candidates[0].Content.Parts[0].Text, nil
