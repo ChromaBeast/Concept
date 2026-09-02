@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { account, databases, APPWRITE_CONFIG } from './appwrite';
 import { ID, OAuthProvider } from 'appwrite';
 import { storage } from './storage';
+import { SplashScreen } from '@/components/ui/SplashScreen';
 
 interface User {
   id: string;
@@ -116,7 +117,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthContext.Provider value={{ user, loading, login, signup, logout, loginWithOAuth }}>
-      {children}
+      {loading ? <SplashScreen /> : children}
     </AuthContext.Provider>
   );
 }

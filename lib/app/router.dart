@@ -9,10 +9,12 @@ import '../features/courses/presentation/courses_screen.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/profile/presentation/profile_screen.dart';
 import '../features/search/presentation/search_screen.dart';
+import '../features/splash/presentation/splash_screen.dart';
 import '../shared/widgets/app_nav_scaffold.dart';
 
 /// Route constants and path helpers for the Concept application.
 abstract final class AppRoutes {
+  static const splash = '/splash';
   static const home = '/home';
   static const browse = '/browse';
   static const courses = '/courses';
@@ -66,7 +68,7 @@ void _onTabSelected(BuildContext context, int index) {
 
 /// Factory function creating a new GoRouter instance.
 GoRouter createAppRouter({
-  String initialLocation = AppRoutes.home,
+  String initialLocation = AppRoutes.splash,
   GlobalKey<NavigatorState>? rootNavigatorKey,
   GlobalKey<NavigatorState>? shellNavigatorKey,
 }) {
@@ -79,7 +81,12 @@ GoRouter createAppRouter({
     routes: [
       GoRoute(
         path: '/',
-        redirect: (context, state) => AppRoutes.home,
+        redirect: (context, state) => AppRoutes.splash,
+      ),
+      GoRoute(
+        parentNavigatorKey: rootKey,
+        path: AppRoutes.splash,
+        builder: (context, state) => const SplashScreen(),
       ),
       ShellRoute(
         navigatorKey: shellKey,
