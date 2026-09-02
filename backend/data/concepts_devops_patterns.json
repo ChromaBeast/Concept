@@ -1,0 +1,46 @@
+[
+  {
+    "slug": "zero-downtime-deployments",
+    "title": "Zero-Downtime Deployments (Blue-Green & Canary)",
+    "oneLiner": "Release engineering methodologies updating production software with continuous availability and instant rollback.",
+    "category": "devops",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 85,
+    "visualAid": true,
+    "imagePrompt": "Router traffic shifting gradually from Blue stable version to Green canary version",
+    "tagIds": ["devops", "kubernetes", "ci-cd"],
+    "body": {
+      "definition": "Zero-Downtime Deployment deploys new application releases without interrupting active client requests by provisioning identical parallel environments (Blue-Green) or shifting a fraction of traffic incrementally (Canary).",
+      "whyItMatters": "Eliminates scheduled maintenance windows, validates real-world performance against a small subset of users (1-5%), and enables sub-second traffic switch-back if error rate anomalies occur.",
+      "example": "# Kubernetes Rolling Update Strategy\nspec:\n  strategy:\n    type: RollingUpdate\n    rollingUpdate:\n      maxSurge: 25%        # Provision 25% extra pods\n      maxUnavailable: 0    # Guarantee 100% baseline capacity during rollouts",
+      "commonPitfall": "Deploying backward-incompatible database schema migrations (e.g. dropping a column still read by active Blue pods). Requires the Expand-Contract database pattern.",
+      "interviewAngle": "Tested in SRE and DevOps interviews: readiness vs liveness probes, rolling updates vs blue-green vs canary, and metric-driven automated rollback triggers.",
+      "quickChecks": [
+        { "question": "What is the primary advantage of Blue-Green deployment over Rolling Update?", "answer": "Instantaneous rollback capability by switching load balancer target back to Blue." },
+        { "question": "What database migration pattern must accompany zero-downtime deployments?", "answer": "Expand and Contract (Parallel Run) schema migration." }
+      ]
+    }
+  },
+  {
+    "slug": "dependency-injection-inversion",
+    "title": "Dependency Injection & Inversion of Control",
+    "oneLiner": "Design pattern decoupling object creation from usage by passing dependencies externally into consumers.",
+    "category": "oop_patterns",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 80,
+    "visualAid": true,
+    "imagePrompt": "Dependency injection container providing concrete implementations to abstracted interfaces",
+    "tagIds": ["oop_patterns", "architecture", "testing"],
+    "body": {
+      "definition": "Dependency Injection (DI) is a software design pattern where an object receives its dependencies from an external source (injector) rather than instantiating them directly with new.",
+      "whyItMatters": "Achieves Inversion of Control (IoC) and SOLID's Dependency Inversion Principle. Enables isolated unit testing via mock dependencies, flexible configuration, and modular architectures.",
+      "example": "// Decoupled via Interface Injection\ninterface PaymentGateway { process(amount: number): Promise<boolean>; }\n\nclass OrderService {\n  constructor(private gateway: PaymentGateway) {} // Injected dependency\n  async checkout(amount: number) { return this.gateway.process(amount); }\n}",
+      "commonPitfall": "Service Locator anti-pattern: Having classes query a global service container directly, hiding true dependency requirements and complicating testing.",
+      "interviewAngle": "Evaluated through SOLID principles (especially 'D'), testability, mock injection in unit tests, and lifecycle scopes (Singleton, Scoped, Transient).",
+      "quickChecks": [
+        { "question": "Why does Dependency Injection simplify unit testing?", "answer": "Real services (like payment or DB) can be seamlessly replaced with lightweight in-memory mocks." },
+        { "question": "What is the difference between Constructor Injection and Property Injection?", "answer": "Constructor injection guarantees required dependencies exist at instantiation; property is optional/deferred." }
+      ]
+    }
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "slug": "tcp-three-way-handshake",
+    "title": "TCP 3-Way Handshake & Connection Teardown",
+    "oneLiner": "Reliable transport connection establishment protocol synchronizing sequence numbers across client and server.",
+    "category": "networking",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 85,
+    "visualAid": true,
+    "imagePrompt": "Sequence diagram showing SYN, SYN-ACK, and ACK packets establishing TCP session",
+    "tagIds": ["networking", "protocols", "tcp"],
+    "body": {
+      "definition": "The TCP 3-Way Handshake establishes a reliable, bidirectional, stream-oriented transport connection between two endpoints by exchanging SYN, SYN-ACK, and ACK packets to synchronize Initial Sequence Numbers (ISNs).",
+      "whyItMatters": "Ensures both client and server are ready for transmission, verifies network reachability, prevents duplicate old connection duplicates, and negotiates Maximum Segment Size (MSS) and window scaling parameters.",
+      "example": "// 1. Client -> SYN (Seq=X)\n// 2. Server -> SYN-ACK (Seq=Y, Ack=X+1)\n// 3. Client -> ACK (Seq=X+1, Ack=Y+1) -> Connection ESTABLISHED",
+      "commonPitfall": "SYN Flood Denial-of-Service attacks filling the server's SYN backlog queue. Mitigated using SYN Cookies without storing half-open state in kernel memory.",
+      "interviewAngle": "Tested through TIME_WAIT state purpose (2 * MSL to ensure last ACK is received), TCP reset (RST) packets, and difference between 3-way setup vs 4-way FIN/ACK teardown.",
+      "quickChecks": [
+        { "question": "Why is a 2-way handshake insufficient for TCP?", "answer": "The client cannot confirm that the server received its initial sequence number agreement." },
+        { "question": "What is the purpose of the TIME_WAIT state in TCP teardown?", "answer": "Prevents delayed duplicate packets from a previous connection corrupting a new connection." }
+      ]
+    }
+  },
+  {
+    "slug": "virtual-memory-paging",
+    "title": "Virtual Memory & Paging Architecture",
+    "oneLiner": "Memory management abstraction mapping contiguous process address spaces to fragmented physical RAM via page tables.",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 85,
+    "visualAid": true,
+    "imagePrompt": "MMU translating virtual address page numbers to physical frame addresses via TLB",
+    "tagIds": ["operating_systems", "memory", "kernel"],
+    "body": {
+      "definition": "Virtual Memory provides each process the illusion of a large, continuous, private address space by dividing memory into fixed-size pages (typically 4KB) mapped to physical RAM frames via the MMU (Memory Management Unit).",
+      "whyItMatters": "Enables process memory isolation, prevents rogue memory access, allows running programs larger than physical RAM via swap disk paging, and supports copy-on-write fork optimizations.",
+      "example": "// Virtual Address Anatomy (32-bit with 4KB pages):\n// [ Page Number (20 bits) | Page Offset (12 bits) ]\n// MMU checks TLB -> if hit, frame address retrieved in ~1ns\n// If TLB miss -> walks multi-level Page Table in RAM",
+      "commonPitfall": "Memory thrashing: When working sets exceed physical RAM, the kernel spends 100% of CPU time swapping pages to/from disk rather than executing application instructions.",
+      "interviewAngle": "Core topic in systems interviews covering TLB (Translation Lookaside Buffer), Page Fault handling flow, and Copy-On-Write (COW).",
+      "quickChecks": [
+        { "question": "What is a Page Fault?", "answer": "Hardware interrupt raised by MMU when a accessed virtual page is not mapped to physical RAM." },
+        { "question": "Why is the Translation Lookaside Buffer (TLB) critical for performance?", "answer": "It caches virtual-to-physical address translations in hardware to avoid multi-level page table walks." }
+      ]
+    }
+  },
+  {
+    "slug": "epoll-io-multiplexing",
+    "title": "I/O Multiplexing: Epoll vs Select & Kqueue",
+    "oneLiner": "Kernel event notification facility monitoring thousands of file descriptors in O(1) active event retrieval.",
+    "category": "operating_systems",
+    "difficulty": "advanced",
+    "estimatedReadSeconds": 90,
+    "visualAid": true,
+    "imagePrompt": "Epoll event-driven red-black tree monitoring file descriptors delivering ready list",
+    "tagIds": ["operating_systems", "networking", "concurrency"],
+    "body": {
+      "definition": "I/O Multiplexing allows a single execution thread to monitor multiple file descriptors (sockets) to determine when I/O operations (read, write) can proceed without blocking.",
+      "whyItMatters": "Solves the C10K/C1000K problem. Traditional select()/poll() scale at O(n) linear scans per cycle, whereas epoll (Linux) and kqueue (BSD/macOS) use in-kernel callback queues to achieve O(1) retrieval of ready descriptors.",
+      "example": "// Epoll Lifecycle in Go / C:\n// 1. epfd = epoll_create1(0);\n// 2. epoll_ctl(epfd, EPOLL_CTL_ADD, server_fd, &event);\n// 3. nfds = epoll_wait(epfd, events, MAX_EVENTS, -1); // Sleeps until kernel callback wakes it",
+      "commonPitfall": "Level-Triggered vs Edge-Triggered mode bugs: In Edge-Triggered (EPOLLET) mode, failing to read a socket in a loop until EAGAIN causes missed notifications and hung connections.",
+      "interviewAngle": "Powers modern high-performance engines: Nginx, Node.js libuv event loop, Redis, Go netpoller, and Envoy proxy.",
+      "quickChecks": [
+        { "question": "Why does select() perform poorly when monitoring 10,000 idle connections?", "answer": "select() passes the entire 10,000 descriptor array to the kernel and linearly scans all of them on every call O(n)." },
+        { "question": "How does epoll achieve O(1) time complexity for ready events?", "answer": "The kernel registers hardware I/O interrupt callbacks that push ready descriptors directly into a ready list." }
+      ]
+    }
+  }
+]

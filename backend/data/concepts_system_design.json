@@ -1,0 +1,112 @@
+[
+  {
+    "slug": "cap-theorem-tradeoffs",
+    "title": "CAP Theorem & Practical Trade-offs",
+    "oneLiner": "Distributed consensus principle stating a partitioned system must choose between Consistency and Availability.",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 85,
+    "visualAid": true,
+    "imagePrompt": "CAP triangle diagram highlighting CP vs AP trade-offs during network partition",
+    "tagIds": ["system_design", "distributed-systems", "architecture"],
+    "body": {
+      "definition": "The CAP Theorem proves that a distributed data store can simultaneously provide at most two of three guarantees: Consistency (linearizability), Availability, and Partition Tolerance.",
+      "whyItMatters": "Because network partitions (P) are unavoidable in physical networks, real systems must fundamentally choose between CP (rejecting writes/reads to preserve consistency) or AP (serving stale data for uptime).",
+      "example": "// CP System (e.g. Raft/ZooKeeper): Rejects request if quorum unreachable\nif (!hasQuorum(cluster)) throw new QuorumUnavailableError();\n\n// AP System (e.g. Cassandra/Dynamo): Returns local stale replica replica\nreturn localNode.read(key);",
+      "commonPitfall": "Treating CAP as picking any 2 of 3 (e.g., CA). Network partitions cannot be opted out of in distributed physical hardware.",
+      "interviewAngle": "Evaluated when designing banking ledgers (CP required) vs social media feeds or shopping carts (AP with eventual consistency preferred).",
+      "quickChecks": [
+        { "question": "Why is a 'CA' system impossible in distributed infrastructure?", "answer": "Network partitions (P) are physical realities that cannot be disabled." },
+        { "question": "What happens to an AP system during a network split?", "answer": "Both partitions continue serving reads and writes, resulting in divergent state." }
+      ]
+    }
+  },
+  {
+    "slug": "consistent-hashing-distribution",
+    "title": "Consistent Hashing & Ring Distribution",
+    "oneLiner": "Hash distribution scheme minimizing key reassignment to k/n during cluster node scaling.",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 90,
+    "visualAid": true,
+    "imagePrompt": "Consistent hashing ring diagram with virtual nodes mapping request keys clockwise",
+    "tagIds": ["system_design", "distributed-systems", "caching"],
+    "body": {
+      "definition": "Consistent Hashing maps both cluster nodes and data keys onto a circular hash space (0 to 2^32-1), where keys route to the nearest clockwise node.",
+      "whyItMatters": "When nodes are added or removed, only k/n keys must be migrated (where k = keys, n = nodes), unlike mod hashing (hash(key) % n) which causes 100% cache invalidation.",
+      "example": "class ConsistentHashRing {\n  private ring = new Map<number, string>();\n  private sortedKeys: number[] = [];\n  \n  addNode(node: string, vnodes = 100) {\n    for (let i = 0; i < vnodes; i++) {\n      const hash = murmurHash(`${node}#${i}`);\n      this.ring.set(hash, node);\n      this.sortedKeys.push(hash);\n    }\n    this.sortedKeys.sort((a, b) => a - b);\n  }\n}",
+      "commonPitfall": "Deploying without virtual nodes (vnodes), causing non-uniform key distribution and hot spots on neighboring physical servers.",
+      "interviewAngle": "Core mechanism behind distributed caches (Memcached), distributed databases (DynamoDB, Cassandra), and load balancers.",
+      "quickChecks": [
+        { "question": "What fraction of keys move when adding a node in a ring with n servers?", "answer": "Approximately 1/n of the total keys." },
+        { "question": "Why are virtual nodes (vnodes) essential in consistent hashing?", "answer": "They distribute hashing points uniformly around the ring to prevent data skew." }
+      ]
+    }
+  },
+  {
+    "slug": "rate-limiting-algorithms",
+    "title": "Rate Limiting (Token & Leaky Bucket)",
+    "oneLiner": "Traffic shaping algorithms preventing service degradation, API abuse, and cascading failures.",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 85,
+    "visualAid": true,
+    "imagePrompt": "Token bucket refill rate vs capacity consuming tokens per incoming request",
+    "tagIds": ["system_design", "security", "networking"],
+    "body": {
+      "definition": "Rate Limiting controls the rate of traffic sent or received by an endpoint, protecting backend compute and database resources from overload.",
+      "whyItMatters": "Prevents DDoS attacks, brute-force exploits, noisy-neighbor starvation in multi-tenant environments, and upstream payment gateway quota exhaustion.",
+      "example": "class TokenBucket {\n  private tokens: number;\n  private lastRefill = Date.now();\n  constructor(private capacity: number, private refillRatePerSec: number) {\n    this.tokens = capacity;\n  }\n  allowRequest(tokensRequired = 1): boolean {\n    const now = Date.now();\n    this.tokens = Math.min(this.capacity, this.tokens + ((now - this.lastRefill)/1000) * this.refillRatePerSec);\n    this.lastRefill = now;\n    if (this.tokens >= tokensRequired) { this.tokens -= tokensRequired; return true; }\n    return false;\n  }\n}",
+      "commonPitfall": "Using naive Fixed Window counters that permit double the allowed quota across the window boundary threshold (e.g. 59s to 01s).",
+      "interviewAngle": "Tested via API Gateway design, sliding window log counters in Redis using ZSETs, and handling HTTP 429 Too Many Requests.",
+      "quickChecks": [
+        { "question": "What is the key advantage of Token Bucket over Leaky Bucket?", "answer": "Token Bucket allows controlled burst traffic up to bucket capacity." },
+        { "question": "How is distributed rate limiting implemented atomically in Redis?", "answer": "Using Redis Lua scripts or atomic pipeline token bucket updates." }
+      ]
+    }
+  },
+  {
+    "slug": "cqrs-and-event-sourcing",
+    "title": "CQRS & Event Sourcing Architecture",
+    "oneLiner": "Architectural pattern separating read and write data models while capturing state as an append-only event log.",
+    "category": "system_design",
+    "difficulty": "advanced",
+    "estimatedReadSeconds": 90,
+    "visualAid": true,
+    "imagePrompt": "CQRS architecture separating command write store and event bus projecting to read views",
+    "tagIds": ["system_design", "architecture", "microservices"],
+    "body": {
+      "definition": "Command Query Responsibility Segregation (CQRS) separates read and update operations for a data store, while Event Sourcing stores the state of a business entity as an append-only sequence of state-changing events.",
+      "whyItMatters": "Enables independent scaling and optimization of read and write workloads, provides an immutable audit log, and allows rebuilding read models or temporal queries at any point in history.",
+      "example": "// Command (Write Model): Emits append-only domain event\neventStore.append('OrderPlaced', { orderId: '101', amount: 99.50, timestamp: Date.now() });\n\n// Projection (Read Model): Asynchronously updates optimized query views\nfunction onOrderPlaced(event) {\n  readDb.userOrdersSummary.incrementTotal(event.userId, event.amount);\n}",
+      "commonPitfall": "Assuming immediate consistency across read models. CQRS read projections are eventually consistent and must handle synchronization delays.",
+      "interviewAngle": "Standard design pattern for financial transaction engines, e-commerce order workflows, and collaborative editing platforms.",
+      "quickChecks": [
+        { "question": "What is the primary benefit of Event Sourcing for debugging and auditing?", "answer": "Complete immutable history of every state change allowing past replay." },
+        { "question": "How do read models stay updated in CQRS?", "answer": "Event handlers asynchronously subscribe to domain events and project state into read databases." }
+      ]
+    }
+  },
+  {
+    "slug": "circuit-breaker-pattern",
+    "title": "Circuit Breaker Pattern",
+    "oneLiner": "Resilience pattern detecting distributed service failures and wrapping requests to prevent cascading downtime.",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "estimatedReadSeconds": 80,
+    "visualAid": true,
+    "imagePrompt": "State machine showing Closed, Open, and Half-Open circuit states",
+    "tagIds": ["system_design", "reliability", "devops"],
+    "body": {
+      "definition": "A Circuit Breaker wraps network calls in a state machine (Closed, Open, Half-Open) that monitors failure rates and trips open to fast-fail subsequent requests when downstream services degrade.",
+      "whyItMatters": "Stops cascading failures by preventing client threads and connection pools from blocking indefinitely on unresponsive downstream dependencies.",
+      "example": "class CircuitBreaker {\n  private state: 'CLOSED' | 'OPEN' | 'HALF_OPEN' = 'CLOSED';\n  private failureCount = 0;\n  \n  async execute<T>(fn: () => Promise<T>): Promise<T> {\n    if (this.state === 'OPEN') throw new Error('Circuit Open: Service Unavailable');\n    try {\n      const res = await fn();\n      this.onSuccess();\n      return res;\n    } catch (err) {\n      this.onFailure();\n      throw err;\n    }\n  }\n}",
+      "commonPitfall": "Setting trip thresholds based on absolute failure counts instead of error percentages, causing false positives during traffic spikes.",
+      "interviewAngle": "Evaluated in microservice reliability questions, fallback responses, and graceful degradation strategies under load.",
+      "quickChecks": [
+        { "question": "What happens in the 'Half-Open' circuit state?", "answer": "A trial number of requests are permitted through to probe if downstream service recovered." },
+        { "question": "Why is fast-failing better than waiting for connection timeouts?", "answer": "It instantly frees application threads and prevents resource exhaustion." }
+      ]
+    }
+  }
+]
