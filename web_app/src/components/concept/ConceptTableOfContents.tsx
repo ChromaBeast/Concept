@@ -2,20 +2,20 @@
 
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { AlignLeft } from 'lucide-react';
 
 interface ConceptTableOfContentsProps {
   className?: string;
-  hasVisualAid?: boolean;
 }
 
 const SECTIONS = [
-  { id: 'definition', label: '01. Definition' },
-  { id: 'why-it-matters', label: '02. Why It Matters' },
-  { id: 'code-example', label: '03. Code & Scenario' },
-  { id: 'pitfall', label: '04. Common Pitfalls' },
-  { id: 'interview-angle', label: '05. Interview Angle' },
-  { id: 'quick-checks', label: '06. Quick Check Drill' },
-  { id: 'related', label: '07. Related Concepts' },
+  { id: 'definition', label: 'Axiom Definition' },
+  { id: 'why-it-matters', label: 'Why It Matters On The Job' },
+  { id: 'code-example', label: 'Code & Scenario' },
+  { id: 'pitfall', label: 'Production Pitfalls' },
+  { id: 'interview-angle', label: 'Staff+ Interview Angle' },
+  { id: 'quick-checks', label: 'Active Recall Drill' },
+  { id: 'related', label: 'Related Concepts' },
 ];
 
 export function ConceptTableOfContents({ className }: ConceptTableOfContentsProps) {
@@ -31,11 +31,11 @@ export function ConceptTableOfContents({ className }: ConceptTableOfContentsProp
         };
       });
 
-      const active = positions.find((p) => p.top >= -80 && p.top <= 160);
+      const active = positions.find((p) => p.top >= -60 && p.top <= 140);
       if (active && active.id !== activeId) {
         setActiveId(active.id);
       } else if (!active) {
-        const above = positions.filter((p) => p.top < -80).sort((a, b) => b.top - a.top);
+        const above = positions.filter((p) => p.top < -60).sort((a, b) => b.top - a.top);
         if (above[0] && above[0].id !== activeId) {
           setActiveId(above[0].id);
         }
@@ -50,31 +50,36 @@ export function ConceptTableOfContents({ className }: ConceptTableOfContentsProp
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
-      const offset = 90;
+      const offset = 80;
       const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({ top, behavior: 'smooth' });
     }
   };
 
   return (
-    <div className={cn('space-y-3 font-mono', className)}>
-      <h4 className="text-xs font-bold uppercase tracking-wider text-ochre flex items-center gap-1.5">
+    <div className={cn('space-y-3 font-sans', className)}>
+      <div className="flex items-center gap-1.5 text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
+        <AlignLeft className="w-3.5 h-3.5 text-ochre" />
         <span>On this concept</span>
-      </h4>
-      <nav>
-        <ul className="space-y-1 text-xs">
+      </div>
+
+      <nav className="relative pl-3 border-l border-paper-border/80">
+        <ul className="space-y-2.5 text-xs">
           {SECTIONS.map((sec) => {
             const isActive = activeId === sec.id;
             return (
-              <li key={sec.id}>
+              <li key={sec.id} className="relative">
+                {isActive && (
+                  <div className="absolute -left-[13px] top-1/2 -translate-y-1/2 w-[2px] h-4 bg-ochre rounded-full" />
+                )}
                 <button
                   type="button"
                   onClick={() => scrollTo(sec.id)}
                   className={cn(
-                    'block w-full text-left py-1.5 px-2.5 rounded-lg transition-colors',
+                    'block w-full text-left transition-colors font-mono text-xs',
                     isActive
-                      ? 'bg-ochre/15 text-ochre font-bold border-l-2 border-ochre'
-                      : 'text-paper-muted hover:text-paper-text hover:bg-paper-surface'
+                      ? 'text-ochre font-bold'
+                      : 'text-paper-muted hover:text-paper-text'
                   )}
                 >
                   {sec.label}

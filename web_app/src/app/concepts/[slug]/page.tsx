@@ -78,7 +78,7 @@ function ConceptDetailContent() {
   };
 
   return (
-    <article className="min-h-screen bg-paper-bg">
+    <article className="min-h-screen bg-paper-bg font-sans">
       <ConceptHeaderEditorial
         title={concept.title}
         oneLiner={concept.oneLiner}
@@ -91,20 +91,20 @@ function ConceptDetailContent() {
       <div className="flex divide-x divide-paper-border relative max-w-7xl mx-auto border-x border-paper-border">
         {/* Main Content Column */}
         <main className="w-full p-6 lg:p-10 space-y-10 min-w-0">
-          {/* 01. Definition */}
-          <section id="definition" className="space-y-3">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
-              [ 01 / AXIOM DEFINITION ]
+          {/* Definition */}
+          <section id="definition" className="space-y-2.5">
+            <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
+              Axiom &amp; Invariant
             </h2>
             <p className="text-xl sm:text-2xl font-semibold text-paper-text leading-relaxed text-balance">
               {concept.body.definition}
             </p>
           </section>
 
-          {/* 02. Why It Matters */}
-          <section id="why-it-matters" className="space-y-3 pt-8 border-t border-paper-border">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
-              [ 02 / WHY IT MATTERS ON THE JOB ]
+          {/* Why It Matters */}
+          <section id="why-it-matters" className="space-y-2.5 pt-8 border-t border-paper-border">
+            <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
+              Why It Matters On The Job
             </h2>
             <p className="text-base sm:text-lg text-paper-muted leading-relaxed">
               {concept.body.whyItMatters}
@@ -118,36 +118,38 @@ function ConceptDetailContent() {
             </div>
           )}
 
-          {/* 03. Code & Scenario */}
+          {/* Code & Scenario */}
           <section id="code-example" className="space-y-3 pt-8 border-t border-paper-border">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
-              [ 03 / CODE &amp; CONCRETE SCENARIO ]
+            <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
+              Code &amp; Concrete Scenario
             </h2>
             <CodeBlock code={concept.body.example} title={`${concept.title} implementation`} />
           </section>
 
-          {/* 04. Pitfalls & 05. Interview Angle */}
+          {/* Pitfalls & Interview Angle */}
           <section id="pitfall" className="space-y-5 pt-8 border-t border-paper-border">
             <PitfallBox pitfall={concept.body.commonPitfall} />
-            <InterviewBox interviewAngle={concept.body.interviewAngle} />
+            <div id="interview-angle">
+              <InterviewBox interviewAngle={concept.body.interviewAngle} />
+            </div>
           </section>
 
-          {/* 06. Quick Check Drill */}
+          {/* Quick Check Drill */}
           <section id="quick-checks" className="space-y-4 pt-8 border-t border-paper-border">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
-              [ 06 / ACTIVE RECALL DRILL ]
+            <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
+              Active Recall Drill
             </h2>
             <QuickCheckList quickChecks={concept.body.quickChecks} />
           </section>
 
-          {/* 07. Related Concepts */}
+          {/* Related Concepts */}
           <section id="related" className="pt-8 border-t border-paper-border">
             <RelatedConcepts relatedConceptIds={concept.relatedConceptIds} />
           </section>
         </main>
 
         {/* Right Sticky Sidebar */}
-        <aside className="hidden lg:block w-[340px] flex-shrink-0 p-6 lg:p-10 bg-paper-surface/40">
+        <aside className="hidden lg:block w-[320px] flex-shrink-0 p-6 lg:p-8 bg-paper-surface/40">
           <div className="sticky top-20">
             <ConceptSidebar
               bookmarked={bookmarked}

@@ -24,16 +24,16 @@ export function ConceptSidebar({
   onToggleLearned,
 }: ConceptSidebarProps) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Quick Action Buttons */}
       <div className="grid grid-cols-2 gap-2">
         <button
           type="button"
           onClick={onToggleLearned}
-          className={`py-2.5 px-3 rounded-xl border text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
+          className={`py-2 px-3 rounded-xl border text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
             learned
               ? 'bg-teal/15 border-teal/40 text-teal'
-              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text shadow-sm'
+              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text'
           }`}
         >
           <CheckCircle2 className="w-3.5 h-3.5" />
@@ -43,10 +43,10 @@ export function ConceptSidebar({
         <button
           type="button"
           onClick={onToggleBookmark}
-          className={`py-2.5 px-3 rounded-xl border text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
+          className={`py-2 px-3 rounded-xl border text-xs font-mono font-semibold flex items-center justify-center gap-1.5 transition-all shadow-sm ${
             bookmarked
               ? 'bg-ochre/15 border-ochre/40 text-ochre'
-              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text shadow-sm'
+              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text'
           }`}
         >
           <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
@@ -54,23 +54,23 @@ export function ConceptSidebar({
         </button>
       </div>
 
-      {/* Table of Contents Container */}
-      <div className="p-5 rounded-2xl border border-paper-border bg-paper-card shadow-sm">
+      {/* Sleek Unboxed Table of Contents */}
+      <div className="pt-2">
         <ConceptTableOfContents />
       </div>
 
       {/* Company Interview Targets */}
       {companies && companies.length > 0 && (
-        <div className="p-5 rounded-2xl border border-paper-border bg-paper-card space-y-3 font-mono shadow-sm">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-paper-text">
-            <Building2 className="w-4 h-4 text-ochre" />
-            <span>Asked in Interviews at</span>
+        <div className="pt-6 border-t border-paper-border space-y-3 font-mono text-xs">
+          <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-paper-muted">
+            <Building2 className="w-3.5 h-3.5 text-ochre" />
+            <span>Interview Targets</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {companies.map((c) => (
               <span
                 key={c}
-                className="px-2.5 py-1 rounded-lg bg-paper-surface border border-paper-border text-[11px] text-paper-muted"
+                className="px-2.5 py-1 rounded-md bg-paper-card border border-paper-border text-[11px] text-paper-muted shadow-sm"
               >
                 {c}
               </span>
@@ -81,15 +81,15 @@ export function ConceptSidebar({
 
       {/* Course Context Card */}
       {course && (
-        <div className="p-5 rounded-2xl border border-ochre/30 bg-ochre/5 space-y-3 font-mono shadow-sm">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ochre">
-            <BookOpen className="w-4 h-4" />
-            <span>Learning Track</span>
+        <div className="p-4 rounded-xl border border-ochre/30 bg-ochre/5 space-y-2 font-mono shadow-sm">
+          <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-ochre">
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>Current Track</span>
           </div>
-          <div className="text-sm font-bold text-paper-text">{course.title}</div>
+          <div className="text-xs font-bold text-paper-text">{course.title}</div>
           <Link
             href={`/courses/${course.slug}`}
-            className="inline-block text-xs text-ochre hover:underline font-bold"
+            className="inline-block text-[11px] text-ochre hover:underline font-bold"
           >
             Track Playlist &rarr;
           </Link>
