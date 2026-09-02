@@ -1,4 +1,4 @@
-﻿# Miscellaneous
+# Miscellaneous
 *.class
 *.log
 *.pyc
@@ -18,6 +18,10 @@ Thumbs.db
 .env.local
 .env.*.local
 *.local
+*.key
+*.pem
+*_key.txt
+backend/scripts/*.txt
 
 # Flutter & Dart
 .dart_tool/

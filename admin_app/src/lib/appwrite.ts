@@ -15,9 +15,7 @@ export const APPWRITE_CONFIG = {
   },
 };
 
-export const MASTER_KEY =
-  process.env.APPWRITE_API_KEY ||
-  'YOUR_APPWRITE_API_KEY';
+export const MASTER_KEY = process.env.APPWRITE_API_KEY || '';
 
 export const client = new Client()
   .setEndpoint(APPWRITE_CONFIG.endpoint)

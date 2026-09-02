@@ -2,12 +2,15 @@ import fs from 'fs';
 import path from 'path';
 import { Client, Databases, Query, ID } from 'node-appwrite';
 
-const endpoint = 'https://sgp.cloud.appwrite.io/v1';
-const projectId = '6a97fc420033ed1fefd0';
-const databaseId = '6a97fc7c0037107a5f9a';
-const masterKey = 'YOUR_APPWRITE_API_KEY';
+const endpoint = process.env.APPWRITE_ENDPOINT || 'https://sgp.cloud.appwrite.io/v1';
+const projectId = process.env.APPWRITE_PROJECT_ID || '6a97fc420033ed1fefd0';
+const databaseId = process.env.APPWRITE_DATABASE_ID || '6a97fc7c0037107a5f9a';
+const masterKey = process.env.APPWRITE_API_KEY || '';
 
-const client = new Client().setEndpoint(endpoint).setProject(projectId).setKey(masterKey);
+const client = new Client().setEndpoint(endpoint).setProject(projectId);
+if (masterKey) {
+  client.setKey(masterKey);
+}
 const databases = new Databases(client);
 
 const DATA_FILES = [
