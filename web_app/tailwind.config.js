@@ -83,8 +83,16 @@ module.exports = {
         'marquee-reverse': 'marquee-reverse 25s linear infinite',
         'shine': 'shine 3.5s linear infinite',
         'fadeIn': 'fadeIn 0.2s ease-out forwards',
+        'laserTrace': 'laserTrace 2.6s ease-in-out infinite',
       },
       keyframes: {
+        laserTrace: {
+          '0%': { strokeDashoffset: '220', opacity: '0.2' },
+          '30%': { opacity: '1' },
+          '50%': { strokeDashoffset: '0', opacity: '1' },
+          '80%': { strokeDashoffset: '-220', opacity: '1' },
+          '100%': { strokeDashoffset: '-220', opacity: '0.2' },
+        },
         shine: {
           '0%': { 'background-position': '100%' },
           '100%': { 'background-position': '-100%' },

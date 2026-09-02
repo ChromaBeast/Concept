@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../app/router.dart';
 import '../../../core/theme/app_colors.dart';
+import 'concept_logo_painter.dart';
 
-/// Full-screen branded splash view shown while initializing authentication and user session.
+/// Full-screen cinematic splash view matching the glowing stage reference animation.
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -22,7 +23,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1400),
+      duration: const Duration(milliseconds: 1600),
     )..repeat(reverse: true);
 
     _pulseAnimation = CurvedAnimation(
@@ -34,8 +35,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   Future<void> _checkInit() async {
-    // Smooth initial boot delay before redirecting to home
-    await Future.delayed(const Duration(milliseconds: 900));
+    await Future.delayed(const Duration(milliseconds: 1100));
     if (mounted) {
       context.go(AppRoutes.home);
     }
@@ -49,75 +49,107 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
     return Scaffold(
-      backgroundColor: isDark ? AppColors.darkBackground : AppColors.lightBackground,
+      backgroundColor: const Color(0xFF09090B),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Branded Logo Container
-            ScaleTransition(
-              scale: Tween<double>(begin: 0.95, end: 1.05).animate(_pulseAnimation),
-              child: Container(
-                width: 72,
-                height: 72,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLight.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: AppColors.primaryLight.withValues(alpha: 0.35),
-                    width: 1.5,
-                  ),
+            // 3D Cinematic Stage Frame (inspired by reference video)
+            Container(
+              width: 280,
+              height: 180,
+              decoration: BoxDecoration(
+                color: const Color(0xFF0D0D11),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.12),
+                  width: 1.2,
                 ),
-                child: const Center(
-                  child: Text(
-                    '#',
-                    style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w900,
-                      fontFamily: 'monospace',
-                      color: AppColors.primaryLight,
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primaryLight.withValues(alpha: 0.2),
+                    blurRadius: 36,
+                    spreadRadius: -4,
+                  ),
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.9),
+                    blurRadius: 40,
+                    offset: const Offset(0, 16),
+                  ),
+                ],
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Ambient Stage Glow
+                  AnimatedBuilder(
+                    animation: _pulseAnimation,
+                    builder: (context, _) {
+                      return Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primaryLight.withValues(
+                                alpha: 0.25 * _pulseAnimation.value,
+                              ),
+                              blurRadius: 40,
+                              spreadRadius: 10,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+
+                  // Vector Concept Emblem
+                  ScaleTransition(
+                    scale: Tween<double>(begin: 0.96, end: 1.04).animate(_pulseAnimation),
+                    child: const CustomPaint(
+                      size: Size(80, 80),
+                      painter: ConceptLogoPainter(),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 28),
 
-            // Brand Title
-            Text(
+            // Brand Title & Subtext
+            const Text(
               'CONCEPT',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
-                letterSpacing: 3.5,
-                color: isDark ? AppColors.darkTextPrimary : AppColors.lightTextPrimary,
+                letterSpacing: 4.0,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 6),
-
-            // Tagline
             Text(
               'Engineering Mental Models in ≤90s',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                letterSpacing: 0.4,
-                color: isDark ? AppColors.darkTextSecondary : AppColors.lightTextSecondary,
+                letterSpacing: 0.5,
+                color: Colors.white.withValues(alpha: 0.6),
               ),
             ),
-            const SizedBox(height: 36),
+            const SizedBox(height: 32),
 
-            // Status Indicator
+            // Sleek glowing progress loader
             SizedBox(
-              width: 140,
-              child: LinearProgressIndicator(
-                backgroundColor: isDark ? AppColors.darkBorder : AppColors.lightBorder,
-                color: AppColors.primaryLight,
-                minHeight: 2.5,
-                borderRadius: BorderRadius.circular(2),
+              width: 160,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: LinearProgressIndicator(
+                  backgroundColor: Colors.white.withValues(alpha: 0.08),
+                  color: AppColors.primaryLight,
+                  minHeight: 3,
+                ),
               ),
             ),
           ],
