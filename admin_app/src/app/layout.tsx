@@ -3,6 +3,7 @@ import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
 import { AdminNavbar } from '@/components/layout/AdminNavbar';
+import { AuthProvider } from '@/lib/authContext';
 
 const ibmSans = IBM_Plex_Sans({
   subsets: ['latin'],
@@ -32,10 +33,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${ibmSans.variable} ${ibmMono.variable}`}>
       <body className="bg-paper-bg text-paper-text font-sans min-h-screen selection:bg-ochre/20">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-          <AdminNavbar />
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
-          </main>
+          <AuthProvider>
+            <AdminNavbar />
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              {children}
+            </main>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
