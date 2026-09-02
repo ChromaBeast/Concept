@@ -3,41 +3,51 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Bookmark, Compass } from 'lucide-react';
-import { allSeedConcepts } from '@/lib/seed';
+import { dataService } from '@/lib/dataService';
 import { storage } from '@/lib/storage';
 import { CATEGORY_META } from '@/lib/constants';
-import { Category } from '@/lib/types';
+import { Category, Concept } from '@/lib/types';
 import { ConceptCard } from '@/components/concept/ConceptCard';
 import { Chip } from '@/components/ui/Chip';
 
 export default function BookmarksPage() {
+  const [allConcepts, setAllConcepts] = useState<Concept[]>([]);
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>('all');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const load = async () => {
+      setLoading(true);
+      const items = await dataService.getAllConcepts();
+      setAllConcepts(items);
+      setBookmarkedIds(storage.getBookmarks());
+      setLoading(false);
+    };
+    load();
+
     const updateBookmarks = () => {
       setBookmarkedIds(storage.getBookmarks());
     };
-    updateBookmarks();
     window.addEventListener('concept_storage_updated', updateBookmarks);
     return () => window.removeEventListener('concept_storage_updated', updateBookmarks);
   }, []);
 
   const bookmarkedConcepts = useMemo(() => {
-    return allSeedConcepts.filter((c) => {
+    return allConcepts.filter((c) => {
       if (!bookmarkedIds.includes(c.id)) return false;
       if (selectedCategory !== 'all' && c.category !== selectedCategory) return false;
       return true;
     });
-  }, [bookmarkedIds, selectedCategory]);
+  }, [allConcepts, bookmarkedIds, selectedCategory]);
 
   const categoriesWithBookmarks = useMemo(() => {
     const cats = new Set<Category>();
-    allSeedConcepts
+    allConcepts
       .filter((c) => bookmarkedIds.includes(c.id))
       .forEach((c) => cats.add(c.category));
     return Array.from(cats);
-  }, [bookmarkedIds]);
+  }, [allConcepts, bookmarkedIds]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16 font-sans">
@@ -57,11 +67,8 @@ export default function BookmarksPage() {
 
       {categoriesWithBookmarks.length > 0 && (
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <Chip
-            active={selectedCategory === 'all'}
-            onClick={() => setSelectedCategory('all')}
-          >
-            All ({bookmarkedIds.length})
+          <Chip active={selectedCategory === 'all'} onClick={() => setSelectedCategory('all')}>
+            All ({bookmarkedConcepts.length})
           </Chip>
           {categoriesWithBookmarks.map((cat) => (
             <Chip
@@ -88,7 +95,9 @@ export default function BookmarksPage() {
             <Bookmark className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-paper-text mb-1">No bookmarks saved yet</h3>
+            <h3 className="text-sm font-semibold text-paper-text mb-1">
+              {loading ? 'Loading saved bookmarks...' : 'No bookmarks saved yet'}
+            </h3>
             <p className="text-xs text-paper-muted leading-relaxed">
               Click the bookmark icon on any concept card while browsing to save it here for fast recall.
             </p>

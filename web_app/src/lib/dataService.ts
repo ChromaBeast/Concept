@@ -1,7 +1,6 @@
 import { databases, APPWRITE_CONFIG } from './appwrite';
 import { Query } from 'appwrite';
 import { Concept, Course, Category, Difficulty } from './types';
-import { allSeedConcepts, seedCourses, seedTags } from './seed';
 import { mapDocToConcept, mapDocToCourse } from './dataMapper';
 
 const cache = {
@@ -9,7 +8,7 @@ const cache = {
   lastFetch: 0,
 };
 
-const CACHE_TTL_MS = 60 * 1000;
+const CACHE_TTL_MS = 15 * 1000; // 15s cache TTL for live updates
 
 export const dataService = {
   async getPaginatedConcepts(options?: {
@@ -41,7 +40,7 @@ export const dataService = {
     }
 
     const total = list.length;
-    const totalPages = Math.ceil(total / limit);
+    const totalPages = Math.max(1, Math.ceil(total / limit));
     const offset = (page - 1) * limit;
     const items = list.slice(offset, offset + limit);
 
@@ -72,26 +71,22 @@ export const dataService = {
           [Query.limit(100), Query.equal('status', ['published'])]
         );
 
-        if (res.documents && res.documents.length > 0) {
+        if (res.documents) {
           const remoteConcepts: Concept[] = res.documents.map(mapDocToConcept);
-          const existingSlugs = new Set(remoteConcepts.map((c) => c.slug));
-          const merged = [...remoteConcepts, ...allSeedConcepts.filter((s) => !existingSlugs.has(s.slug))];
-          cache.concepts = merged;
+          cache.concepts = remoteConcepts;
           cache.lastFetch = now;
-          return merged;
+          return remoteConcepts;
         }
       }
-    } catch {}
+    } catch (err) {
+      console.warn('Failed to load published concepts from Appwrite:', err);
+    }
 
-    cache.concepts = allSeedConcepts;
-    return allSeedConcepts;
+    cache.concepts = [];
+    return [];
   },
 
   async getConceptBySlug(slug: string): Promise<Concept | null> {
-    const all = await this.getAllConcepts();
-    const found = all.find((c) => c.slug === slug);
-    if (found) return found;
-
     try {
       if (typeof window !== 'undefined' && APPWRITE_CONFIG.databaseId) {
         const res = await databases.listDocuments(
@@ -105,11 +100,12 @@ export const dataService = {
       }
     } catch {}
 
-    return null;
+    const all = await this.getAllConcepts();
+    return all.find((c) => c.slug === slug) || null;
   },
 
   async getCourses(options?: { category?: Category | 'all'; limit?: number }): Promise<Course[]> {
-    let list = seedCourses;
+    let list: Course[] = [];
     try {
       if (typeof window !== 'undefined' && APPWRITE_CONFIG.databaseId) {
         const res = await databases.listDocuments(
@@ -118,9 +114,7 @@ export const dataService = {
           [Query.limit(50), Query.equal('status', ['published'])]
         );
         if (res.documents && res.documents.length > 0) {
-          const remote: Course[] = res.documents.map(mapDocToCourse);
-          const existing = new Set(remote.map((c) => c.slug));
-          list = [...remote, ...seedCourses.filter((s) => !existing.has(s.slug))];
+          list = res.documents.map(mapDocToCourse);
         }
       }
     } catch {}
@@ -134,8 +128,9 @@ export const dataService = {
     return list;
   },
 
-  async getDailyConcept(): Promise<Concept> {
+  async getDailyConcept(): Promise<Concept | null> {
     const all = await this.getAllConcepts();
+    if (all.length === 0) return null;
     const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / 86400000);
     return all[dayOfYear % all.length] || all[0];
   },
@@ -146,7 +141,7 @@ export const dataService = {
     return {
       totalConcepts: concepts.length,
       totalCourses: courses.length,
-      totalTags: seedTags.length,
+      totalTags: 25,
     };
   },
 };

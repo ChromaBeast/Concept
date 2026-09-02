@@ -3,12 +3,15 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, BookOpen, Layers, Bookmark, User, Shield, ArrowRight, X } from 'lucide-react';
-import { allSeedConcepts, seedCourses } from '@/lib/seed';
+import { dataService } from '@/lib/dataService';
+import { Concept, Course } from '@/lib/types';
 
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [concepts, setConcepts] = useState<Concept[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const router = useRouter();
 
   const handleOpen = useCallback(() => {
@@ -21,6 +24,20 @@ export function CommandPalette() {
     setIsOpen(false);
     setQuery('');
   }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      const [fetchedConcepts, fetchedCourses] = await Promise.all([
+        dataService.getAllConcepts(),
+        dataService.getCourses(),
+      ]);
+      setConcepts(fetchedConcepts);
+      setCourses(fetchedCourses);
+    };
+    if (isOpen) {
+      loadData();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -49,7 +66,7 @@ export function CommandPalette() {
       ];
     }
 
-    const matchedConcepts = allSeedConcepts
+    const matchedConcepts = concepts
       .filter((c) => c.title.toLowerCase().includes(q) || c.oneLiner.toLowerCase().includes(q))
       .slice(0, 5)
       .map((c) => ({
@@ -61,7 +78,7 @@ export function CommandPalette() {
         url: `/concepts/${c.slug}`,
       }));
 
-    const matchedCourses = seedCourses
+    const matchedCourses = courses
       .filter((c) => c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q))
       .slice(0, 3)
       .map((c) => ({
@@ -74,7 +91,7 @@ export function CommandPalette() {
       }));
 
     return [...matchedConcepts, ...matchedCourses];
-  }, [query]);
+  }, [query, concepts, courses]);
 
   const selectResult = useCallback(
     (index: number) => {
@@ -102,7 +119,6 @@ export function CommandPalette() {
         className="relative w-full max-w-xl bg-paper-card border border-paper-border rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh] font-sans"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Search Header */}
         <div className="flex items-center px-4 py-3.5 border-b border-paper-border gap-3">
           <Search className="w-4 h-4 text-paper-muted shrink-0" />
           <input
@@ -126,11 +142,7 @@ export function CommandPalette() {
             className="w-full bg-transparent text-sm text-paper-text placeholder:text-paper-muted focus:outline-none font-sans"
           />
           {query && (
-            <button
-              type="button"
-              onClick={() => setQuery('')}
-              className="p-1 text-paper-muted hover:text-paper-text transition-colors"
-            >
+            <button type="button" onClick={() => setQuery('')} className="p-1 text-paper-muted hover:text-paper-text">
               <X className="w-4 h-4" />
             </button>
           )}
@@ -139,11 +151,10 @@ export function CommandPalette() {
           </kbd>
         </div>
 
-        {/* Results List without ugly divide-y borders */}
         <div className="overflow-y-auto p-2 space-y-1">
           {results.length === 0 ? (
             <div className="py-12 text-center text-xs font-mono text-paper-muted">
-              No matching concepts or courses found.
+              No matching published concepts or courses found.
             </div>
           ) : (
             results.map((item, idx) => {
@@ -162,13 +173,9 @@ export function CommandPalette() {
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div
-                      className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border ${
-                        isSelected
-                          ? 'bg-ochre/20 border-ochre/40 text-ochre'
-                          : 'bg-paper-surface border-paper-border text-paper-muted'
-                      }`}
-                    >
+                    <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border ${
+                      isSelected ? 'bg-ochre/20 border-ochre/40 text-ochre' : 'bg-paper-surface border-paper-border text-paper-muted'
+                    }`}>
                       <Icon className="w-3.5 h-3.5" />
                     </div>
                     <div className="min-w-0">
@@ -176,30 +183,15 @@ export function CommandPalette() {
                         {item.title}
                       </div>
                       {'subtitle' in item && item.subtitle && (
-                        <div className="text-[11px] text-paper-muted truncate font-mono">
-                          {item.subtitle}
-                        </div>
+                        <div className="text-[11px] text-paper-muted truncate font-mono">{item.subtitle}</div>
                       )}
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <ArrowRight className={`w-3.5 h-3.5 transition-opacity ${isSelected ? 'opacity-100 text-ochre' : 'opacity-0'}`} />
-                  </div>
+                  <ArrowRight className={`w-3.5 h-3.5 transition-opacity ${isSelected ? 'opacity-100 text-ochre' : 'opacity-0'}`} />
                 </div>
               );
             })
           )}
-        </div>
-
-        {/* Footer */}
-        <div className="px-4 py-2 bg-paper-surface/60 border-t border-paper-border flex items-center justify-between text-[11px] font-mono text-paper-muted">
-          <div className="flex items-center gap-3">
-            <span><kbd className="font-semibold">↑↓</kbd> navigate</span>
-            <span><kbd className="font-semibold">↵</kbd> select</span>
-            <span><kbd className="font-semibold">esc</kbd> close</span>
-          </div>
-          <span className="hidden sm:inline-block">Concept Reference</span>
         </div>
       </div>
     </div>

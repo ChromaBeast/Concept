@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Flame, BookOpen, Clock, Bookmark, CheckCircle2, LogOut, LogIn, User } from 'lucide-react';
-import { allSeedConcepts } from '@/lib/seed';
+import { dataService } from '@/lib/dataService';
 import { storage } from '@/lib/storage';
 import { CATEGORY_META } from '@/lib/constants';
-import { Category } from '@/lib/types';
+import { Category, Concept } from '@/lib/types';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { useAuth } from '@/lib/authContext';
 
@@ -25,30 +25,38 @@ const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export default function ProfilePage() {
   const { user, logout } = useAuth();
+  const [allConcepts, setAllConcepts] = useState<Concept[]>([]);
   const [streak, setStreak] = useState({ streakDays: 4, lastActiveDate: '' });
   const [learnedIds, setLearnedIds] = useState<string[]>([]);
   const [bookmarksCount, setBookmarksCount] = useState(0);
 
   useEffect(() => {
+    const load = async () => {
+      const items = await dataService.getAllConcepts();
+      setAllConcepts(items);
+      setStreak(storage.getStreak());
+      setLearnedIds(storage.getLearned());
+      setBookmarksCount(storage.getBookmarks().length);
+    };
+    load();
+
     const update = () => {
       setStreak(storage.getStreak());
       setLearnedIds(storage.getLearned());
       setBookmarksCount(storage.getBookmarks().length);
     };
-    update();
     window.addEventListener('concept_storage_updated', update);
     return () => window.removeEventListener('concept_storage_updated', update);
   }, []);
 
-  const totalReadSeconds = allSeedConcepts
+  const totalReadSeconds = allConcepts
     .filter((c) => learnedIds.includes(c.id))
-    .reduce((acc, c) => acc + c.estimatedReadSeconds, 0);
+    .reduce((acc, c) => acc + (c.estimatedReadSeconds || 85), 0);
 
   const totalMinutes = Math.ceil(totalReadSeconds / 60);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16 font-sans">
-      {/* Account Info Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl border border-paper-border bg-paper-card shadow-sm">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-ochre text-white flex items-center justify-center font-bold text-lg font-mono shadow-sm">
@@ -84,7 +92,6 @@ export default function ProfilePage() {
         )}
       </div>
 
-      {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
           <div className="flex items-center gap-1.5 text-xs text-ochre font-semibold font-mono">
@@ -99,7 +106,7 @@ export default function ProfilePage() {
             <BookOpen className="w-4 h-4" /> MASTERED
           </div>
           <div className="text-2xl font-bold text-paper-text font-sans">{learnedIds.length}</div>
-          <div className="text-[11px] text-paper-muted font-mono">Of 197+ concepts</div>
+          <div className="text-[11px] text-paper-muted font-mono">Of {allConcepts.length} concepts</div>
         </div>
 
         <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
@@ -119,7 +126,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Weekly Activity Tracker */}
       <div className="p-6 rounded-2xl border border-paper-border bg-paper-card space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold text-paper-text flex items-center gap-2 font-sans">
@@ -152,7 +158,6 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Discipline Mastery Breakdown */}
       <div className="p-6 rounded-2xl border border-paper-border bg-paper-card space-y-4 shadow-sm">
         <h2 className="text-xs font-semibold text-paper-text uppercase tracking-wider font-mono">
           Discipline Mastery Breakdown
@@ -160,7 +165,7 @@ export default function ProfilePage() {
 
         <div className="space-y-3.5">
           {CATEGORIES.map((cat) => {
-            const catConcepts = allSeedConcepts.filter((c) => c.category === cat);
+            const catConcepts = allConcepts.filter((c) => c.category === cat);
             if (catConcepts.length === 0) return null;
             const learnedCatCount = catConcepts.filter((c) => learnedIds.includes(c.id)).length;
             const percentage = Math.round((learnedCatCount / catConcepts.length) * 100);

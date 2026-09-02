@@ -2,18 +2,25 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Search as SearchIcon, History, Trash2, Tag as TagIcon, X } from 'lucide-react';
-import { allSeedConcepts, seedTags } from '@/lib/seed';
+import { dataService } from '@/lib/dataService';
 import { storage } from '@/lib/storage';
+import { Concept } from '@/lib/types';
 import { ConceptCard } from '@/components/concept/ConceptCard';
 import { Chip } from '@/components/ui/Chip';
 
 export default function SearchPage() {
+  const [allConcepts, setAllConcepts] = useState<Concept[]>([]);
   const [query, setQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
   useEffect(() => {
-    setRecentSearches(storage.getRecentSearches());
+    const load = async () => {
+      const items = await dataService.getAllConcepts();
+      setAllConcepts(items);
+      setRecentSearches(storage.getRecentSearches());
+    };
+    load();
   }, []);
 
   useEffect(() => {
@@ -30,19 +37,25 @@ export default function SearchPage() {
   const searchResults = useMemo(() => {
     if (!debouncedQuery.trim()) return [];
     const q = debouncedQuery.toLowerCase().trim();
-    return allSeedConcepts.filter((c) => {
+    return allConcepts.filter((c) => {
       const matchTitle = c.title.toLowerCase().includes(q);
       const matchOneLiner = c.oneLiner.toLowerCase().includes(q);
-      const matchDef = c.body.definition.toLowerCase().includes(q);
-      const matchTag = c.tagIds.some((t) => t.toLowerCase().includes(q));
+      const matchDef = c.body?.definition?.toLowerCase().includes(q) || false;
+      const matchTag = c.tagIds?.some((t) => t.toLowerCase().includes(q)) || false;
       return matchTitle || matchOneLiner || matchDef || matchTag;
     });
-  }, [debouncedQuery]);
+  }, [debouncedQuery, allConcepts]);
 
   const handleClearHistory = () => {
     storage.clearRecentSearches();
     setRecentSearches([]);
   };
+
+  const trendingTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    allConcepts.forEach((c) => c.tagIds?.forEach((t) => tagSet.add(t)));
+    return Array.from(tagSet).slice(0, 15);
+  }, [allConcepts]);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16 font-sans">
@@ -55,7 +68,6 @@ export default function SearchPage() {
         </p>
       </div>
 
-      {/* Main Search Input */}
       <div className="relative">
         <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-paper-muted" />
         <input
@@ -77,7 +89,6 @@ export default function SearchPage() {
         )}
       </div>
 
-      {/* When query is empty: Recent Searches & Trending Tags */}
       {!debouncedQuery.trim() ? (
         <div className="space-y-8 pt-2 font-mono">
           {recentSearches.length > 0 && (
@@ -110,27 +121,22 @@ export default function SearchPage() {
             </div>
           )}
 
-          {/* Trending Tags */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-paper-muted uppercase tracking-wider">
-              <TagIcon className="w-3.5 h-3.5 text-ochre" /> Trending Topics &amp; Tags
+          {trendingTags.length > 0 && (
+            <div className="space-y-3">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-paper-muted uppercase tracking-wider">
+                <TagIcon className="w-3.5 h-3.5 text-ochre" /> Trending Topics &amp; Tags
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                {trendingTags.map((tag) => (
+                  <Chip key={tag} size="sm" onClick={() => setQuery(tag)}>
+                    #{tag}
+                  </Chip>
+                ))}
+              </div>
             </div>
-
-            <div className="flex items-center gap-2 flex-wrap">
-              {seedTags.map((tag) => (
-                <Chip
-                  key={tag.id}
-                  size="sm"
-                  onClick={() => setQuery(tag.name)}
-                >
-                  #{tag.name}
-                </Chip>
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       ) : (
-        /* Results View */
         <div className="space-y-4 font-mono">
           <div className="text-xs text-paper-muted">
             Found <strong>{searchResults.length}</strong> concepts for &ldquo;{debouncedQuery}&rdquo;
