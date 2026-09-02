@@ -19,25 +19,25 @@ export function Chip({
 }: ChipProps) {
   const sizeStyles = {
     sm: 'text-xs py-1 px-2.5 gap-1.5',
-    md: 'text-sm py-1.5 px-3.5 gap-2',
+    md: 'text-xs py-1.5 px-3.5 gap-2',
   };
 
   return (
     <button
       type="button"
       className={cn(
-        'inline-flex items-center rounded-full font-medium transition-all duration-150 border select-none whitespace-nowrap cursor-pointer',
+        'inline-flex items-center rounded-lg font-mono font-medium transition-all duration-150 border select-none whitespace-nowrap cursor-pointer shadow-sm',
         sizeStyles[size],
         active
-          ? 'bg-electric text-obsidian-bg font-bold border-electric shadow-sm'
-          : 'bg-obsidian-surface hover:bg-obsidian-variant text-dark-muted hover:text-dark-text border-obsidian-border',
+          ? 'bg-ochre text-white font-bold border-ochre'
+          : 'bg-paper-card hover:bg-paper-surface text-paper-muted hover:text-paper-text border-paper-border',
         className
       )}
       {...props}
     >
       {colorHex && (
         <span
-          className="w-2 h-2 rounded-full flex-shrink-0"
+          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
           style={{ backgroundColor: colorHex }}
         />
       )}
@@ -51,12 +51,12 @@ export function CategoryChip({ category, className }: { category: Category; clas
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono font-semibold border select-none',
+        'inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono font-semibold border select-none',
         className
       )}
       style={{
         backgroundColor: `${meta?.color}15`,
-        borderColor: `${meta?.color}40`,
+        borderColor: `${meta?.color}35`,
         color: meta?.color,
       }}
     >

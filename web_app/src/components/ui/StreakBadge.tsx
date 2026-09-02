@@ -10,14 +10,14 @@ export function StreakBadge({ streakDays, className, ...props }: StreakBadgeProp
   return (
     <div
       className={cn(
-        'inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 border border-amber-500/30 text-amber-400 select-none shadow-sm',
+        'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-ochre/10 border border-ochre/25 text-ochre select-none shadow-sm',
         className
       )}
       title={`${streakDays} Day Learning Streak`}
       {...props}
     >
-      <Flame className="w-3.5 h-3.5 fill-amber-400 text-amber-500 animate-pulse" />
-      <span>{streakDays}d streak</span>
+      <Flame className="w-3.5 h-3.5 fill-ochre text-ochre" />
+      <span>{streakDays}d</span>
     </div>
   );
 }

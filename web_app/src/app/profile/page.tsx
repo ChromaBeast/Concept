@@ -47,19 +47,19 @@ export default function ProfilePage() {
   const totalMinutes = Math.ceil(totalReadSeconds / 60);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16 font-sans">
       {/* Account Info Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl border border-obsidian-border bg-obsidian-card">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-2xl border border-paper-border bg-paper-card shadow-sm">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-electric text-obsidian-bg flex items-center justify-center font-black text-lg">
+          <div className="w-12 h-12 rounded-2xl bg-ochre text-white flex items-center justify-center font-bold text-lg font-mono shadow-sm">
             {user ? user.name.charAt(0).toUpperCase() : <User className="w-6 h-6" />}
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white">
+            <h1 className="text-xl font-bold text-paper-text font-sans">
               {user ? user.name : 'Guest Engineer'}
             </h1>
-            <p className="text-xs text-dark-muted font-mono">
-              {user ? user.email : 'Local Session — Sign in to sync progress to cloud'}
+            <p className="text-xs text-paper-muted font-mono">
+              {user ? user.email : 'Local Session — Sign in to sync progress across devices'}
             </p>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function ProfilePage() {
           <button
             type="button"
             onClick={() => logout()}
-            className="px-4 py-2 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-mono font-bold flex items-center gap-1.5 transition-colors"
+            className="px-4 py-2 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-mono font-bold flex items-center gap-1.5 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Sign Out</span>
@@ -76,7 +76,7 @@ export default function ProfilePage() {
         ) : (
           <Link
             href="/login"
-            className="px-4 py-2 rounded-xl bg-electric hover:bg-electric-400 text-obsidian-bg text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md shadow-electric/10"
+            className="px-4 py-2 rounded-xl bg-ochre hover:bg-ochre-dim text-white text-xs font-mono font-bold tracking-wider flex items-center gap-1.5 transition-all shadow-sm"
           >
             <LogIn className="w-3.5 h-3.5" />
             <span>Sign In to Sync</span>
@@ -86,65 +86,65 @@ export default function ProfilePage() {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-amber-400 font-semibold font-mono">
+        <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
+          <div className="flex items-center gap-1.5 text-xs text-ochre font-semibold font-mono">
             <Flame className="w-4 h-4 fill-current" /> STREAK
           </div>
-          <div className="text-2xl font-bold text-white">{streak.streakDays} Days</div>
-          <div className="text-[11px] text-dark-muted font-mono">Active daily habit</div>
+          <div className="text-2xl font-bold text-paper-text font-sans">{streak.streakDays} Days</div>
+          <div className="text-[11px] text-paper-muted font-mono">Active daily habit</div>
         </div>
 
-        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold font-mono">
-            <BookOpen className="w-4 h-4" /> LEARNED
+        <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
+          <div className="flex items-center gap-1.5 text-xs text-teal font-semibold font-mono">
+            <BookOpen className="w-4 h-4" /> MASTERED
           </div>
-          <div className="text-2xl font-bold text-white">{learnedIds.length}</div>
-          <div className="text-[11px] text-dark-muted font-mono">Of 197+ concepts</div>
+          <div className="text-2xl font-bold text-paper-text font-sans">{learnedIds.length}</div>
+          <div className="text-[11px] text-paper-muted font-mono">Of 197+ concepts</div>
         </div>
 
-        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-electric font-semibold font-mono">
+        <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
+          <div className="flex items-center gap-1.5 text-xs text-ochre font-semibold font-mono">
             <Clock className="w-4 h-4" /> TIME SPENT
           </div>
-          <div className="text-2xl font-bold text-white">{totalMinutes}m</div>
-          <div className="text-[11px] text-dark-muted font-mono">Dense reading time</div>
+          <div className="text-2xl font-bold text-paper-text font-sans">{totalMinutes}m</div>
+          <div className="text-[11px] text-paper-muted font-mono">Dense reading time</div>
         </div>
 
-        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-rose-400 font-semibold font-mono">
+        <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
+          <div className="flex items-center gap-1.5 text-xs text-rose-500 font-semibold font-mono">
             <Bookmark className="w-4 h-4" /> SAVED
           </div>
-          <div className="text-2xl font-bold text-white">{bookmarksCount}</div>
-          <div className="text-[11px] text-dark-muted font-mono">Bookmarked cards</div>
+          <div className="text-2xl font-bold text-paper-text font-sans">{bookmarksCount}</div>
+          <div className="text-[11px] text-paper-muted font-mono">Bookmarked cards</div>
         </div>
       </div>
 
       {/* Weekly Activity Tracker */}
-      <div className="p-6 rounded-3xl border border-obsidian-border bg-obsidian-card space-y-4">
+      <div className="p-6 rounded-2xl border border-paper-border bg-paper-card space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-white flex items-center gap-2">
-            <Flame className="w-4 h-4 text-amber-400" /> Weekly Activity
+          <h2 className="text-sm font-semibold text-paper-text flex items-center gap-2 font-sans">
+            <Flame className="w-4 h-4 text-ochre" /> Weekly Activity
           </h2>
-          <span className="text-xs text-dark-muted font-mono">{streak.streakDays} day current streak</span>
+          <span className="text-xs text-paper-muted font-mono">{streak.streakDays} day current streak</span>
         </div>
 
-        <div className="grid grid-cols-7 gap-2">
+        <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
           {DAYS.map((d, i) => {
             const active = i >= 3;
             return (
               <div
                 key={d}
-                className={`flex flex-col items-center justify-center p-3 rounded-2xl border text-center transition-all ${
+                className={`flex flex-col items-center justify-center p-2.5 sm:p-3 rounded-xl border text-center transition-all ${
                   active
-                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                    : 'bg-obsidian-surface border-obsidian-border text-dark-muted'
+                    ? 'bg-ochre/15 border-ochre/30 text-ochre font-bold'
+                    : 'bg-paper-surface border-paper-border text-paper-muted'
                 }`}
               >
                 <span className="text-[11px] font-mono mb-1">{d}</span>
                 {active ? (
-                  <CheckCircle2 className="w-4 h-4 text-amber-400 fill-amber-500/20" />
+                  <CheckCircle2 className="w-4 h-4 text-ochre fill-ochre/20" />
                 ) : (
-                  <div className="w-3 h-3 rounded-full border border-dark-sub" />
+                  <div className="w-2.5 h-2.5 rounded-full border border-paper-border" />
                 )}
               </div>
             );
@@ -153,8 +153,8 @@ export default function ProfilePage() {
       </div>
 
       {/* Discipline Mastery Breakdown */}
-      <div className="p-6 rounded-3xl border border-obsidian-border bg-obsidian-card space-y-4">
-        <h2 className="text-sm font-semibold text-white uppercase tracking-wider font-mono">
+      <div className="p-6 rounded-2xl border border-paper-border bg-paper-card space-y-4 shadow-sm">
+        <h2 className="text-xs font-semibold text-paper-text uppercase tracking-wider font-mono">
           Discipline Mastery Breakdown
         </h2>
 
@@ -171,9 +171,9 @@ export default function ProfilePage() {
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: meta?.color }} />
-                    <span className="font-medium text-dark-text">{meta?.label}</span>
+                    <span className="font-medium text-paper-text">{meta?.label}</span>
                   </div>
-                  <span className="text-dark-muted font-mono">
+                  <span className="text-paper-muted font-mono">
                     {learnedCatCount}/{catConcepts.length} ({percentage}%)
                   </span>
                 </div>

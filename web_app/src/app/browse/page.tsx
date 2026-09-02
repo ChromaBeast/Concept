@@ -52,17 +52,17 @@ function BrowseContent() {
   }, [concepts, selectedDomain, activeDomain, selectedCategory, selectedDifficulty, query]);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 sm:space-y-8 font-sans">
       <div className="space-y-1.5">
-        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase font-sans">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-paper-text font-sans">
           Concept Catalog
         </h1>
-        <p className="text-xs sm:text-sm text-dark-muted font-mono">
+        <p className="text-xs sm:text-sm text-paper-muted font-mono">
           Dense, structured 90-second references organized into intuitive domain clusters.
         </p>
       </div>
 
-      {/* Domain Clusters */}
+      {/* Domain Clusters Horizontal Scroller */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
         {CATEGORY_DOMAINS.map((domain) => {
           const isSelected = domain.id === selectedDomain;
@@ -76,10 +76,10 @@ function BrowseContent() {
                   setSelectedCategory('all');
                 }
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all border ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-semibold whitespace-nowrap transition-all border shadow-sm ${
                 isSelected
-                  ? 'bg-electric text-obsidian-bg border-electric shadow-sm'
-                  : 'bg-obsidian-card text-dark-muted hover:text-dark-text border-obsidian-border'
+                  ? 'bg-ochre text-white border-ochre font-bold'
+                  : 'bg-paper-card text-paper-muted hover:text-paper-text hover:bg-paper-surface border-paper-border'
               }`}
             >
               {domain.label}
@@ -89,36 +89,34 @@ function BrowseContent() {
       </div>
 
       {/* Category Pills within Active Domain */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          {availableCategories.map((cat) => (
-            <Chip
-              key={cat}
-              active={selectedCategory === cat}
-              colorHex={cat === 'all' ? undefined : CATEGORY_META[cat]?.color}
-              onClick={() => setSelectedCategory(cat)}
-            >
-              {cat === 'all' ? 'All in Domain' : CATEGORY_META[cat]?.label}
-            </Chip>
-          ))}
-        </div>
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {availableCategories.map((cat) => (
+          <Chip
+            key={cat}
+            active={selectedCategory === cat}
+            colorHex={cat === 'all' ? undefined : CATEGORY_META[cat]?.color}
+            onClick={() => setSelectedCategory(cat)}
+          >
+            {cat === 'all' ? 'All in Domain' : CATEGORY_META[cat]?.label}
+          </Chip>
+        ))}
       </div>
 
-      {/* Difficulty & Quick Filters */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl border border-obsidian-border bg-obsidian-card">
-        <div className="flex items-center gap-2 flex-wrap font-mono">
-          <span className="text-xs text-dark-muted font-medium flex items-center gap-1">
-            <Filter className="w-3.5 h-3.5" /> Difficulty:
+      {/* Difficulty & Quick Search Filter */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-2xl border border-paper-border bg-paper-card shadow-sm">
+        <div className="flex items-center gap-1.5 flex-wrap font-mono">
+          <span className="text-xs text-paper-muted font-medium flex items-center gap-1 mr-1">
+            <Filter className="w-3.5 h-3.5 text-ochre" /> Difficulty:
           </span>
           {difficulties.map((diff) => (
             <button
               key={diff}
               type="button"
               onClick={() => setSelectedDifficulty(diff)}
-              className={`text-xs px-2.5 py-1 rounded-lg border font-medium transition-colors ${
+              className={`text-xs px-2.5 py-1 rounded-lg border font-mono transition-colors ${
                 selectedDifficulty === diff
-                  ? 'bg-electric/20 text-electric border-electric/40'
-                  : 'bg-obsidian-surface text-dark-muted hover:text-dark-text border-obsidian-border'
+                  ? 'bg-ochre/15 text-ochre border-ochre/30 font-bold'
+                  : 'bg-paper-surface text-paper-muted hover:text-paper-text border-paper-border'
               }`}
             >
               {diff === 'all' ? 'Any' : DIFFICULTY_META[diff].label}
@@ -127,19 +125,19 @@ function BrowseContent() {
         </div>
 
         <div className="relative w-full sm:w-64">
-          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-dark-muted" />
+          <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-paper-muted" />
           <input
             type="text"
             placeholder="Filter list..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-obsidian-surface border border-obsidian-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-dark-text placeholder-dark-muted focus:outline-none focus:border-electric font-mono"
+            className="w-full bg-paper-surface border border-paper-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-paper-text placeholder:text-paper-muted focus:outline-none focus:border-ochre font-mono shadow-inner"
           />
         </div>
       </div>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between text-xs text-dark-muted font-mono">
+      <div className="flex items-center justify-between text-xs text-paper-muted font-mono">
         <span>Showing {filteredConcepts.length} concepts</span>
         {(selectedDomain !== 'all' || selectedCategory !== 'all' || selectedDifficulty !== 'all' || query) && (
           <button
@@ -149,24 +147,24 @@ function BrowseContent() {
               setSelectedDifficulty('all');
               setQuery('');
             }}
-            className="text-electric hover:underline"
+            className="text-ochre hover:underline font-bold"
           >
             Reset filters
           </button>
         )}
       </div>
 
-      {/* Grid of Concepts */}
+      {/* Responsive Grid of Concepts */}
       {filteredConcepts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredConcepts.map((concept) => (
             <ConceptCard key={concept.id} concept={concept} />
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 border border-dashed border-obsidian-border rounded-2xl p-8 font-mono">
-          <p className="text-dark-text font-medium mb-1">No matching concepts found</p>
-          <p className="text-xs text-dark-muted">Try adjusting your domain, category, or difficulty filters.</p>
+        <div className="text-center py-16 border border-dashed border-paper-border rounded-2xl p-8 font-mono">
+          <p className="text-paper-text font-medium mb-1">No matching concepts found</p>
+          <p className="text-xs text-paper-muted">Try adjusting your domain, category, or difficulty filters.</p>
         </div>
       )}
     </div>
@@ -175,7 +173,7 @@ function BrowseContent() {
 
 export default function BrowsePage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-dark-muted font-mono">Loading catalog...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-paper-muted font-mono text-xs">Loading catalog...</div>}>
       <BrowseContent />
     </Suspense>
   );

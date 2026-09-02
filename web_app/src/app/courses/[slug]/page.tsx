@@ -11,7 +11,6 @@ import { calculateCourseProgress, formatMinutesTotal } from '@/lib/utils';
 import { CourseListItem } from '@/components/course/CourseListItem';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export default function CourseDetailPage() {
@@ -49,42 +48,42 @@ export default function CourseDetailPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 pb-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 pb-16 font-sans">
       <Breadcrumbs
         items={[
-          { label: 'Courses', href: '/courses' },
+          { label: 'Tracks', href: '/courses' },
           { label: course.title },
         ]}
       />
 
-      <div className="p-6 sm:p-8 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-6">
+      <div className="p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 shadow-sm">
         <div className="flex items-center gap-2 flex-wrap font-mono text-xs">
           <Badge colorHex={catMeta.color}>{catMeta.label}</Badge>
-          <span className={`px-2 py-0.5 rounded border ${diffMeta.badgeClass}`}>
+          <span className="px-2 py-0.5 rounded border border-paper-border bg-paper-surface text-paper-muted">
             {diffMeta.label}
           </span>
-          <span className="flex items-center gap-1 text-dark-muted">
-            <Clock className="w-3.5 h-3.5 text-electric" />
-            {formatMinutesTotal(course.totalReadSeconds)} total read time
+          <span className="flex items-center gap-1 text-paper-muted ml-auto">
+            <Clock className="w-3.5 h-3.5 text-ochre" />
+            {formatMinutesTotal(course.totalReadSeconds)} read time
           </span>
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-paper-text font-sans">
             {course.title}
           </h1>
-          <p className="text-sm sm:text-base text-dark-muted leading-relaxed">
+          <p className="text-sm sm:text-base text-paper-muted leading-relaxed">
             {course.description}
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-obsidian-surface border border-obsidian-border space-y-3 font-mono text-xs">
+        <div className="p-4 rounded-xl bg-paper-surface border border-paper-border space-y-3 font-mono text-xs shadow-inner">
           <div className="flex items-center justify-between">
-            <span className="font-semibold text-white flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-electric" />
+            <span className="font-semibold text-paper-text flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-ochre" />
               Track Progress
             </span>
-            <span className="text-dark-muted">
+            <span className="text-paper-muted">
               {progress.completed} of {progress.total} completed ({progress.percentage}%)
             </span>
           </div>
@@ -92,34 +91,37 @@ export default function CourseDetailPage() {
         </div>
 
         {firstUnlearned && (
-          <div className="flex items-center justify-between gap-4 pt-2">
-            <div className="text-xs text-dark-muted truncate font-mono">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-2 border-t border-paper-border">
+            <div className="text-xs text-paper-muted truncate font-mono">
               {progress.isCompleted ? (
-                <span className="text-emerald-400 font-medium flex items-center gap-1">
-                  <CheckCircle2 className="w-4 h-4" /> You have completed this entire playlist!
+                <span className="text-teal font-medium flex items-center gap-1">
+                  <CheckCircle2 className="w-4 h-4" /> Playlist 100% completed!
                 </span>
               ) : (
                 <span>
-                  Next up: <strong className="text-white">{firstUnlearned.title}</strong>
+                  Next up: <strong className="text-paper-text font-semibold">{firstUnlearned.title}</strong>
                 </span>
               )}
             </div>
 
-            <Link href={`/concepts/${firstUnlearned.slug}?course=${course.slug}`}>
-              <Button size="md" className="flex-shrink-0">
-                <Play className="w-3.5 h-3.5 fill-current mr-1" />
-                {progress.completed === 0 ? 'Start Course' : 'Continue Learning'}
-              </Button>
+            <Link href={`/concepts/${firstUnlearned.slug}?course=${course.slug}`} className="w-full sm:w-auto">
+              <button
+                type="button"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-ochre hover:bg-ochre-dim text-white text-xs font-mono font-bold tracking-wider flex items-center justify-center gap-1.5 shadow-sm transition-all"
+              >
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>{progress.completed === 0 ? 'Start Track' : 'Continue Learning'}</span>
+              </button>
             </Link>
           </div>
         )}
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-base font-bold text-white flex items-center gap-2 font-mono">
-          <span>Curated Concept Sequence</span>
-          <span className="text-xs text-dark-muted font-normal">
-            ({concepts.length} items)
+        <h2 className="text-sm font-bold text-paper-text flex items-center gap-2 font-mono uppercase tracking-wider">
+          <span>Concept Sequence</span>
+          <span className="text-xs text-paper-muted font-normal">
+            ({concepts.length} concepts)
           </span>
         </h2>
 

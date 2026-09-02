@@ -14,6 +14,7 @@ import { QuickCheckList } from '@/components/concept/QuickCheck';
 import { RelatedConcepts } from '@/components/concept/RelatedConcepts';
 import { NextInCourseBar } from '@/components/concept/NextInCourseBar';
 import { ConceptHeroVisual } from '@/components/concept/ConceptHeroVisual';
+import { Bookmark, CheckCircle2 } from 'lucide-react';
 import { Concept, Course } from '@/lib/types';
 
 function ConceptDetailContent() {
@@ -56,7 +57,7 @@ function ConceptDetailContent() {
   }, [concept]);
 
   if (loading) {
-    return <div className="p-20 text-center text-paper-muted font-mono">Loading reference...</div>;
+    return <div className="p-20 text-center text-paper-muted font-mono text-xs">Loading reference...</div>;
   }
 
   if (!concept) return notFound();
@@ -70,7 +71,7 @@ function ConceptDetailContent() {
     const next = storage.toggleLearned(concept.id);
     setLearned(next);
     if (next) {
-      showUndo(`Marked "${concept.title}" as learned!`, () => {
+      showUndo(`Marked "${concept.title}" as mastered!`, () => {
         storage.toggleLearned(concept.id);
         setLearned(false);
       });
@@ -78,7 +79,7 @@ function ConceptDetailContent() {
   };
 
   return (
-    <article className="min-h-screen bg-paper-bg font-sans">
+    <article className="min-h-screen bg-paper-bg font-sans pb-16 lg:pb-0">
       <ConceptHeaderEditorial
         title={concept.title}
         oneLiner={concept.oneLiner}
@@ -87,26 +88,54 @@ function ConceptDetailContent() {
         estimatedReadSeconds={concept.estimatedReadSeconds}
       />
 
-      {/* Divided 2-Column Grid Container */}
-      <div className="flex divide-x divide-paper-border relative max-w-7xl mx-auto border-x border-paper-border">
+      {/* Divided 2-Column Responsive Layout */}
+      <div className="flex flex-col lg:flex-row lg:divide-x divide-paper-border relative max-w-7xl mx-auto border-x border-paper-border">
         {/* Main Content Column */}
-        <main className="w-full p-6 lg:p-10 space-y-10 min-w-0">
+        <main className="w-full p-4 sm:p-6 lg:p-10 space-y-8 sm:space-y-10 min-w-0">
+          {/* Mobile Study Utility Bar */}
+          <div className="lg:hidden flex items-center gap-1.5 p-1 rounded-xl bg-paper-surface border border-paper-border font-mono shadow-sm">
+            <button
+              type="button"
+              onClick={handleToggleLearned}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+                learned
+                  ? 'bg-teal text-white shadow-sm'
+                  : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
+              }`}
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>{learned ? 'Mastered' : 'Mark Mastered'}</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleToggleBookmark}
+              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+                bookmarked
+                  ? 'bg-ochre text-white shadow-sm'
+                  : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
+              }`}
+            >
+              <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
+              <span>{bookmarked ? 'Saved' : 'Bookmark'}</span>
+            </button>
+          </div>
+
           {/* Definition */}
           <section id="definition" className="space-y-2.5">
             <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
               Axiom &amp; Invariant
             </h2>
-            <p className="text-xl sm:text-2xl font-semibold text-paper-text leading-relaxed text-balance">
+            <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-paper-text leading-relaxed text-balance">
               {concept.body.definition}
             </p>
           </section>
 
           {/* Why It Matters */}
-          <section id="why-it-matters" className="space-y-2.5 pt-8 border-t border-paper-border">
+          <section id="why-it-matters" className="space-y-2.5 pt-6 sm:pt-8 border-t border-paper-border">
             <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
               Why It Matters On The Job
             </h2>
-            <p className="text-base sm:text-lg text-paper-muted leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-paper-muted leading-relaxed">
               {concept.body.whyItMatters}
             </p>
           </section>
@@ -119,7 +148,7 @@ function ConceptDetailContent() {
           )}
 
           {/* Code & Scenario */}
-          <section id="code-example" className="space-y-3 pt-8 border-t border-paper-border">
+          <section id="code-example" className="space-y-3 pt-6 sm:pt-8 border-t border-paper-border">
             <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
               Code &amp; Concrete Scenario
             </h2>
@@ -127,7 +156,7 @@ function ConceptDetailContent() {
           </section>
 
           {/* Pitfalls & Interview Angle */}
-          <section id="pitfall" className="space-y-5 pt-8 border-t border-paper-border">
+          <section id="pitfall" className="space-y-4 pt-6 sm:pt-8 border-t border-paper-border">
             <PitfallBox pitfall={concept.body.commonPitfall} />
             <div id="interview-angle">
               <InterviewBox interviewAngle={concept.body.interviewAngle} />
@@ -135,7 +164,7 @@ function ConceptDetailContent() {
           </section>
 
           {/* Quick Check Drill */}
-          <section id="quick-checks" className="space-y-4 pt-8 border-t border-paper-border">
+          <section id="quick-checks" className="space-y-4 pt-6 sm:pt-8 border-t border-paper-border">
             <h2 className="text-xs font-mono font-semibold uppercase tracking-wider text-paper-muted">
               Active Recall Drill
             </h2>
@@ -143,12 +172,12 @@ function ConceptDetailContent() {
           </section>
 
           {/* Related Concepts */}
-          <section id="related" className="pt-8 border-t border-paper-border">
+          <section id="related" className="pt-6 sm:pt-8 border-t border-paper-border">
             <RelatedConcepts relatedConceptIds={concept.relatedConceptIds} />
           </section>
         </main>
 
-        {/* Right Sticky Sidebar */}
+        {/* Right Sticky Sidebar (Desktop) */}
         <aside className="hidden lg:block w-[320px] flex-shrink-0 p-6 lg:p-8 bg-paper-surface/40">
           <div className="sticky top-20">
             <ConceptSidebar
@@ -170,7 +199,7 @@ function ConceptDetailContent() {
 
 export default function ConceptDetailPage() {
   return (
-    <Suspense fallback={<div className="p-20 text-center text-paper-muted font-mono">Loading concept...</div>}>
+    <Suspense fallback={<div className="p-20 text-center text-paper-muted font-mono text-xs">Loading concept...</div>}>
       <ConceptDetailContent />
     </Suspense>
   );

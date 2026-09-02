@@ -10,12 +10,12 @@ export function ReadTimeBadge({ seconds, className, ...props }: ReadTimeBadgePro
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium bg-dark-surface border border-dark-border text-dark-muted select-none',
+        'inline-flex items-center gap-1.5 text-xs font-mono font-medium text-paper-muted select-none',
         className
       )}
       {...props}
     >
-      <Clock className="w-3 h-3 text-brand-400" />
+      <Clock className="w-3.5 h-3.5 text-ochre" />
       <span>{formatReadTime(seconds)}</span>
     </span>
   );

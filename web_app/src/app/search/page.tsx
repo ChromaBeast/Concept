@@ -45,32 +45,32 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16 font-sans">
       <div className="space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase font-sans">
+        <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-paper-text font-sans">
           Search Engineering Reference
         </h1>
-        <p className="text-sm text-dark-muted font-mono">
+        <p className="text-xs sm:text-sm text-paper-muted font-mono">
           Instant fulltext lookup across algorithms, distributed systems, OS internals, and interview patterns.
         </p>
       </div>
 
       {/* Main Search Input */}
       <div className="relative">
-        <SearchIcon className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-dark-muted" />
+        <SearchIcon className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-paper-muted" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search by keyword, algorithm, pattern, or tag (e.g., CAP, LRU, TCP, Sharding)..."
-          className="w-full bg-obsidian-card border border-obsidian-border rounded-2xl pl-12 pr-10 py-3.5 text-sm text-white placeholder-dark-muted focus:outline-none focus:border-electric font-mono shadow-sm"
+          placeholder="Search keywords, invariants, trade-offs (e.g., CAP, LRU, TCP, Sharding)..."
+          className="w-full bg-paper-card border border-paper-border rounded-2xl pl-11 pr-10 py-3 text-sm text-paper-text placeholder:text-paper-muted focus:outline-none focus:border-ochre font-mono shadow-sm"
           autoFocus
         />
         {query && (
           <button
             type="button"
             onClick={() => setQuery('')}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-muted hover:text-white p-1"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-paper-muted hover:text-paper-text p-1"
           >
             <X className="w-4 h-4" />
           </button>
@@ -82,14 +82,14 @@ export default function SearchPage() {
         <div className="space-y-8 pt-2 font-mono">
           {recentSearches.length > 0 && (
             <div className="space-y-3">
-              <div className="flex items-center justify-between text-xs font-semibold text-dark-muted uppercase tracking-wider">
+              <div className="flex items-center justify-between text-xs font-semibold text-paper-muted uppercase tracking-wider">
                 <span className="flex items-center gap-1.5">
-                  <History className="w-3.5 h-3.5 text-electric" /> Recent Searches
+                  <History className="w-3.5 h-3.5 text-ochre" /> Recent Searches
                 </span>
                 <button
                   type="button"
                   onClick={handleClearHistory}
-                  className="hover:text-rose-400 flex items-center gap-1 transition-colors"
+                  className="hover:text-rose-500 flex items-center gap-1 transition-colors"
                 >
                   <Trash2 className="w-3 h-3" /> Clear
                 </button>
@@ -101,7 +101,7 @@ export default function SearchPage() {
                     key={term}
                     type="button"
                     onClick={() => setQuery(term)}
-                    className="px-3 py-1.5 rounded-xl bg-obsidian-card hover:bg-obsidian-surface border border-obsidian-border text-xs text-dark-muted hover:text-white transition-colors"
+                    className="px-3 py-1.5 rounded-xl bg-paper-card hover:bg-paper-surface border border-paper-border text-xs text-paper-muted hover:text-paper-text transition-colors shadow-sm"
                   >
                     {term}
                   </button>
@@ -112,8 +112,8 @@ export default function SearchPage() {
 
           {/* Trending Tags */}
           <div className="space-y-3">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-dark-muted uppercase tracking-wider">
-              <TagIcon className="w-3.5 h-3.5 text-electric" /> Trending Topics &amp; Tags
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-paper-muted uppercase tracking-wider">
+              <TagIcon className="w-3.5 h-3.5 text-ochre" /> Trending Topics &amp; Tags
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
@@ -132,20 +132,20 @@ export default function SearchPage() {
       ) : (
         /* Results View */
         <div className="space-y-4 font-mono">
-          <div className="text-xs text-dark-muted">
+          <div className="text-xs text-paper-muted">
             Found <strong>{searchResults.length}</strong> concepts for &ldquo;{debouncedQuery}&rdquo;
           </div>
 
           {searchResults.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {searchResults.map((concept) => (
                 <ConceptCard key={concept.id} concept={concept} />
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 border border-dashed border-obsidian-border rounded-2xl p-8 font-mono">
-              <p className="text-white font-medium mb-1">No concepts matching &ldquo;{debouncedQuery}&rdquo;</p>
-              <p className="text-xs text-dark-muted">
+            <div className="text-center py-16 border border-dashed border-paper-border rounded-2xl p-8 font-mono shadow-sm">
+              <p className="text-paper-text font-medium mb-1">No concepts matching &ldquo;{debouncedQuery}&rdquo;</p>
+              <p className="text-xs text-paper-muted">
                 Try searching for broader terms like &quot;Cache&quot;, &quot;Graph&quot;, or &quot;Distributed&quot;.
               </p>
             </div>
