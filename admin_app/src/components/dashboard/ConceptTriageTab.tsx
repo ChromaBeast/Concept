@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Eye, RefreshCw, Image as ImageIcon } from 'lucide-react';
+import { Eye, RefreshCw, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '../ui/table';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -30,6 +30,9 @@ export function ConceptTriageTab() {
 
   useEffect(() => {
     loadConcepts();
+    // Auto-refresh every 20s to catch newly cron-generated concepts
+    const interval = setInterval(loadConcepts, 20000);
+    return () => clearInterval(interval);
   }, [statusFilter, page]);
 
   const handleUpdateStatus = async (id: string, status: string) => {
@@ -47,22 +50,23 @@ export function ConceptTriageTab() {
       {/* Filter Bar */}
       <div className="flex items-center justify-between p-4 rounded-2xl border border-paper-border bg-paper-card shadow-sm">
         <div className="flex items-center gap-3">
-          <span className="font-bold text-paper-text">Status Filter:</span>
+          <span className="font-bold text-paper-text font-sans">Status Filter:</span>
           <select
             value={statusFilter}
             onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
-            className="h-9 rounded-xl border border-paper-border bg-paper-surface px-3 text-xs text-paper-text"
+            className="h-9 rounded-xl border border-paper-border bg-paper-surface px-3 text-xs text-paper-text font-mono"
           >
             <option value="all">All Concepts ({total})</option>
-            <option value="needs_review">Needs Review</option>
+            <option value="needs_review">Needs Review (Triage Queue)</option>
             <option value="published">Published</option>
             <option value="draft">Draft</option>
           </select>
         </div>
 
         <div className="flex items-center gap-3">
-          <span className="text-[11px] text-paper-muted font-mono hidden sm:inline">
-            Showing {(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, total)} of {total}
+          <span className="flex items-center gap-1.5 text-[11px] text-teal font-mono">
+            <span className="w-2 h-2 rounded-full bg-teal animate-pulse" />
+            <span className="hidden sm:inline">Auto-Sync Live</span>
           </span>
           <Button size="sm" variant="secondary" onClick={loadConcepts} loading={loading}>
             <RefreshCw className="w-3.5 h-3.5" />
@@ -102,11 +106,11 @@ export function ConceptTriageTab() {
                 </TableCell>
                 <TableCell>
                   {c.status === 'published' && <Badge variant="success">Published</Badge>}
-                  {c.status === 'needs_review' && <Badge variant="error">Needs Review</Badge>}
+                  {c.status === 'needs_review' && <Badge variant="accent"><Sparkles className="w-3 h-3 mr-1" /> Needs Review</Badge>}
                   {c.status === 'draft' && <Badge variant="default">Draft</Badge>}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button size="sm" variant="secondary" onClick={() => setSelectedConcept(c)}>
+                  <Button size="sm" variant={c.status === 'needs_review' ? 'primary' : 'secondary'} onClick={() => setSelectedConcept(c)}>
                     <Eye className="w-3.5 h-3.5 mr-1" /> Review
                   </Button>
                 </TableCell>
@@ -115,7 +119,7 @@ export function ConceptTriageTab() {
           ) : (
             <TableRow>
               <TableCell colSpan={6} className="text-center py-8 text-paper-muted">
-                {loading ? 'Loading paginated concepts...' : 'No concepts found.'}
+                {loading ? 'Polling Appwrite Database for new concepts...' : 'No concepts found in this filter.'}
               </TableCell>
             </TableRow>
           )}

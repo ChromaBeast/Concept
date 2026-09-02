@@ -12,7 +12,7 @@
                 "any",
                 "users"
             ],
-            "schedule": "0 2 * * *",
+            "schedule": "* * * * *",
             "timeout": 300,
             "enabled": true,
             "logging": true,

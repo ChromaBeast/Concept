@@ -1,11 +1,10 @@
 const MODEL_CASCADE = [
+  { name: 'gemini-2.5-flash', delayMs: 5000, type: 'flash' },
+  { name: 'gemini-2.0-flash', delayMs: 5000, type: 'flash' },
+  { name: 'gemini-1.5-flash', delayMs: 5000, type: 'flash' },
+  { name: 'gemini-1.5-flash-8b', delayMs: 3000, type: 'lite' },
   { name: 'gemini-3.7-flash', delayMs: 12500, type: 'flash' },
   { name: 'gemini-3.6-flash', delayMs: 12500, type: 'flash' },
-  { name: 'gemini-3.5-flash', delayMs: 12500, type: 'flash' },
-  { name: 'gemini-3.5-flash-lite', delayMs: 4200, type: 'lite' },
-  { name: 'gemini-3.1-flash-lite', delayMs: 4200, type: 'lite' },
-  { name: 'gemini-2.0-flash', delayMs: 12500, type: 'flash' },
-  { name: 'gemini-1.5-flash', delayMs: 12500, type: 'flash' },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -21,6 +20,8 @@ export async function callGeminiCascade(prompt, apiKey) {
     const { name, delayMs } = model;
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${name}:generateContent?key=${apiKey}`;
 
+    console.log(`      • Attempting model: ${name}...`);
+
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -35,18 +36,19 @@ export async function callGeminiCascade(prompt, apiKey) {
       });
 
       if (response.status === 429) {
-        console.warn(`⏳ Rate limit hit on ${name}. Waiting ${delayMs / 1000}s...`);
+        console.warn(`      ⏳ Rate limit (429) on ${name}. Waiting ${delayMs / 1000}s...`);
         await sleep(delayMs);
         continue;
       }
 
       if (response.status === 404) {
-        // Model not available in this region/key, fall through to next
+        console.log(`      ↪ Model ${name} not available in this region (404), trying next...`);
         continue;
       }
 
       if (!response.ok) {
         const errText = await response.text();
+        console.warn(`      ⚠️ HTTP ${response.status} on ${name}: ${errText.slice(0, 100)}`);
         lastError = new Error(`HTTP ${response.status} on ${name}: ${errText}`);
         continue;
       }
@@ -58,10 +60,10 @@ export async function callGeminiCascade(prompt, apiKey) {
       const cleaned = cleanJSON(rawText);
       const parsed = JSON.parse(cleaned);
 
-      // Pacing delay before next request to respect RPM
-      await sleep(delayMs);
+      console.log(`      ✅ Successfully generated with ${name}!`);
       return { concept: parsed, modelUsed: name };
     } catch (err) {
+      console.warn(`      ⚠️ ${name} error: ${err.message}`);
       lastError = err;
     }
   }
