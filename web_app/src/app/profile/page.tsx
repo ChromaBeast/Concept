@@ -47,7 +47,7 @@ export default function ProfilePage() {
   const totalMinutes = Math.ceil(totalReadSeconds / 60);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16">
       {/* Account Info Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl border border-obsidian-border bg-obsidian-card">
         <div className="flex items-center gap-4">

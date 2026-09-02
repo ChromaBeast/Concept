@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { ShieldCheck, Image as ImageIcon, Copy, Check, AlertCircle, Sparkles, Upload, CheckCircle2 } from 'lucide-react';
 import { allSeedConcepts } from '@/lib/seed';
 import { storage } from '@/lib/storage';
-import { Concept } from '@/lib/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 
@@ -21,10 +20,6 @@ export default function AdminPage() {
 
   const imageQueueConcepts = allSeedConcepts.filter(
     (c) => c.visualAid && !c.heroImageUrl && !customImages[c.id]
-  );
-
-  const completedImageConcepts = allSeedConcepts.filter(
-    (c) => c.visualAid && (c.heroImageUrl || customImages[c.id])
   );
 
   const needsReviewConcepts = allSeedConcepts.filter(
@@ -52,30 +47,30 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16 font-mono">
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <span className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/30">
+          <span className="p-1.5 rounded-lg bg-electric/10 text-electric border border-electric/30">
             <ShieldCheck className="w-4 h-4" />
           </span>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-dark-text">
-            Admin Pipeline & Fallback Review
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans uppercase">
+            Admin Pipeline Review
           </h1>
         </div>
-        <p className="text-sm text-dark-muted">
-          Manual Google Flow Image Queue and automated self-check triage fallback.
+        <p className="text-xs text-dark-muted">
+          Manual Image Queue and automated self-check triage fallback.
         </p>
       </div>
 
       {/* Tab Switcher */}
-      <div className="flex items-center gap-2 border-b border-dark-border pb-2">
+      <div className="flex items-center gap-2 border-b border-obsidian-border pb-2 text-xs">
         <button
           type="button"
           onClick={() => setActiveTab('imageQueue')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-colors ${
             activeTab === 'imageQueue'
-              ? 'bg-brand-500/15 text-brand-400 border border-brand-500/40'
-              : 'text-dark-muted hover:text-dark-text hover:bg-dark-surface'
+              ? 'bg-electric text-obsidian-bg'
+              : 'text-dark-muted hover:text-white hover:bg-obsidian-card'
           }`}
         >
           <ImageIcon className="w-4 h-4" />
@@ -85,10 +80,10 @@ export default function AdminPage() {
         <button
           type="button"
           onClick={() => setActiveTab('needsReview')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-colors ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-colors ${
             activeTab === 'needsReview'
-              ? 'bg-amber-500/15 text-amber-400 border border-amber-500/40'
-              : 'text-dark-muted hover:text-dark-text hover:bg-dark-surface'
+              ? 'bg-electric text-obsidian-bg'
+              : 'text-dark-muted hover:text-white hover:bg-obsidian-card'
           }`}
         >
           <AlertCircle className="w-4 h-4" />
@@ -99,36 +94,36 @@ export default function AdminPage() {
       {/* Tab 1: Image Queue */}
       {activeTab === 'imageQueue' && (
         <div className="space-y-6">
-          <div className="p-4 rounded-xl border border-brand-500/30 bg-brand-500/5 text-xs text-dark-muted space-y-1">
-            <div className="font-semibold text-brand-400 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5" /> Google Flow Image Workflow:
+          <div className="p-4 rounded-xl border border-electric/30 bg-electric/5 text-xs text-dark-muted space-y-1">
+            <div className="font-semibold text-electric flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5" /> Workflow:
             </div>
-            <p>1. Copy prompt &rarr; 2. Generate in Google Flow with credits &rarr; 3. Paste image URL below.</p>
+            <p>1. Copy prompt &rarr; 2. Generate vector infographic &rarr; 3. Attach image URL below.</p>
           </div>
 
           {imageQueueConcepts.length > 0 ? (
             <div className="space-y-4">
               {imageQueueConcepts.map((concept) => (
-                <div key={concept.id} className="p-5 rounded-xl border border-dark-border bg-dark-card space-y-4">
+                <div key={concept.id} className="p-5 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-4">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="text-base font-semibold text-dark-text">{concept.title}</h3>
+                    <h3 className="text-base font-semibold text-white font-sans">{concept.title}</h3>
                     <Badge variant="accent">Pending Hero Image</Badge>
                   </div>
 
-                  <div className="p-3.5 rounded-lg bg-dark-surface border border-dark-border space-y-2">
-                    <div className="text-[11px] text-dark-muted uppercase font-mono tracking-wider">
+                  <div className="p-3.5 rounded-xl bg-obsidian-surface border border-obsidian-border space-y-2">
+                    <div className="text-[11px] text-dark-muted uppercase tracking-wider">
                       Generated Prompt Brief:
                     </div>
-                    <p className="text-xs text-dark-text italic leading-relaxed font-mono">
+                    <p className="text-xs text-dark-text italic leading-relaxed">
                       &ldquo;{concept.imagePrompt}&rdquo;
                     </p>
                     <button
                       type="button"
                       onClick={() => handleCopyPrompt(concept.id, concept.imagePrompt)}
-                      className="inline-flex items-center gap-1.5 text-xs text-brand-400 hover:text-brand-300 font-medium pt-1"
+                      className="inline-flex items-center gap-1.5 text-xs text-electric hover:underline font-bold pt-1"
                     >
                       {copiedId === concept.id ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copiedId === concept.id ? 'Copied Prompt with Style Prefix!' : 'Copy Formatted Prompt'}</span>
+                      <span>{copiedId === concept.id ? 'Copied Prompt!' : 'Copy Formatted Prompt'}</span>
                     </button>
                   </div>
 
@@ -138,7 +133,7 @@ export default function AdminPage() {
                       placeholder="Paste uploaded image URL (e.g., https://...)..."
                       value={inputUrls[concept.id] || ''}
                       onChange={(e) => setInputUrls({ ...inputUrls, [concept.id]: e.target.value })}
-                      className="flex-1 bg-dark-surface border border-dark-border rounded-lg px-3 py-2 text-xs text-dark-text placeholder-dark-muted focus:outline-none focus:border-brand-500"
+                      className="flex-1 bg-obsidian-surface border border-obsidian-border rounded-xl px-3 py-2 text-xs text-white placeholder-dark-muted focus:outline-none focus:border-electric"
                     />
                     <Button size="sm" onClick={() => handleSaveImageUrl(concept.id)}>
                       <Upload className="w-3.5 h-3.5 mr-1" /> Attach URL
@@ -148,7 +143,7 @@ export default function AdminPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 border border-dashed border-dark-border rounded-xl text-dark-muted text-xs">
+            <div className="text-center py-12 border border-dashed border-obsidian-border rounded-2xl text-dark-muted text-xs">
               All visual aid concepts have hero images attached!
             </div>
           )}
@@ -160,9 +155,9 @@ export default function AdminPage() {
         <div className="space-y-4">
           {needsReviewConcepts.length > 0 ? (
             needsReviewConcepts.map((concept) => (
-              <div key={concept.id} className="p-5 rounded-xl border border-rose-500/30 bg-dark-card space-y-4">
+              <div key={concept.id} className="p-5 rounded-2xl border border-rose-500/30 bg-obsidian-card space-y-4">
                 <div className="flex items-center justify-between gap-2">
-                  <h3 className="text-base font-semibold text-dark-text">{concept.title}</h3>
+                  <h3 className="text-base font-semibold text-white font-sans">{concept.title}</h3>
                   <Badge variant="error">Self-Check Flagged</Badge>
                 </div>
 
@@ -177,13 +172,13 @@ export default function AdminPage() {
 
                 <div className="flex items-center gap-3 pt-2">
                   <Button size="sm" onClick={() => handleApproveReview(concept.id)}>
-                    <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-400" /> Override & Publish
+                    <CheckCircle2 className="w-3.5 h-3.5 mr-1 text-emerald-400" /> Override &amp; Publish
                   </Button>
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-center py-12 border border-dashed border-dark-border rounded-xl text-dark-muted text-xs">
+            <div className="text-center py-12 border border-dashed border-obsidian-border rounded-2xl text-dark-muted text-xs">
               No concepts currently waiting for review! The automated pipeline is 100% clean.
             </div>
           )}

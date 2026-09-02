@@ -26,46 +26,54 @@ export function ConceptHeaderEditorial({
   const diffMeta = DIFFICULTY_META[difficulty];
 
   return (
-    <div className="relative border-b border-obsidian-border bg-obsidian-surface/30 -mx-4 sm:-mx-6 lg:-mx-8 -mt-6 mb-8 overflow-hidden">
-      {/* MagicUI Flickering Grid Background with Gradient Mask */}
-      <div className="absolute top-0 left-0 z-0 w-full h-full [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)] pointer-events-none opacity-40">
-        <FlickeringGrid squareSize={4} gridGap={6} color="#E2FB3C" maxOpacity={0.25} flickerChance={0.05} />
+    <header className="relative border-b border-obsidian-border bg-obsidian-bg">
+      {/* MagicUI Flickering Grid Overlay */}
+      <div className="absolute top-0 left-0 z-0 w-full h-[220px] [mask-image:linear-gradient(to_top,transparent_20%,black_95%)] pointer-events-none opacity-30">
+        <FlickeringGrid squareSize={4} gridGap={6} color="#94A3B8" maxOpacity={0.2} flickerChance={0.04} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 relative z-10 space-y-4">
-        <div className="flex items-center gap-3 flex-wrap">
+      <div className="max-w-7xl mx-auto flex flex-col gap-6 p-6 sm:p-10 relative z-10">
+        {/* Navigation & Metadata Tag Row */}
+        <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-dark-muted">
           <Link
             href="/browse"
-            className="w-8 h-8 rounded-xl border border-obsidian-border bg-obsidian-card hover:bg-obsidian-variant flex items-center justify-center text-dark-muted hover:text-dark-text transition-colors"
+            className="h-7 w-7 rounded-lg border border-obsidian-border bg-obsidian-card flex items-center justify-center hover:bg-obsidian-variant text-dark-muted hover:text-white transition-colors"
+            title="Back to all concepts"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3.5 h-3.5" />
           </Link>
 
           <span
-            className="text-xs font-mono font-bold px-3 py-1 rounded-lg uppercase tracking-wider"
-            style={{ backgroundColor: `${catMeta?.color}20`, color: catMeta?.color, border: `1px solid ${catMeta?.color}40` }}
+            className="h-7 px-3 text-xs font-semibold rounded-md border flex items-center justify-center uppercase tracking-wider"
+            style={{
+              backgroundColor: `${catMeta?.color}15`,
+              color: catMeta?.color,
+              borderColor: `${catMeta?.color}40`,
+            }}
           >
             {catMeta?.label || category}
           </span>
 
-          <span className="text-xs font-mono px-2.5 py-1 rounded-lg bg-obsidian-card border border-obsidian-border text-dark-muted">
+          <span className="h-7 px-3 text-xs font-mono rounded-md border border-obsidian-border bg-obsidian-card text-dark-muted flex items-center justify-center">
             {diffMeta?.label || difficulty}
           </span>
 
-          <div className="flex items-center gap-1.5 text-xs font-mono text-electric font-bold ml-auto">
+          <span className="h-7 px-3 text-xs font-mono text-electric bg-electric/10 rounded-md border border-electric/30 flex items-center justify-center gap-1.5 ml-auto">
             <Clock className="w-3.5 h-3.5" />
             <span>~{estimatedReadSeconds}s read</span>
-          </div>
+          </span>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white leading-none">
+        {/* Title */}
+        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-medium tracking-tight text-white leading-tight text-balance font-sans">
           {title}
         </h1>
 
-        <p className="text-sm sm:text-base text-dark-muted max-w-4xl leading-relaxed">
+        {/* Subtitle */}
+        <p className="text-dark-muted text-base sm:text-lg font-normal max-w-4xl text-balance leading-relaxed">
           {oneLiner}
         </p>
       </div>
-    </div>
+    </header>
   );
 }

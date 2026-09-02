@@ -40,18 +40,18 @@ export default function BookmarksPage() {
   }, [bookmarkedIds]);
 
   return (
-    <div className="space-y-8 pb-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16">
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <span className="p-1.5 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/30">
+          <span className="p-1.5 rounded-lg bg-electric/10 text-electric border border-electric/30">
             <Bookmark className="w-4 h-4 fill-current" />
           </span>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-dark-text">
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase font-sans">
             Saved Bookmarks
           </h1>
         </div>
-        <p className="text-sm text-dark-muted">
-          Your personal library of saved concepts for fast pre-interview review.
+        <p className="text-sm text-dark-muted font-mono">
+          Your personal reference library of saved concepts for fast pre-interview review.
         </p>
       </div>
 
@@ -83,19 +83,19 @@ export default function BookmarksPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 border border-dashed border-dark-border rounded-2xl p-8 max-w-md mx-auto space-y-4">
-          <div className="w-12 h-12 rounded-xl bg-dark-surface border border-dark-border flex items-center justify-center mx-auto text-dark-muted">
+        <div className="text-center py-20 border border-dashed border-obsidian-border rounded-2xl p-8 max-w-md mx-auto space-y-4 font-mono">
+          <div className="w-12 h-12 rounded-xl bg-obsidian-card border border-obsidian-border flex items-center justify-center mx-auto text-dark-muted">
             <Bookmark className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-base font-semibold text-dark-text mb-1">No bookmarks saved yet</h3>
+            <h3 className="text-base font-semibold text-white mb-1">No bookmarks saved yet</h3>
             <p className="text-xs text-dark-muted leading-relaxed">
               Click the bookmark icon on any concept card while browsing to save it here for fast recall.
             </p>
           </div>
           <Link
             href="/browse"
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-xs font-semibold shadow-md transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-electric hover:bg-electric-400 text-obsidian-bg text-xs font-extrabold uppercase tracking-wider transition-colors"
           >
             <Compass className="w-4 h-4" /> Browse Concepts
           </Link>

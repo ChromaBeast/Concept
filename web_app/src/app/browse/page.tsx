@@ -52,9 +52,9 @@ function BrowseContent() {
   }, [concepts, selectedDomain, activeDomain, selectedCategory, selectedDifficulty, query]);
 
   return (
-    <div className="space-y-6 pb-12">
-      <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase font-display">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <div className="space-y-1.5">
+        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase font-sans">
           Concept Catalog
         </h1>
         <p className="text-xs sm:text-sm text-dark-muted font-mono">

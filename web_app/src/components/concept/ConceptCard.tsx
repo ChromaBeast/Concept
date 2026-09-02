@@ -6,9 +6,7 @@ import { Bookmark, CheckCircle2 } from 'lucide-react';
 import { Concept } from '@/lib/types';
 import { CATEGORY_META, DIFFICULTY_META } from '@/lib/constants';
 import { storage } from '@/lib/storage';
-import { Card } from '../ui/Card';
 import { ReadTimeBadge } from '../ui/ReadTimeBadge';
-import { Badge } from '../ui/Badge';
 
 export interface ConceptCardProps {
   concept: Concept;
@@ -40,17 +38,24 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
   };
 
   return (
-    <Link href={`/concepts/${concept.slug}`} className="block group">
-      <Card
-        accentColor={catMeta.color}
-        hoverable
-        className={`h-full flex flex-col justify-between ${className || ''}`}
+    <Link href={`/concepts/${concept.slug}`} className="block group h-full">
+      <div
+        className={`h-full flex flex-col justify-between p-5 rounded-2xl border border-obsidian-border bg-obsidian-card hover:border-electric/50 transition-all duration-150 ${className || ''}`}
       >
         <div>
           <div className="flex items-center justify-between gap-2 mb-3">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <Badge colorHex={catMeta.color}>{catMeta.label}</Badge>
-              <span className={`text-[11px] font-medium px-2 py-0.5 rounded border ${diffMeta.badgeClass}`}>
+            <div className="flex items-center gap-1.5 flex-wrap font-mono text-xs">
+              <span
+                className="px-2 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider"
+                style={{
+                  backgroundColor: `${catMeta.color}15`,
+                  color: catMeta.color,
+                  border: `1px solid ${catMeta.color}35`,
+                }}
+              >
+                {catMeta.label}
+              </span>
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-obsidian-border bg-obsidian-surface text-dark-muted">
                 {diffMeta.label}
               </span>
               {learned && (
@@ -65,37 +70,37 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
               onClick={handleBookmarkToggle}
               className={`p-1.5 rounded-lg border transition-colors ${
                 bookmarked
-                  ? 'bg-brand-500/20 text-brand-400 border-brand-500/40'
-                  : 'text-dark-muted hover:text-dark-text border-transparent hover:border-dark-border hover:bg-dark-surface'
+                  ? 'bg-rose-500/20 text-rose-400 border-rose-500/40'
+                  : 'text-dark-muted hover:text-white border-transparent hover:border-obsidian-border hover:bg-obsidian-surface'
               }`}
               title={bookmarked ? 'Remove bookmark' : 'Bookmark concept'}
             >
-              <Bookmark className={`w-4 h-4 ${bookmarked ? 'fill-current' : ''}`} />
+              <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
             </button>
           </div>
 
-          <h3 className="text-base font-semibold text-dark-text group-hover:text-brand-400 transition-colors mb-1.5 line-clamp-1">
+          <h3 className="text-base font-bold text-white group-hover:text-electric transition-colors mb-1.5 line-clamp-1 font-sans">
             {concept.title}
           </h3>
 
-          <p className="text-xs text-dark-muted leading-relaxed line-clamp-2 mb-4">
+          <p className="text-xs text-dark-muted leading-relaxed line-clamp-2 mb-4 font-sans">
             {concept.oneLiner}
           </p>
         </div>
 
-        <div className="pt-3 border-t border-dark-border/50 flex items-center justify-between text-xs text-dark-muted">
+        <div className="pt-3 border-t border-obsidian-border flex items-center justify-between text-xs text-dark-muted font-mono">
           <ReadTimeBadge seconds={concept.estimatedReadSeconds} />
 
           {concept.askedByCompanies && concept.askedByCompanies.length > 0 && (
             <div className="flex items-center gap-1 overflow-hidden">
-              <span className="text-[10px] text-dark-sub">Asked at:</span>
+              <span className="text-[10px] text-dark-sub">Interviews:</span>
               <span className="text-[11px] text-dark-muted font-medium truncate max-w-[120px]">
                 {concept.askedByCompanies.slice(0, 2).join(', ')}
               </span>
             </div>
           )}
         </div>
-      </Card>
+      </div>
     </Link>
   );
 }

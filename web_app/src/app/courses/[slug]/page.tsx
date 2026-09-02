@@ -49,7 +49,7 @@ export default function CourseDetailPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto pb-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 pb-16">
       <Breadcrumbs
         items={[
           { label: 'Courses', href: '/courses' },
@@ -57,20 +57,20 @@ export default function CourseDetailPage() {
         ]}
       />
 
-      <div className="p-6 sm:p-8 rounded-2xl border border-dark-border bg-dark-card space-y-6">
-        <div className="flex items-center gap-2 flex-wrap">
+      <div className="p-6 sm:p-8 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-6">
+        <div className="flex items-center gap-2 flex-wrap font-mono text-xs">
           <Badge colorHex={catMeta.color}>{catMeta.label}</Badge>
-          <span className={`text-[11px] font-medium px-2 py-0.5 rounded border ${diffMeta.badgeClass}`}>
+          <span className={`px-2 py-0.5 rounded border ${diffMeta.badgeClass}`}>
             {diffMeta.label}
           </span>
-          <span className="flex items-center gap-1 text-xs text-dark-muted font-mono">
-            <Clock className="w-3.5 h-3.5 text-dark-sub" />
+          <span className="flex items-center gap-1 text-dark-muted">
+            <Clock className="w-3.5 h-3.5 text-electric" />
             {formatMinutesTotal(course.totalReadSeconds)} total read time
           </span>
         </div>
 
         <div className="space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-dark-text">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans">
             {course.title}
           </h1>
           <p className="text-sm sm:text-base text-dark-muted leading-relaxed">
@@ -78,13 +78,13 @@ export default function CourseDetailPage() {
           </p>
         </div>
 
-        <div className="p-4 rounded-xl bg-dark-surface border border-dark-border space-y-3">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-dark-text flex items-center gap-1.5">
-              <Layers className="w-3.5 h-3.5 text-brand-400" />
-              Course Progress
+        <div className="p-4 rounded-xl bg-obsidian-surface border border-obsidian-border space-y-3 font-mono text-xs">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-white flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-electric" />
+              Track Progress
             </span>
-            <span className="text-dark-muted font-mono">
+            <span className="text-dark-muted">
               {progress.completed} of {progress.total} completed ({progress.percentage}%)
             </span>
           </div>
@@ -93,14 +93,14 @@ export default function CourseDetailPage() {
 
         {firstUnlearned && (
           <div className="flex items-center justify-between gap-4 pt-2">
-            <div className="text-xs text-dark-muted truncate">
+            <div className="text-xs text-dark-muted truncate font-mono">
               {progress.isCompleted ? (
                 <span className="text-emerald-400 font-medium flex items-center gap-1">
                   <CheckCircle2 className="w-4 h-4" /> You have completed this entire playlist!
                 </span>
               ) : (
                 <span>
-                  Next up: <strong className="text-dark-text">{firstUnlearned.title}</strong>
+                  Next up: <strong className="text-white">{firstUnlearned.title}</strong>
                 </span>
               )}
             </div>
@@ -116,9 +116,9 @@ export default function CourseDetailPage() {
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-base font-bold text-dark-text flex items-center gap-2">
+        <h2 className="text-base font-bold text-white flex items-center gap-2 font-mono">
           <span>Curated Concept Sequence</span>
-          <span className="text-xs text-dark-muted font-mono font-normal">
+          <span className="text-xs text-dark-muted font-normal">
             ({concepts.length} items)
           </span>
         </h2>

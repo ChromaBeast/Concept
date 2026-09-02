@@ -45,12 +45,12 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto pb-16">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-16">
       <div className="space-y-2">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-dark-text">
+        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase font-sans">
           Search Engineering Reference
         </h1>
-        <p className="text-sm text-dark-muted">
+        <p className="text-sm text-dark-muted font-mono">
           Instant fulltext lookup across algorithms, distributed systems, OS internals, and interview patterns.
         </p>
       </div>
@@ -63,14 +63,14 @@ export default function SearchPage() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search by keyword, algorithm, pattern, or tag (e.g., CAP, LRU, TCP, Sharding)..."
-          className="w-full bg-dark-card border border-dark-border rounded-xl pl-12 pr-10 py-3.5 text-sm text-dark-text placeholder-dark-muted focus:outline-none focus:border-brand-500 shadow-sm"
+          className="w-full bg-obsidian-card border border-obsidian-border rounded-2xl pl-12 pr-10 py-3.5 text-sm text-white placeholder-dark-muted focus:outline-none focus:border-electric font-mono shadow-sm"
           autoFocus
         />
         {query && (
           <button
             type="button"
             onClick={() => setQuery('')}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-muted hover:text-dark-text p-1"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-dark-muted hover:text-white p-1"
           >
             <X className="w-4 h-4" />
           </button>
@@ -79,17 +79,17 @@ export default function SearchPage() {
 
       {/* When query is empty: Recent Searches & Trending Tags */}
       {!debouncedQuery.trim() ? (
-        <div className="space-y-8 pt-2">
+        <div className="space-y-8 pt-2 font-mono">
           {recentSearches.length > 0 && (
             <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-dark-muted uppercase tracking-wider">
-                  <History className="w-3.5 h-3.5" /> Recent Searches
-                </div>
+              <div className="flex items-center justify-between text-xs font-semibold text-dark-muted uppercase tracking-wider">
+                <span className="flex items-center gap-1.5">
+                  <History className="w-3.5 h-3.5 text-electric" /> Recent Searches
+                </span>
                 <button
                   type="button"
                   onClick={handleClearHistory}
-                  className="text-xs text-dark-muted hover:text-rose-400 flex items-center gap-1 transition-colors"
+                  className="hover:text-rose-400 flex items-center gap-1 transition-colors"
                 >
                   <Trash2 className="w-3 h-3" /> Clear
                 </button>
@@ -101,7 +101,7 @@ export default function SearchPage() {
                     key={term}
                     type="button"
                     onClick={() => setQuery(term)}
-                    className="px-3 py-1.5 rounded-lg bg-dark-card hover:bg-dark-surface border border-dark-border text-xs text-dark-muted hover:text-dark-text transition-colors"
+                    className="px-3 py-1.5 rounded-xl bg-obsidian-card hover:bg-obsidian-surface border border-obsidian-border text-xs text-dark-muted hover:text-white transition-colors"
                   >
                     {term}
                   </button>
@@ -113,7 +113,7 @@ export default function SearchPage() {
           {/* Trending Tags */}
           <div className="space-y-3">
             <div className="flex items-center gap-1.5 text-xs font-semibold text-dark-muted uppercase tracking-wider">
-              <TagIcon className="w-3.5 h-3.5 text-brand-400" /> Trending Topics & Tags
+              <TagIcon className="w-3.5 h-3.5 text-electric" /> Trending Topics &amp; Tags
             </div>
 
             <div className="flex items-center gap-2 flex-wrap">
@@ -131,7 +131,7 @@ export default function SearchPage() {
         </div>
       ) : (
         /* Results View */
-        <div className="space-y-4">
+        <div className="space-y-4 font-mono">
           <div className="text-xs text-dark-muted">
             Found <strong>{searchResults.length}</strong> concepts for &ldquo;{debouncedQuery}&rdquo;
           </div>
@@ -143,8 +143,8 @@ export default function SearchPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center py-16 border border-dashed border-dark-border rounded-2xl p-8">
-              <p className="text-dark-text font-medium mb-1">No concepts matching &ldquo;{debouncedQuery}&rdquo;</p>
+            <div className="text-center py-16 border border-dashed border-obsidian-border rounded-2xl p-8 font-mono">
+              <p className="text-white font-medium mb-1">No concepts matching &ldquo;{debouncedQuery}&rdquo;</p>
               <p className="text-xs text-dark-muted">
                 Try searching for broader terms like &quot;Cache&quot;, &quot;Graph&quot;, or &quot;Distributed&quot;.
               </p>
