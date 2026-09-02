@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, AlertCircle, Eye, RefreshCw, FileText } from 'lucide-react';
+import { Eye, RefreshCw, Image as ImageIcon } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '../ui/table';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
 import { adminApi } from '@/lib/adminApi';
-import { Concept, ConceptBody } from '@/lib/types';
+import { Concept } from '@/lib/types';
+import { ConceptReviewDrawer } from './concepts/ConceptReviewDrawer';
 
 export function ConceptTriageTab() {
   const [concepts, setConcepts] = useState<Concept[]>([]);
@@ -33,8 +33,6 @@ export function ConceptTriageTab() {
     }
     loadConcepts();
   };
-
-  const bodyObj = (selectedConcept?.body || {}) as ConceptBody;
 
   return (
     <div className="space-y-4 font-mono text-xs">
@@ -66,6 +64,7 @@ export function ConceptTriageTab() {
             <TableHead>Concept Title</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Read Time</TableHead>
+            <TableHead>Visual</TableHead>
             <TableHead>Status</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
@@ -76,10 +75,18 @@ export function ConceptTriageTab() {
               <TableRow key={c.$id}>
                 <TableCell>
                   <div className="font-bold text-paper-text font-sans">{c.title}</div>
-                  <div className="text-[11px] text-paper-muted truncate max-w-md">{c.oneLiner}</div>
+                  <div className="text-[11px] text-paper-muted truncate max-w-xs sm:max-w-md">{c.oneLiner}</div>
                 </TableCell>
                 <TableCell><Badge variant="outline">{c.category}</Badge></TableCell>
                 <TableCell>~{c.estimatedReadSeconds}s</TableCell>
+                <TableCell>
+                  {c.visualAid && (
+                    <Badge variant={c.heroImageUrl ? 'success' : 'warning'}>
+                      <ImageIcon className="w-3 h-3 mr-1" />
+                      {c.heroImageUrl ? 'Ready' : 'Queue'}
+                    </Badge>
+                  )}
+                </TableCell>
                 <TableCell>
                   {c.status === 'published' && <Badge variant="success">Published</Badge>}
                   {c.status === 'needs_review' && <Badge variant="error">Needs Review</Badge>}
@@ -94,7 +101,7 @@ export function ConceptTriageTab() {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={5} className="text-center py-8 text-paper-muted">
+              <TableCell colSpan={6} className="text-center py-8 text-paper-muted">
                 {loading ? 'Loading concepts from Appwrite DB...' : 'No concepts found.'}
               </TableCell>
             </TableRow>
@@ -102,71 +109,12 @@ export function ConceptTriageTab() {
         </TableBody>
       </Table>
 
-      {/* Review & Approve Modal */}
-      {selectedConcept && (
-        <Dialog open={Boolean(selectedConcept)} onOpenChange={(open) => !open && setSelectedConcept(null)}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <div className="flex items-center gap-2">
-                <Badge variant={selectedConcept.status === 'published' ? 'success' : 'error'}>
-                  {selectedConcept.status}
-                </Badge>
-                <Badge variant="outline">{selectedConcept.category}</Badge>
-              </div>
-              <DialogTitle className="text-xl pt-1">{selectedConcept.title}</DialogTitle>
-              <DialogDescription>{selectedConcept.oneLiner}</DialogDescription>
-            </DialogHeader>
-
-            <div className="space-y-4 pt-2 font-sans text-xs">
-              <div className="p-3 rounded-xl bg-paper-surface border border-paper-border space-y-1">
-                <div className="font-bold text-paper-text uppercase font-mono text-[10px]">Definition (≤40 words)</div>
-                <p className="text-paper-muted leading-relaxed">{bodyObj.definition}</p>
-              </div>
-
-              <div className="p-3 rounded-xl bg-paper-surface border border-paper-border space-y-1">
-                <div className="font-bold text-paper-text uppercase font-mono text-[10px]">Why It Matters (≤60 words)</div>
-                <p className="text-paper-muted leading-relaxed">{bodyObj.whyItMatters}</p>
-              </div>
-
-              {bodyObj.example && (
-                <div className="p-3 rounded-xl bg-paper-surface border border-paper-border space-y-1 font-mono">
-                  <div className="font-bold text-ochre text-[10px]">// Code Example / Scenario</div>
-                  <pre className="text-[11px] overflow-x-auto text-paper-text">{bodyObj.example}</pre>
-                </div>
-              )}
-
-              {selectedConcept.needsReviewReasons && selectedConcept.needsReviewReasons.length > 0 && (
-                <div className="p-3 rounded-xl bg-rose-500/10 border border-rose-500/25 text-rose-600 dark:text-rose-400 font-mono">
-                  <div className="font-bold mb-1">Flagged Self-Check Reasons:</div>
-                  <ul className="list-disc list-inside">
-                    {selectedConcept.needsReviewReasons.map((r, i) => (
-                      <li key={i}>{r}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* Status Action Buttons */}
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-paper-border font-mono">
-                <Button
-                  size="sm"
-                  variant="success"
-                  onClick={() => handleUpdateStatus(selectedConcept.$id, 'published')}
-                >
-                  <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Approve &amp; Publish
-                </Button>
-                <Button
-                  size="sm"
-                  variant="danger"
-                  onClick={() => handleUpdateStatus(selectedConcept.$id, 'needs_review')}
-                >
-                  <AlertCircle className="w-3.5 h-3.5 mr-1" /> Flag for Review
-                </Button>
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
+      {/* Slide-over Review Drawer */}
+      <ConceptReviewDrawer
+        concept={selectedConcept}
+        onClose={() => setSelectedConcept(null)}
+        onUpdateStatus={handleUpdateStatus}
+      />
     </div>
   );
 }

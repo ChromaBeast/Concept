@@ -1,19 +1,22 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, ListTree, FileCheck, Image as ImageIcon, Layers } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { StatsCards } from '@/components/dashboard/StatsCards';
+import { AuthGuard } from '@/components/auth/AuthGuard';
+import { DashboardSidebar } from '@/components/layout/DashboardSidebar';
+import { DashboardHeader } from '@/components/layout/DashboardHeader';
+import { CommandMenuDialog } from '@/components/layout/CommandMenuDialog';
+import { DashboardOverviewView } from '@/components/dashboard/overview/DashboardOverviewView';
 import { PipelineRunnerCard } from '@/components/dashboard/PipelineRunnerCard';
 import { RoadmapManagerTab } from '@/components/dashboard/RoadmapManagerTab';
 import { ConceptTriageTab } from '@/components/dashboard/ConceptTriageTab';
 import { ImageStudioTab } from '@/components/dashboard/ImageStudioTab';
 import { CoursesTab } from '@/components/dashboard/CoursesTab';
-import { AuthGuard } from '@/components/auth/AuthGuard';
 import { adminApi } from '@/lib/adminApi';
 
 export default function AdminDashboardPage() {
+  const [currentTab, setCurrentTab] = useState('overview');
   const [stats, setStats] = useState({ totalConcepts: 18, totalRoadmap: 155, totalCourses: 3 });
+  const [commandOpen, setCommandOpen] = useState(false);
 
   const loadStats = async () => {
     const s = await adminApi.getStats();
@@ -24,62 +27,70 @@ export default function AdminDashboardPage() {
     loadStats();
   }, []);
 
+  // Global Cmd+K keyboard shortcut listener
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setCommandOpen((prev) => !prev);
+      }
+    };
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
+
   return (
     <AuthGuard>
-      <div className="space-y-8 font-sans pb-16">
-        {/* Top Metric Strip */}
-        <StatsCards stats={stats} />
+      <div className="flex min-h-[calc(100vh-4rem)] -m-4 sm:-m-6 lg:-m-8">
+        {/* Collapsible Modern Sidebar */}
+        <DashboardSidebar
+          currentTab={currentTab}
+          onSelectTab={setCurrentTab}
+          stats={stats}
+        />
 
-        {/* Main Tabs Navigation */}
-        <Tabs defaultValue="pipeline" className="space-y-6">
-          <TabsList className="grid grid-cols-2 sm:grid-cols-5 w-full h-auto p-1.5 gap-1">
-            <TabsTrigger value="pipeline" className="flex items-center gap-1.5 py-2">
-              <Sparkles className="w-3.5 h-3.5 text-ochre" />
-              <span>AI Pipeline</span>
-            </TabsTrigger>
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col min-w-0 bg-paper-bg">
+          <DashboardHeader
+            currentTab={currentTab}
+            onOpenCommand={() => setCommandOpen(true)}
+            onSelectTab={setCurrentTab}
+          />
 
-            <TabsTrigger value="roadmap" className="flex items-center gap-1.5 py-2">
-              <ListTree className="w-3.5 h-3.5 text-ochre" />
-              <span>Roadmap ({stats.totalRoadmap})</span>
-            </TabsTrigger>
+          <div className="p-4 sm:p-6 lg:p-8 space-y-6 flex-1 max-w-7xl w-full mx-auto">
+            {currentTab === 'overview' && (
+              <DashboardOverviewView stats={stats} onNavigate={setCurrentTab} />
+            )}
 
-            <TabsTrigger value="triage" className="flex items-center gap-1.5 py-2">
-              <FileCheck className="w-3.5 h-3.5 text-ochre" />
-              <span>Review &amp; Triage</span>
-            </TabsTrigger>
+            {currentTab === 'pipeline' && (
+              <PipelineRunnerCard onRefresh={loadStats} />
+            )}
 
-            <TabsTrigger value="images" className="flex items-center gap-1.5 py-2">
-              <ImageIcon className="w-3.5 h-3.5 text-ochre" />
-              <span>Image Studio</span>
-            </TabsTrigger>
+            {currentTab === 'roadmap' && (
+              <RoadmapManagerTab />
+            )}
 
-            <TabsTrigger value="courses" className="flex items-center gap-1.5 py-2">
-              <Layers className="w-3.5 h-3.5 text-ochre" />
-              <span>Study Tracks</span>
-            </TabsTrigger>
-          </TabsList>
+            {currentTab === 'concepts' && (
+              <ConceptTriageTab />
+            )}
 
-          <TabsContent value="pipeline">
-            <PipelineRunnerCard onRefresh={loadStats} />
-          </TabsContent>
+            {currentTab === 'media' && (
+              <ImageStudioTab />
+            )}
 
-          <TabsContent value="roadmap">
-            <RoadmapManagerTab />
-          </TabsContent>
-
-          <TabsContent value="triage">
-            <ConceptTriageTab />
-          </TabsContent>
-
-          <TabsContent value="images">
-            <ImageStudioTab />
-          </TabsContent>
-
-          <TabsContent value="courses">
-            <CoursesTab />
-          </TabsContent>
-        </Tabs>
+            {currentTab === 'courses' && (
+              <CoursesTab />
+            )}
+          </div>
+        </div>
       </div>
+
+      {/* Global Command Palette */}
+      <CommandMenuDialog
+        open={commandOpen}
+        onOpenChange={setCommandOpen}
+        onNavigate={setCurrentTab}
+      />
     </AuthGuard>
   );
 }
