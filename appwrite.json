@@ -158,24 +158,13 @@
   ],
   "functions": [
     {
-      "$id": "runContentPipeline",
-      "name": "Run Content Pipeline",
+      "$id": "conceptEngine",
+      "name": "Concept Unified Engine",
       "runtime": "go-1.26",
-      "path": "backend/functions/runContentPipeline",
+      "path": "backend/functions/conceptEngine",
       "entrypoint": "main.go",
       "schedule": "0 2 * * *",
       "timeout": 300,
-      "enabled": true,
-      "logging": true
-    },
-    {
-      "$id": "expandRoadmap",
-      "name": "Expand Roadmap Topics",
-      "runtime": "go-1.26",
-      "path": "backend/functions/expandRoadmap",
-      "entrypoint": "main.go",
-      "schedule": "0 0 * * 0",
-      "timeout": 120,
       "enabled": true,
       "logging": true
     }
