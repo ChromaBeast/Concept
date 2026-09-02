@@ -1,97 +1,115 @@
 'use client';
 
 import React, { useState } from 'react';
-import { XCircle, CheckCircle2, Zap, AlertTriangle, Briefcase, Code, Check } from 'lucide-react';
-
-const SECTIONS = [
-  { num: '01', title: 'Axiom Definition', cap: '&le;40w', desc: 'First-principles invariant. What the mechanism guarantees without hand-waving.' },
-  { num: '02', title: 'Production Trade-off', cap: '&le;60w', desc: 'Throughput gains vs consistency costs. Why staff engineers pick it.' },
-  { num: '03', title: 'Idiomatic Code', cap: '&le;12 lines', desc: 'Executable implementation demonstrating memory layout and network primitives.' },
-  { num: '04', title: '3 AM Outage Pitfall', cap: '&le;40w', desc: 'The subtle failure modes, lock contentions, or stampedes that crash production.' },
-  { num: '05', title: 'Staff+ Interview Angle', cap: '&le;30w', desc: 'The follow-up questions and system boundaries tested in senior evaluation loops.' },
-];
+import { XCircle, CheckCircle2, Clock, Zap } from 'lucide-react';
 
 export function ArchitectureFormula() {
-  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeConcept, setActiveConcept] = useState<'lru' | 'raft' | 'idempotency'>('lru');
+
+  const concepts = {
+    lru: {
+      title: 'LRU Cache Invariant',
+      videoBloat: '38 minutes of drawing whiteboard pointer diagrams and generic queue slides.',
+      conceptAxiom: 'Doubly-Linked List provides O(1) node relocation. Hash Map provides O(1) key lookup. Tail eviction drops oldest item on capacity overflow.',
+      codeSnippet: 'this.map.set(key, this.list.moveToHead(node));',
+    },
+    raft: {
+      title: 'Raft Consensus Algorithm',
+      videoBloat: '45-minute YouTube lecture on Byzantine generals theory and academic proof proofs.',
+      conceptAxiom: 'Leader election uses randomized heartbeats. Log replication is committed once written to a strict quorum majority (N/2 + 1) of nodes.',
+      codeSnippet: 'if (replCount > Math.floor(nodes.length / 2)) commit();',
+    },
+    idempotency: {
+      title: 'API Idempotency Key',
+      videoBloat: '25-minute system design podcast on why double-billing happens in distributed webhooks.',
+      conceptAxiom: 'Client sends unique UUID in Idempotency-Key header. Server acquires atomic Redis lock, returning cached response on exact hash matches.',
+      codeSnippet: 'await redis.set(key, res, "NX", "EX", 86400);',
+    },
+  };
+
+  const curr = concepts[activeConcept];
 
   return (
-    <section className="section-fluid border-t border-obsidian-border bg-obsidian-surface/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div className="space-y-2">
-          <span className="text-xs font-mono uppercase tracking-widest text-electric">
-            [ 03 / METHODOLOGY ]
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-[-0.02em] text-white">
-            The 90-Second Formula vs. <br />
-            <span className="text-electric">45-Minute Tutorial Bloat</span>
-          </h2>
-          <p className="text-xs sm:text-sm text-dark-muted font-mono max-w-xl">
-            Compare passive video consumption with high-density architectural compression.
+    <section className="section-fluid border-t border-paper-border bg-paper-surface/20 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
+          <div className="space-y-2">
+            <span className="text-xs font-mono font-semibold uppercase tracking-widest text-ochre">
+              [ THE RETENTION FORMULA ]
+            </span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-paper-text font-sans">
+              45-Min Video Fluff vs. <br />
+              <span className="text-ochre">90-Second Invariant Logic</span>
+            </h2>
+          </div>
+          <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-sm">
+            Compare standard bloated video tutorials with Concept&apos;s structured cognitive axioms.
           </p>
         </div>
 
-        {/* Side by Side Comparison Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Status Quo Card (5 cols) */}
-          <div className="lg:col-span-5 p-6 sm:p-8 rounded-3xl border border-rose-500/20 bg-rose-500/5 space-y-6">
-            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-rose-400">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          {/* Bloat Side (5 cols) */}
+          <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border border-rose-500/20 bg-rose-500/5 space-y-6 shadow-sm">
+            <div className="flex items-center gap-2 text-rose-500 dark:text-rose-400 font-mono text-xs font-bold uppercase tracking-wider">
               <XCircle className="w-4 h-4" />
-              <span>THE STATUS QUO (45-MIN VIDEO)</span>
+              <span>Standard 45-Minute Video Bloat</span>
             </div>
 
-            <ul className="space-y-4 text-xs font-mono text-dark-muted">
-              <li className="flex items-start gap-2.5">
-                <span className="text-rose-400">&times;</span>
-                <span>12 minutes spent watching IDE boilerplate and package installations.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <span className="text-rose-400">&times;</span>
-                <span>Superficial analogies that fall apart during production scale emergencies.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <span className="text-rose-400">&times;</span>
-                <span>Passive watching with 0 recall after 48 hours.</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <span className="text-rose-400">&times;</span>
-                <span>Zero mention of failure modes, split-brains, or memory overheads.</span>
-              </li>
-            </ul>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 text-2xl font-bold text-paper-text font-mono">
+                <Clock className="w-6 h-6 text-rose-500" />
+                <span>~35-45 Minutes</span>
+              </div>
+              <p className="text-xs sm:text-sm text-paper-muted leading-relaxed font-sans">
+                {curr.videoBloat}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs font-mono text-rose-700 dark:text-rose-300">
+              Low active recall. 90% forgotten within 48 hours without structured invariant reinforcement.
+            </div>
           </div>
 
-          {/* Concept Formula Interactive Card (7 cols) */}
-          <div className="lg:col-span-7 p-6 sm:p-8 rounded-3xl border border-electric/40 bg-obsidian-card space-y-6 shadow-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-electric">
+          {/* Concept Formula Side (7 cols) */}
+          <div className="lg:col-span-7 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 shadow-sm">
+            <div className="flex items-center justify-between text-xs font-mono flex-wrap gap-2">
+              <div className="flex items-center gap-2 text-teal font-bold uppercase tracking-wider">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>THE CONCEPT INVARIANT STANDARD</span>
+                <span>Concept Structured Reference</span>
               </div>
-              <span className="text-xs font-mono text-dark-muted font-semibold">Strict &le;260w Limit</span>
+              <span className="text-ochre font-bold bg-ochre/10 px-2.5 py-0.5 rounded-md border border-ochre/25">
+                &le;90s Read Invariant
+              </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono">
-              {SECTIONS.map((sec, idx) => (
+            {/* Concept Selector */}
+            <div className="grid grid-cols-3 gap-2 font-mono text-xs">
+              {(['lru', 'raft', 'idempotency'] as const).map((k) => (
                 <button
-                  key={sec.num}
+                  key={k}
                   type="button"
-                  onClick={() => setActiveIdx(idx)}
-                  className={`p-3 rounded-xl border text-left transition-colors ${
-                    activeIdx === idx
-                      ? 'bg-electric/15 border-electric text-electric font-bold'
-                      : 'bg-obsidian-surface border-obsidian-border text-dark-muted hover:text-dark-text'
+                  onClick={() => setActiveConcept(k)}
+                  className={`p-2.5 rounded-xl border text-center transition-colors ${
+                    activeConcept === k
+                      ? 'bg-ochre/15 text-ochre border-ochre/30 font-bold'
+                      : 'bg-paper-surface border-paper-border text-paper-muted hover:text-paper-text'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span>{sec.num}. {sec.title}</span>
-                    <span className="text-[10px] opacity-75" dangerouslySetInnerHTML={{ __html: sec.cap }} />
-                  </div>
+                  {k.toUpperCase()}
                 </button>
               ))}
             </div>
 
-            <div className="p-4 rounded-2xl bg-obsidian-surface border border-obsidian-border text-xs font-mono space-y-2">
-              <div className="text-electric font-bold">// DETAIL: {SECTIONS[activeIdx].title} ({SECTIONS[activeIdx].cap})</div>
-              <p className="text-dark-text font-sans leading-relaxed">{SECTIONS[activeIdx].desc}</p>
+            <div className="space-y-2">
+              <h3 className="text-lg font-bold text-paper-text font-sans">{curr.title}</h3>
+              <p className="text-xs sm:text-sm text-paper-muted leading-relaxed font-sans">
+                {curr.conceptAxiom}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-paper-surface border border-paper-border text-xs font-mono space-y-1 text-paper-text">
+              <div className="text-ochre">// Production core line</div>
+              <div>{curr.codeSnippet}</div>
             </div>
           </div>
         </div>

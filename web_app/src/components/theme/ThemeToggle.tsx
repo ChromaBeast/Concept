@@ -14,7 +14,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-8 h-8 rounded-xl border border-obsidian-border bg-obsidian-card" />
+      <div className="w-8 h-8 rounded-xl border border-paper-border bg-paper-card" />
     );
   }
 
@@ -24,7 +24,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="w-8 h-8 rounded-xl border border-obsidian-border bg-obsidian-card hover:bg-obsidian-surface text-dark-muted hover:text-dark-text flex items-center justify-center transition-colors"
+      className="w-8 h-8 rounded-xl border border-paper-border bg-paper-card hover:bg-paper-surface text-paper-muted hover:text-paper-text flex items-center justify-center transition-colors shadow-sm"
       title={`Switch to ${isDark ? 'Light' : 'Dark'} mode`}
       aria-label="Toggle theme"
     >

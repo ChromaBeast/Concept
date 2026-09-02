@@ -7,7 +7,7 @@
   --color-bg: #FBF9F5;
   --color-surface: #F4EFEB;
   --color-card: #FFFFFF;
-  --color-border: rgba(28, 27, 24, 0.09);
+  --color-border: rgba(28, 27, 24, 0.08);
   --color-border-subtle: rgba(28, 27, 24, 0.04);
   --color-text: #1C1B18;
   --color-text-muted: #6B6558;
@@ -18,7 +18,7 @@
   --color-accent-2-dim: #165244;
   --color-code-bg: #F5F2EC;
   --color-selection: rgba(181, 114, 10, 0.18);
-  --color-grid: rgba(28, 27, 24, 0.04);
+  --color-grid: rgba(28, 27, 24, 0.03);
 }
 
 .dark {
@@ -26,7 +26,7 @@
   --color-bg: #15130F;
   --color-surface: #1B1914;
   --color-card: #201E18;
-  --color-border: rgba(242, 238, 230, 0.09);
+  --color-border: rgba(242, 238, 230, 0.08);
   --color-border-subtle: rgba(242, 238, 230, 0.04);
   --color-text: #F2EEE6;
   --color-text-muted: #A69C89;
@@ -37,7 +37,13 @@
   --color-accent-2-dim: #1F6F5C;
   --color-code-bg: #0E0D0A;
   --color-selection: rgba(232, 163, 61, 0.22);
-  --color-grid: rgba(242, 238, 230, 0.04);
+  --color-grid: rgba(242, 238, 230, 0.03);
+}
+
+@layer base {
+  *, ::before, ::after {
+    border-color: var(--color-border);
+  }
 }
 
 /* Custom Text Selection */
@@ -105,17 +111,6 @@ a:active {
 
 .animate-fadeIn {
   animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-/* Bold Display Outline Text */
-.text-stroke {
-  -webkit-text-stroke: 1px var(--color-border);
-  color: transparent;
-}
-
-.text-stroke-electric {
-  -webkit-text-stroke: 1px var(--color-accent);
-  color: transparent;
 }
 
 /* Accessibility: Respect Reduced Motion */
