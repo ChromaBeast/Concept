@@ -2,99 +2,142 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Terminal, CheckCircle2, Clock, Sparkles } from 'lucide-react';
+import { ArrowRight, Zap, AlertOctagon, CheckCircle2, Clock } from 'lucide-react';
 
 export function LandingHero() {
-  const [revealed, setRevealed] = useState(false);
+  const [activeTab, setActiveTab] = useState<'invariant' | 'failure_mode'>('invariant');
+  const [drillAnswered, setDrillAnswered] = useState(false);
 
   return (
-    <section className="relative pt-6 sm:pt-12 pb-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Top Tag */}
-        <div className="flex justify-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-electric/30 bg-electric/10 text-electric text-xs font-mono tracking-wide uppercase">
-            <span className="w-2 h-2 rounded-full bg-electric animate-pulse" />
-            <span>&lt;2 Minute Engineering Reference</span>
-          </div>
-        </div>
-
-        {/* Big Impact Headline */}
-        <div className="text-center space-y-4 max-w-4xl mx-auto">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white leading-none">
-            SMARTER ARCHITECTURE. <br />
-            <span className="text-electric">ON EVERY PULL REQUEST.</span>
-          </h1>
-
-          <p className="text-base sm:text-lg text-dark-muted max-w-2xl mx-auto leading-relaxed">
-            Stop losing hours to 45-minute meandering tutorials. Concept distills distributed systems, database internals, and algorithmic patterns into dense, 90-second mental models.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link
-              href="/browse"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-electric hover:bg-electric-400 text-obsidian-bg font-extrabold text-sm uppercase tracking-wider transition-all shadow-xl shadow-electric/10 flex items-center justify-center gap-2"
-            >
-              <span>Explore 197+ Concepts</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-
-            <Link
-              href="/courses"
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl border border-obsidian-border bg-obsidian-card hover:bg-obsidian-variant text-dark-text font-bold text-sm transition-all flex items-center justify-center gap-2"
-            >
-              <span>Browse Learning Paths</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Live Interactive Concept Terminal Mockup */}
-        <div className="max-w-3xl mx-auto rounded-2xl border border-obsidian-border bg-obsidian-card shadow-2xl overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-obsidian-border bg-obsidian-surface text-xs font-mono text-dark-muted">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-rose-500/60" />
-              <span className="w-3 h-3 rounded-full bg-amber-500/60" />
-              <span className="w-3 h-3 rounded-full bg-emerald-500/60" />
-              <span className="ml-2 text-dark-text font-bold">CAP_THEOREM.md</span>
+    <section className="relative pt-6 sm:pt-10 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Left Column: High-Conviction Narrative (7 cols) */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg border border-electric/30 bg-electric/10 text-electric text-xs font-mono tracking-wider uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-electric" />
+              <span>90-Second Reference Architecture</span>
             </div>
-            <div className="flex items-center gap-2 text-electric font-semibold">
-              <Clock className="w-3.5 h-3.5" />
-              <span>~90s read</span>
+
+            <h1 className="text-4xl sm:text-6xl font-black uppercase tracking-[-0.03em] text-white leading-[0.95]">
+              Smarter Systems. <br />
+              <span className="text-electric">Zero Video Bloat.</span>
+            </h1>
+
+            <p className="text-base sm:text-lg text-dark-muted max-w-xl leading-relaxed">
+              Master the distributed invariants, database internals, and concurrency trade-offs senior engineers use daily. No 45-minute meandering tutorials—just high-signal mental models.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <Link
+                href="/browse"
+                className="px-7 py-3.5 rounded-xl bg-electric hover:bg-electric-400 text-obsidian-bg font-extrabold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-electric/10"
+              >
+                <span>Browse 197 Reference Models</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                href="/courses"
+                className="px-6 py-3.5 rounded-xl border border-obsidian-border bg-obsidian-card hover:bg-obsidian-variant text-dark-text font-mono text-xs font-bold transition-colors flex items-center justify-center gap-2"
+              >
+                <span>Drill Track Playlists</span>
+              </Link>
+            </div>
+
+            <div className="flex items-center gap-6 pt-4 border-t border-obsidian-border/70 text-xs font-mono text-dark-muted">
+              <div><span className="text-white font-bold">197+</span> Invariants</div>
+              <div><span className="text-white font-bold">16</span> Disciplines</div>
+              <div><span className="text-electric font-bold">&le;90s</span> Read Cap</div>
             </div>
           </div>
 
-          <div className="p-6 space-y-4">
-            <div className="space-y-1">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-dark-muted">[ 01 / DEFINITION ]</span>
-              <p className="text-sm sm:text-base font-semibold text-dark-text leading-relaxed">
-                In any distributed data store, you can guarantee at most two of three properties simultaneously: Consistency, Availability, and Partition Tolerance.
-              </p>
-            </div>
-
-            <div className="p-3.5 rounded-xl border border-obsidian-border bg-obsidian-surface/60 font-mono text-xs space-y-1">
-              <div className="text-electric">// Network partition occurs: Network split between Node A & B</div>
-              <div className="text-dark-muted">Choose CP: Reject write to preserve absolute consistency across nodes.</div>
-              <div className="text-dark-muted">Choose AP: Accept write locally to maintain 100% availability.</div>
-            </div>
-
-            {/* Interactive Quick-Check Drill */}
-            <div
-              onClick={() => setRevealed(!revealed)}
-              className="p-4 rounded-xl border border-dashed border-electric/40 bg-electric/5 hover:bg-electric/10 cursor-pointer transition-all space-y-2 select-none"
-            >
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-electric uppercase tracking-wider">
-                  ✦ Quick Drill: Is DNS typically a CP or AP system?
-                </span>
-                <span className="text-[10px] font-mono text-dark-muted">
-                  {revealed ? 'Click to hide' : 'Tap to reveal'}
-                </span>
+          {/* Right Column: Interactive Dual-State Concept Inspector (5 cols) */}
+          <div className="lg:col-span-5">
+            <div className="rounded-2xl border border-obsidian-border bg-obsidian-card shadow-2xl overflow-hidden">
+              {/* Header Bar */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-obsidian-border bg-obsidian-surface text-xs font-mono">
+                <div className="flex items-center gap-2 text-dark-text font-bold">
+                  <span className="text-electric">#</span>
+                  <span>CONSISTENT_HASHING</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-dark-muted text-[11px]">
+                  <Clock className="w-3.5 h-3.5 text-electric" />
+                  <span>90s read</span>
+                </div>
               </div>
 
-              {revealed && (
-                <div className="text-xs text-dark-text pt-2 border-t border-electric/20 animate-fadeIn">
-                  <span className="font-bold text-emerald-400">AP (Availability & Partition Tolerance).</span> DNS prioritizes returning cached records quickly over instant global consistency during network propagation.
+              {/* Tab Selector */}
+              <div className="flex border-b border-obsidian-border text-xs font-mono">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('invariant')}
+                  className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors ${
+                    activeTab === 'invariant'
+                      ? 'bg-electric/10 text-electric font-bold border-b-2 border-electric'
+                      : 'text-dark-muted hover:text-dark-text bg-obsidian-card'
+                  }`}
+                >
+                  <Zap className="w-3.5 h-3.5" />
+                  <span>Axiom & Ring</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('failure_mode')}
+                  className={`flex-1 py-2.5 px-3 flex items-center justify-center gap-1.5 transition-colors ${
+                    activeTab === 'failure_mode'
+                      ? 'bg-rose-500/10 text-rose-400 font-bold border-b-2 border-rose-500'
+                      : 'text-dark-muted hover:text-dark-text bg-obsidian-card'
+                  }`}
+                >
+                  <AlertOctagon className="w-3.5 h-3.5" />
+                  <span>Production Pitfall</span>
+                </button>
+              </div>
+
+              {/* Inspector Content */}
+              <div className="p-5 space-y-4 text-xs font-mono">
+                {activeTab === 'invariant' ? (
+                  <div className="space-y-3">
+                    <p className="text-dark-text font-sans font-medium leading-relaxed">
+                      Maps keys and nodes onto a circular 2<sup>32</sup> hash ring. When a node joins or leaves, only <strong>k/N</strong> keys are remapped rather than re-shuffling the entire database.
+                    </p>
+                    <div className="p-3 rounded-xl bg-obsidian-surface border border-obsidian-border text-dark-muted space-y-1">
+                      <div className="text-electric">// Virtual node distribution formula</div>
+                      <div>ring[hash(nodeId + &quot;_v&quot; + vIndex)] = nodeId;</div>
+                      <div className="text-emerald-400">// Remap cost: O(k/N) instead of O(N)</div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <div className="text-rose-400 font-bold flex items-center gap-1.5">
+                      <AlertOctagon className="w-4 h-4" /> Non-Uniform Hotspots
+                    </div>
+                    <p className="text-dark-text font-sans leading-relaxed">
+                      Without virtual nodes, stochastic hash clustering causes a single server to handle 4x average load, triggering cascading database collapse.
+                    </p>
+                    <div className="p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-[11px] text-rose-300">
+                      Rule of thumb: Deploy &ge;150–200 virtual node replicas per physical node to flatten variance under 5%.
+                    </div>
+                  </div>
+                )}
+
+                {/* Instant Retention Check */}
+                <div
+                  onClick={() => setDrillAnswered(!drillAnswered)}
+                  className="p-3 rounded-xl border border-dashed border-electric/40 bg-electric/5 hover:bg-electric/10 cursor-pointer transition-colors space-y-1.5"
+                >
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-bold text-electric">Drill: Standard modulo hashing failure?</span>
+                    <span className="text-dark-muted">{drillAnswered ? 'Hide' : 'Reveal'}</span>
+                  </div>
+                  {drillAnswered && (
+                    <div className="text-[11px] text-dark-text font-sans pt-1 border-t border-electric/20">
+                      Adding 1 server invalidates nearly 100% of cached keys, triggering an instant cache stampede against your primary SQL database.
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>

@@ -1,51 +1,86 @@
 'use client';
 
 import React from 'react';
+import { ShieldCheck, Flame, BookOpen, Clock } from 'lucide-react';
 
-const STATS = [
-  { value: '197+', label: 'Curated Concepts', sub: 'Across 16 disciplines' },
-  { value: '96%', label: 'Retention Rate', sub: 'Structured 5-part format' },
-  { value: '<90s', label: 'Average Read Time', sub: 'Zero video bloat' },
-  { value: '4', label: 'Domain Clusters', sub: 'From Core CS to Cloud' },
+const CONSTRAINTS = [
+  { part: '01. Axiom Definition', limit: '&le; 40 words', intent: 'No hand-wavy analogies' },
+  { part: '02. Production Value', limit: '&le; 60 words', intent: 'Throughput & latency costs' },
+  { part: '03. Idiomatic Code', limit: '&le; 12 lines', intent: 'Zero filler boilerplate' },
+  { part: '04. Production Pitfall', limit: '&le; 40 words', intent: '3 AM outage triggers' },
+  { part: '05. Interview Angle', limit: '&le; 30 words', intent: 'Staff+ evaluation criteria' },
 ];
 
 export function StatsCounter() {
   return (
-    <section className="py-16 border-t border-obsidian-border bg-obsidian-surface/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Section Tag */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="space-y-3 max-w-2xl">
-            <span className="text-xs font-mono uppercase tracking-widest text-electric">
-              [ 01 / PHILOSOPHY ]
-            </span>
-            <p className="text-xl sm:text-2xl font-bold text-dark-text leading-snug">
-              Concept is software engineering distilled. Intelligent micro-references and daily review loops designed for how developers actually read and retain architecture.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card max-w-xs text-xs text-dark-muted leading-relaxed font-mono">
-            <span className="text-electric font-bold">// NO FLUFF GUARANTEE</span>
-            <p className="mt-1">
-              Every concept obeys hard limits: Definition (&le;40w), Why It Matters (&le;60w), Code (&le;12 lines), Pitfall (&le;40w), Interview Angle (&le;30w).
-            </p>
-          </div>
-        </div>
-
-        {/* Big Numbers Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 pt-4">
-          {STATS.map((stat, idx) => (
-            <div
-              key={idx}
-              className="p-6 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-2 hover:border-electric/30 transition-colors"
-            >
-              <div className="text-4xl sm:text-5xl font-black text-white tracking-tight">
-                {stat.value}
-              </div>
-              <div className="text-sm font-bold text-dark-text">{stat.label}</div>
-              <div className="text-xs text-dark-muted font-mono">{stat.sub}</div>
+    <section className="section-fluid border-t border-obsidian-border bg-obsidian-surface/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Left Column (7 cols): Hard Limits Contract */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="space-y-2">
+              <span className="text-xs font-mono uppercase tracking-widest text-electric">
+                [ 01 / COGNITIVE COMPACT ]
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-[-0.02em] text-white">
+                Engineered for High Retention, <br />
+                <span className="text-electric">Guaranteed Under 260 Words</span>
+              </h2>
+              <p className="text-sm text-dark-muted leading-relaxed">
+                Most documentation is written to be exhaustive rather than retentive. Every Concept entry conforms to strict length caps enforced by automated validation pipelines.
+              </p>
             </div>
-          ))}
+
+            <div className="rounded-2xl border border-obsidian-border bg-obsidian-card overflow-hidden text-xs font-mono">
+              <div className="px-4 py-2.5 bg-obsidian-surface border-b border-obsidian-border text-dark-muted flex justify-between">
+                <span>SECTION SPECIFICATION</span>
+                <span>HARD CAP</span>
+              </div>
+              <div className="divide-y divide-obsidian-border">
+                {CONSTRAINTS.map((c, idx) => (
+                  <div key={idx} className="px-4 py-2.5 flex items-center justify-between text-dark-text">
+                    <div>
+                      <span className="font-semibold">{c.part}</span>
+                      <span className="text-dark-muted ml-2 hidden sm:inline-block">({c.intent})</span>
+                    </div>
+                    <span className="text-electric font-bold" dangerouslySetInnerHTML={{ __html: c.limit }} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column (5 cols): Metrics with Context */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="p-6 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-dark-muted">REFERENCE LIBRARY</span>
+                <BookOpen className="w-4 h-4 text-electric" />
+              </div>
+              <div className="text-4xl font-black text-white">197+ Concepts</div>
+              <p className="text-xs text-dark-muted font-mono leading-relaxed">
+                Covers algorithms, distributed locks, database indexing, Raft consensus, and TCP/QUIC protocols.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-5 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-2">
+                <div className="flex items-center gap-1.5 text-xs text-amber-400 font-mono font-semibold">
+                  <Flame className="w-4 h-4 fill-current" /> DAILY LOOP
+                </div>
+                <div className="text-2xl font-bold text-white">Spaced Habit</div>
+                <p className="text-[11px] text-dark-muted font-mono">Automated daily refresh.</p>
+              </div>
+
+              <div className="p-5 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-2">
+                <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-mono font-semibold">
+                  <ShieldCheck className="w-4 h-4" /> OFFLINE FIRST
+                </div>
+                <div className="text-2xl font-bold text-white">0ms Latency</div>
+                <p className="text-[11px] text-dark-muted font-mono">Instant local storage.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -39,10 +39,10 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-obsidian-border bg-obsidian-bg/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-obsidian-border bg-obsidian-bg/95">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
+          <Link href="/" className="flex items-center gap-2.5 group select-none">
             <div className="w-8 h-8 rounded-xl bg-electric flex items-center justify-center font-black text-obsidian-bg text-base shadow-md shadow-electric/20 group-hover:scale-105 transition-transform">
               C
             </div>
@@ -56,7 +56,7 @@ export function Navbar() {
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1" aria-label="Main Navigation">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
@@ -81,7 +81,9 @@ export function Navbar() {
 
         <div className="flex items-center gap-2.5">
           <button
+            type="button"
             onClick={openCommandPalette}
+            aria-label="Open Command Search"
             className="hidden lg:flex items-center gap-2 px-2.5 py-1 text-xs text-dark-muted bg-obsidian-card hover:bg-obsidian-variant border border-obsidian-border rounded-lg transition-colors font-mono"
           >
             <Search className="w-3.5 h-3.5" />
@@ -114,9 +116,9 @@ export function Navbar() {
               </Link>
               <Link
                 href="/signup"
-                className="px-3.5 py-1.5 rounded-xl bg-electric hover:bg-electric-400 text-obsidian-bg text-xs font-extrabold uppercase tracking-wider transition-all shadow-md shadow-electric/10"
+                className="px-3.5 py-1.5 rounded-xl bg-electric hover:bg-electric-400 text-obsidian-bg text-xs font-extrabold uppercase tracking-wider transition-colors shadow-md shadow-electric/10"
               >
-                Get Started
+                Create Account
               </Link>
             </div>
           )}
