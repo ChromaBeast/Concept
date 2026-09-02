@@ -1,6 +1,6 @@
 module onConceptPublish
 
-go 1.26.5
+go 1.23.0
 
 require (
 	github.com/appwrite/sdk-for-go v1.0.0
