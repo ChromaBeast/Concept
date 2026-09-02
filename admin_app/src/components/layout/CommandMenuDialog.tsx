@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Sparkles, ListTree, FileCheck, Image as ImageIcon, Layers, Cpu, Play } from 'lucide-react';
+import { Sparkles, ListTree, FileCheck, Image as ImageIcon, Layers, Cpu } from 'lucide-react';
 import {
   CommandDialog,
   CommandInput,
@@ -23,8 +23,8 @@ export function CommandMenuDialog({ open, onOpenChange, onNavigate }: CommandMen
 
   useEffect(() => {
     if (open) {
-      adminApi.getRoadmapTopics().then((res) => {
-        setTopics(res.slice(0, 15).map((t) => ({ id: t.$id, topic: t.topic, category: t.category })));
+      adminApi.getRoadmapTopics('all', 'all', 1, 15).then((res) => {
+        setTopics(res.items.map((t) => ({ id: t.$id, topic: t.topic, category: t.category })));
       });
     }
   }, [open]);

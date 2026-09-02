@@ -18,21 +18,25 @@ export const adminApi = {
         totalCourses: coursesRes.total || 0,
       };
     } catch {
-      return { totalConcepts: 18, totalRoadmap: 155, totalCourses: 3 };
+      return { totalConcepts: 18, totalRoadmap: 355, totalCourses: 3 };
     }
   },
 
-  // 2. Roadmap Topics
-  async getRoadmapTopics(category?: string, status?: string): Promise<RoadmapTopic[]> {
+  // 2. Paginated Roadmap Topics
+  async getRoadmapTopics(category?: string, status?: string, page = 1, limit = 15): Promise<{ items: RoadmapTopic[]; total: number }> {
     try {
-      const queries = [Query.limit(100), Query.orderDesc('priority')];
+      const offset = (page - 1) * limit;
+      const queries = [Query.limit(limit), Query.offset(offset), Query.orderDesc('priority')];
       if (category && category !== 'all') queries.push(Query.equal('category', [category]));
       if (status && status !== 'all') queries.push(Query.equal('status', [status]));
 
       const res = await databases.listDocuments(APPWRITE_CONFIG.databaseId, APPWRITE_CONFIG.collections.roadmapTopics, queries);
-      return res.documents as unknown as RoadmapTopic[];
+      return {
+        items: res.documents as unknown as RoadmapTopic[],
+        total: res.total || 0,
+      };
     } catch {
-      return [];
+      return { items: [], total: 0 };
     }
   },
 
@@ -57,18 +61,20 @@ export const adminApi = {
     return await databases.deleteDocument(APPWRITE_CONFIG.databaseId, APPWRITE_CONFIG.collections.roadmapTopics, id);
   },
 
-  // 3. Concepts
-  async getConcepts(status?: string): Promise<Concept[]> {
+  // 3. Paginated Concepts
+  async getConcepts(status?: string, page = 1, limit = 15): Promise<{ items: Concept[]; total: number }> {
     try {
-      const queries = [Query.limit(100)];
+      const offset = (page - 1) * limit;
+      const queries = [Query.limit(limit), Query.offset(offset)];
       if (status && status !== 'all') queries.push(Query.equal('status', [status]));
       const res = await databases.listDocuments(APPWRITE_CONFIG.databaseId, APPWRITE_CONFIG.collections.concepts, queries);
-      return res.documents.map((d: any) => ({
+      const items = res.documents.map((d: any) => ({
         ...d,
         body: typeof d.body === 'string' ? JSON.parse(d.body || '{}') : d.body,
       }));
+      return { items, total: res.total || 0 };
     } catch {
-      return [];
+      return { items: [], total: 0 };
     }
   },
 
@@ -93,7 +99,7 @@ export const adminApi = {
     return `${APPWRITE_CONFIG.endpoint}/storage/buckets/${bucketId}/files/${uploaded.$id}/view?project=${APPWRITE_CONFIG.projectId}`;
   },
 
-  // 5. Trigger Cloud Function (via Secure Server Proxy with Master Key)
+  // 5. Trigger Cloud Function
   async triggerEngine(action: 'pipeline' | 'expand' | 'seed' | 'status', payload: Record<string, any> = {}) {
     try {
       const res = await fetch('/api/pipeline', {
@@ -101,11 +107,8 @@ export const adminApi = {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action, ...payload }),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Server pipeline error');
-      return data;
+      return await res.json();
     } catch {
-      // Fallback to direct client SDK execution
       const res = await functions.createExecution(
         'conceptEngine',
         JSON.stringify({ action, ...payload }),
@@ -118,9 +121,9 @@ export const adminApi = {
   },
 
   // 6. Courses
-  async getCourses(): Promise<Course[]> {
+  async getCourses(limit = 20): Promise<Course[]> {
     try {
-      const res = await databases.listDocuments(APPWRITE_CONFIG.databaseId, APPWRITE_CONFIG.collections.courses, [Query.limit(50)]);
+      const res = await databases.listDocuments(APPWRITE_CONFIG.databaseId, APPWRITE_CONFIG.collections.courses, [Query.limit(limit)]);
       return res.documents as unknown as Course[];
     } catch {
       return [];

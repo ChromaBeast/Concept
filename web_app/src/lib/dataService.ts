@@ -6,19 +6,22 @@ import { mapDocToConcept, mapDocToCourse } from './dataMapper';
 
 const cache = {
   concepts: [] as Concept[],
-  courses: [] as Course[],
   lastFetch: 0,
 };
 
 const CACHE_TTL_MS = 60 * 1000;
 
 export const dataService = {
-  async getConcepts(options?: {
+  async getPaginatedConcepts(options?: {
     category?: Category | 'all';
     difficulty?: Difficulty | 'all';
     search?: string;
+    page?: number;
     limit?: number;
-  }): Promise<Concept[]> {
+  }): Promise<{ items: Concept[]; total: number; totalPages: number }> {
+    const page = options?.page || 1;
+    const limit = options?.limit || 12;
+
     let list = await this.getAllConcepts();
 
     if (options?.category && options.category !== 'all') {
@@ -36,10 +39,23 @@ export const dataService = {
           c.tagIds?.some((t) => t.toLowerCase().includes(q))
       );
     }
-    if (options?.limit && options.limit > 0) {
-      list = list.slice(0, options.limit);
-    }
-    return list;
+
+    const total = list.length;
+    const totalPages = Math.ceil(total / limit);
+    const offset = (page - 1) * limit;
+    const items = list.slice(offset, offset + limit);
+
+    return { items, total, totalPages };
+  },
+
+  async getConcepts(options?: {
+    category?: Category | 'all';
+    difficulty?: Difficulty | 'all';
+    search?: string;
+    limit?: number;
+  }): Promise<Concept[]> {
+    const res = await this.getPaginatedConcepts({ ...options, page: 1, limit: options?.limit || 100 });
+    return res.items;
   },
 
   async getAllConcepts(): Promise<Concept[]> {
@@ -65,9 +81,7 @@ export const dataService = {
           return merged;
         }
       }
-    } catch {
-      // Silent fallback
-    }
+    } catch {}
 
     cache.concepts = allSeedConcepts;
     return allSeedConcepts;
@@ -89,9 +103,7 @@ export const dataService = {
           return mapDocToConcept(res.documents[0]);
         }
       }
-    } catch {
-      // Silent fallback
-    }
+    } catch {}
 
     return null;
   },
@@ -111,9 +123,7 @@ export const dataService = {
           list = [...remote, ...seedCourses.filter((s) => !existing.has(s.slug))];
         }
       }
-    } catch {
-      // Silent fallback
-    }
+    } catch {}
 
     if (options?.category && options.category !== 'all') {
       list = list.filter((c) => c.primaryCategory === options.category);

@@ -9,6 +9,9 @@ import { CATEGORY_DOMAINS } from '@/lib/domains';
 import { Category, Difficulty, Concept } from '@/lib/types';
 import { ConceptCard } from '@/components/concept/ConceptCard';
 import { Chip } from '@/components/ui/Chip';
+import { Pagination } from '@/components/ui/Pagination';
+
+const PAGE_SIZE = 12;
 
 function BrowseContent() {
   const searchParams = useSearchParams();
@@ -19,6 +22,7 @@ function BrowseContent() {
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>(initialCategory);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | 'all'>('all');
   const [query, setQuery] = useState('');
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     dataService.getAllConcepts().then(setConcepts);
@@ -51,6 +55,17 @@ function BrowseContent() {
     });
   }, [concepts, selectedDomain, activeDomain, selectedCategory, selectedDifficulty, query]);
 
+  const totalPages = Math.ceil(filteredConcepts.length / PAGE_SIZE);
+  const paginatedConcepts = filteredConcepts.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  const resetFilters = () => {
+    setSelectedDomain('all');
+    setSelectedCategory('all');
+    setSelectedDifficulty('all');
+    setQuery('');
+    setPage(1);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 sm:space-y-8 font-sans">
       <div className="space-y-1.5">
@@ -72,6 +87,7 @@ function BrowseContent() {
               type="button"
               onClick={() => {
                 setSelectedDomain(domain.id);
+                setPage(1);
                 if (selectedCategory !== 'all' && !domain.categories.includes(selectedCategory as Category)) {
                   setSelectedCategory('all');
                 }
@@ -95,7 +111,7 @@ function BrowseContent() {
             key={cat}
             active={selectedCategory === cat}
             colorHex={cat === 'all' ? undefined : CATEGORY_META[cat]?.color}
-            onClick={() => setSelectedCategory(cat)}
+            onClick={() => { setSelectedCategory(cat); setPage(1); }}
           >
             {cat === 'all' ? 'All in Domain' : CATEGORY_META[cat]?.label}
           </Chip>
@@ -112,7 +128,7 @@ function BrowseContent() {
             <button
               key={diff}
               type="button"
-              onClick={() => setSelectedDifficulty(diff)}
+              onClick={() => { setSelectedDifficulty(diff); setPage(1); }}
               className={`text-xs px-2.5 py-1 rounded-lg border font-mono transition-colors ${
                 selectedDifficulty === diff
                   ? 'bg-ochre/15 text-ochre border-ochre/30 font-bold'
@@ -130,7 +146,7 @@ function BrowseContent() {
             type="text"
             placeholder="Filter list..."
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => { setQuery(e.target.value); setPage(1); }}
             className="w-full bg-paper-surface border border-paper-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-paper-text placeholder:text-paper-muted focus:outline-none focus:border-ochre font-mono shadow-inner"
           />
         </div>
@@ -138,26 +154,20 @@ function BrowseContent() {
 
       {/* Results Header */}
       <div className="flex items-center justify-between text-xs text-paper-muted font-mono">
-        <span>Showing {filteredConcepts.length} concepts</span>
+        <span>
+          Showing {paginatedConcepts.length > 0 ? (page - 1) * PAGE_SIZE + 1 : 0}-{Math.min(page * PAGE_SIZE, filteredConcepts.length)} of {filteredConcepts.length} concepts
+        </span>
         {(selectedDomain !== 'all' || selectedCategory !== 'all' || selectedDifficulty !== 'all' || query) && (
-          <button
-            onClick={() => {
-              setSelectedDomain('all');
-              setSelectedCategory('all');
-              setSelectedDifficulty('all');
-              setQuery('');
-            }}
-            className="text-ochre hover:underline font-bold"
-          >
+          <button onClick={resetFilters} className="text-ochre hover:underline font-bold">
             Reset filters
           </button>
         )}
       </div>
 
       {/* Responsive Grid of Concepts */}
-      {filteredConcepts.length > 0 ? (
+      {paginatedConcepts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredConcepts.map((concept) => (
+          {paginatedConcepts.map((concept) => (
             <ConceptCard key={concept.id} concept={concept} />
           ))}
         </div>
@@ -167,6 +177,9 @@ function BrowseContent() {
           <p className="text-xs text-paper-muted">Try adjusting your domain, category, or difficulty filters.</p>
         </div>
       )}
+
+      {/* Pagination Controls */}
+      <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
     </div>
   );
 }

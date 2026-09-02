@@ -1,36 +1,40 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Plus, RefreshCw, Trash2, Search, Filter, CheckCircle2, Clock, AlertTriangle } from 'lucide-react';
+import { Plus, RefreshCw, Trash2, Search, CheckCircle2, Clock, AlertTriangle } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '../ui/table';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../ui/dialog';
 import { Input } from '../ui/input';
+import { Pagination } from '../ui/pagination';
 import { adminApi } from '@/lib/adminApi';
 import { RoadmapTopic } from '@/lib/types';
 
+const PAGE_SIZE = 15;
+
 export function RoadmapManagerTab() {
   const [topics, setTopics] = useState<RoadmapTopic[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
-
-  // Modal State
   const [openModal, setOpenModal] = useState(false);
   const [newTopic, setNewTopic] = useState({ topic: '', category: 'system_design', difficulty: 'intermediate', priority: 1 });
 
   const loadTopics = async () => {
     setLoading(true);
-    const data = await adminApi.getRoadmapTopics(selectedCategory, selectedStatus);
-    setTopics(data);
+    const res = await adminApi.getRoadmapTopics(selectedCategory, selectedStatus, page, PAGE_SIZE);
+    setTopics(res.items);
+    setTotal(res.total);
     setLoading(false);
   };
 
   useEffect(() => {
     loadTopics();
-  }, [selectedCategory, selectedStatus]);
+  }, [selectedCategory, selectedStatus, page]);
 
   const handleAddTopic = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,9 +55,11 @@ export function RoadmapManagerTab() {
     loadTopics();
   };
 
-  const filteredTopics = topics.filter((t) =>
-    t.topic.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredTopics = search.trim()
+    ? topics.filter((t) => t.topic.toLowerCase().includes(search.toLowerCase()))
+    : topics;
+
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <div className="space-y-4 font-mono text-xs">
@@ -72,7 +78,7 @@ export function RoadmapManagerTab() {
 
           <select
             value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
+            onChange={(e) => { setSelectedStatus(e.target.value); setPage(1); }}
             className="h-10 rounded-xl border border-paper-border bg-paper-surface px-3 text-xs font-mono text-paper-text"
           >
             <option value="all">All Status</option>
@@ -84,6 +90,10 @@ export function RoadmapManagerTab() {
         </div>
 
         <div className="flex items-center gap-2">
+          <span className="text-[11px] text-paper-muted font-mono hidden md:inline">
+            Showing {(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, total)} of {total}
+          </span>
+
           <Button size="sm" variant="secondary" onClick={loadTopics} loading={loading}>
             <RefreshCw className="w-3.5 h-3.5" />
           </Button>
@@ -190,12 +200,17 @@ export function RoadmapManagerTab() {
           ) : (
             <TableRow>
               <TableCell colSpan={6} className="text-center py-8 text-paper-muted">
-                {loading ? 'Loading roadmap topics from Appwrite DB...' : 'No topics found matching current filters.'}
+                {loading ? 'Loading paginated roadmap topics...' : 'No topics found matching current filters.'}
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls */}
+      <div className="pt-2">
+        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+      </div>
     </div>
   );
 }

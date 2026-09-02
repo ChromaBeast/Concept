@@ -5,26 +5,32 @@ import { Eye, RefreshCw, Image as ImageIcon } from 'lucide-react';
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '../ui/table';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
+import { Pagination } from '../ui/pagination';
 import { adminApi } from '@/lib/adminApi';
 import { Concept } from '@/lib/types';
 import { ConceptReviewDrawer } from './concepts/ConceptReviewDrawer';
 
+const PAGE_SIZE = 15;
+
 export function ConceptTriageTab() {
   const [concepts, setConcepts] = useState<Concept[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('all');
   const [selectedConcept, setSelectedConcept] = useState<Concept | null>(null);
 
   const loadConcepts = async () => {
     setLoading(true);
-    const data = await adminApi.getConcepts(statusFilter);
-    setConcepts(data);
+    const res = await adminApi.getConcepts(statusFilter, page, PAGE_SIZE);
+    setConcepts(res.items);
+    setTotal(res.total);
     setLoading(false);
   };
 
   useEffect(() => {
     loadConcepts();
-  }, [statusFilter]);
+  }, [statusFilter, page]);
 
   const handleUpdateStatus = async (id: string, status: string) => {
     await adminApi.updateConceptStatus(id, status);
@@ -34,6 +40,8 @@ export function ConceptTriageTab() {
     loadConcepts();
   };
 
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+
   return (
     <div className="space-y-4 font-mono text-xs">
       {/* Filter Bar */}
@@ -42,19 +50,24 @@ export function ConceptTriageTab() {
           <span className="font-bold text-paper-text">Status Filter:</span>
           <select
             value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
+            onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}
             className="h-9 rounded-xl border border-paper-border bg-paper-surface px-3 text-xs text-paper-text"
           >
-            <option value="all">All Concepts ({concepts.length})</option>
+            <option value="all">All Concepts ({total})</option>
             <option value="needs_review">Needs Review</option>
             <option value="published">Published</option>
             <option value="draft">Draft</option>
           </select>
         </div>
 
-        <Button size="sm" variant="secondary" onClick={loadConcepts} loading={loading}>
-          <RefreshCw className="w-3.5 h-3.5" />
-        </Button>
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] text-paper-muted font-mono hidden sm:inline">
+            Showing {(page - 1) * PAGE_SIZE + 1}-{Math.min(page * PAGE_SIZE, total)} of {total}
+          </span>
+          <Button size="sm" variant="secondary" onClick={loadConcepts} loading={loading}>
+            <RefreshCw className="w-3.5 h-3.5" />
+          </Button>
+        </div>
       </div>
 
       {/* Concepts Table */}
@@ -102,12 +115,17 @@ export function ConceptTriageTab() {
           ) : (
             <TableRow>
               <TableCell colSpan={6} className="text-center py-8 text-paper-muted">
-                {loading ? 'Loading concepts from Appwrite DB...' : 'No concepts found.'}
+                {loading ? 'Loading paginated concepts...' : 'No concepts found.'}
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls */}
+      <div className="pt-2">
+        <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+      </div>
 
       {/* Slide-over Review Drawer */}
       <ConceptReviewDrawer

@@ -47,7 +47,7 @@ func (p *ContentPipeline) RunBatch(batchSize int) (int, int, error) {
 		p.config.DatabaseID,
 		"roadmapTopics",
 		p.db.WithListDocumentsQueries([]string{
-			query.Equal("status", "pending"),
+			query.Equal("status", []string{"pending"}),
 			query.OrderDesc("priority"),
 			query.Limit(batchSize),
 		}),
@@ -66,7 +66,6 @@ func (p *ContentPipeline) RunBatch(batchSize int) (int, int, error) {
 	}
 
 	if len(topics) == 0 {
-		_, _ = SeedInitialRoadmapTopics(p.db, p.config.DatabaseID)
 		return 0, 0, nil
 	}
 

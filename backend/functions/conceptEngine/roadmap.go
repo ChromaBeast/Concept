@@ -7,7 +7,6 @@ import (
 	"github.com/appwrite/sdk-for-go/appwrite"
 	"github.com/appwrite/sdk-for-go/databases"
 	"github.com/appwrite/sdk-for-go/id"
-	"github.com/appwrite/sdk-for-go/query"
 )
 
 type RoadmapManager struct {
@@ -40,8 +39,8 @@ func (r *RoadmapManager) ExpandCategory(category string) (int, error) {
 		r.config.DatabaseID,
 		"roadmapTopics",
 		r.db.WithListDocumentsQueries([]string{
-			query.Equal("category", category),
-			query.Limit(100),
+			fmt.Sprintf("equal(\"category\", [\"%s\"])", category),
+			"limit(100)",
 		}),
 	)
 	if err != nil {

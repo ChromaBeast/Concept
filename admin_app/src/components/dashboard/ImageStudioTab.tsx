@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Image as ImageIcon, Copy, Check, Upload, Sparkles, CheckCircle2 } from 'lucide-react';
-import { Card, CardContent } from '../ui/card';
+import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Input } from '../ui/input';
@@ -18,8 +18,8 @@ export function ImageStudioTab() {
 
   const loadConcepts = async () => {
     setLoading(true);
-    const all = await adminApi.getConcepts();
-    const visual = all.filter((c) => c.visualAid && !c.heroImageUrl);
+    const res = await adminApi.getConcepts('all', 1, 100);
+    const visual = res.items.filter((c) => c.visualAid && !c.heroImageUrl);
     setConcepts(visual);
     setLoading(false);
   };
@@ -77,7 +77,7 @@ export function ImageStudioTab() {
       {concepts.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {concepts.map((concept) => (
-            <Card key={concept.$id} className="p-5 space-y-4 shadow-sm">
+            <Card key={concept.$id} className="p-5 space-y-4 shadow-sm bg-paper-card">
               <div className="flex items-center justify-between gap-2">
                 <h4 className="font-bold text-sm text-paper-text font-sans">{concept.title}</h4>
                 <Badge variant="outline">{concept.category}</Badge>
