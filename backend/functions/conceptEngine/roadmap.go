@@ -57,7 +57,7 @@ func (r *RoadmapManager) ExpandCategory(category string) (int, error) {
 	}
 
 	topicsStr := strings.Join(existingTopics, ", ")
-	newTopics, err := r.gemini.ExpandTopics(category, topicsStr, r.config.ValidatorModel)
+	newTopics, err := r.gemini.ExpandTopics(category, topicsStr, r.config.GeminiModel)
 	if err != nil {
 		return 0, fmt.Errorf("gemini topic expansion failed: %w", err)
 	}
