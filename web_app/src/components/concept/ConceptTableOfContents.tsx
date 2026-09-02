@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Bookmark, CheckCircle2 } from 'lucide-react';
 
 interface ConceptTableOfContentsProps {
   className?: string;
@@ -59,11 +58,11 @@ export function ConceptTableOfContents({ className }: ConceptTableOfContentsProp
 
   return (
     <div className={cn('space-y-3 font-mono', className)}>
-      <h4 className="text-xs font-bold uppercase tracking-wider text-electric flex items-center gap-1.5">
+      <h4 className="text-xs font-bold uppercase tracking-wider text-ochre flex items-center gap-1.5">
         <span>On this concept</span>
       </h4>
       <nav>
-        <ul className="space-y-1.5 text-xs">
+        <ul className="space-y-1 text-xs">
           {SECTIONS.map((sec) => {
             const isActive = activeId === sec.id;
             return (
@@ -72,10 +71,10 @@ export function ConceptTableOfContents({ className }: ConceptTableOfContentsProp
                   type="button"
                   onClick={() => scrollTo(sec.id)}
                   className={cn(
-                    'block w-full text-left py-1 px-2 rounded-lg transition-colors',
+                    'block w-full text-left py-1.5 px-2.5 rounded-lg transition-colors',
                     isActive
-                      ? 'bg-electric/15 text-electric font-bold border-l-2 border-electric'
-                      : 'text-dark-muted hover:text-dark-text hover:bg-obsidian-surface'
+                      ? 'bg-ochre/15 text-ochre font-bold border-l-2 border-ochre'
+                      : 'text-paper-muted hover:text-paper-text hover:bg-paper-surface'
                   )}
                 >
                   {sec.label}

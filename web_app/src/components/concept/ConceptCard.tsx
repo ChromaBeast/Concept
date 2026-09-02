@@ -40,7 +40,7 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
   return (
     <Link href={`/concepts/${concept.slug}`} className="block group h-full">
       <div
-        className={`h-full flex flex-col justify-between p-5 rounded-2xl border border-obsidian-border bg-obsidian-card hover:border-electric/50 transition-all duration-150 ${className || ''}`}
+        className={`h-full flex flex-col justify-between p-5 rounded-2xl border border-paper-border bg-paper-card hover:border-ochre/50 transition-all duration-150 shadow-sm ${className || ''}`}
       >
         <div>
           <div className="flex items-center justify-between gap-2 mb-3">
@@ -55,11 +55,11 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
               >
                 {catMeta.label}
               </span>
-              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-obsidian-border bg-obsidian-surface text-dark-muted">
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded border border-paper-border bg-paper-surface text-paper-muted">
                 {diffMeta.label}
               </span>
               {learned && (
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-1.5 py-0.5 rounded">
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-teal bg-teal/10 border border-teal/30 px-1.5 py-0.5 rounded">
                   <CheckCircle2 className="w-3 h-3" /> Learned
                 </span>
               )}
@@ -70,8 +70,8 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
               onClick={handleBookmarkToggle}
               className={`p-1.5 rounded-lg border transition-colors ${
                 bookmarked
-                  ? 'bg-rose-500/20 text-rose-400 border-rose-500/40'
-                  : 'text-dark-muted hover:text-white border-transparent hover:border-obsidian-border hover:bg-obsidian-surface'
+                  ? 'bg-ochre/15 text-ochre border-ochre/40'
+                  : 'text-paper-muted hover:text-paper-text border-transparent hover:border-paper-border hover:bg-paper-surface'
               }`}
               title={bookmarked ? 'Remove bookmark' : 'Bookmark concept'}
             >
@@ -79,22 +79,22 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
             </button>
           </div>
 
-          <h3 className="text-base font-bold text-white group-hover:text-electric transition-colors mb-1.5 line-clamp-1 font-sans">
+          <h3 className="text-base font-bold text-paper-text group-hover:text-ochre transition-colors mb-1.5 line-clamp-1 font-sans">
             {concept.title}
           </h3>
 
-          <p className="text-xs text-dark-muted leading-relaxed line-clamp-2 mb-4 font-sans">
+          <p className="text-xs text-paper-muted leading-relaxed line-clamp-2 mb-4 font-sans">
             {concept.oneLiner}
           </p>
         </div>
 
-        <div className="pt-3 border-t border-obsidian-border flex items-center justify-between text-xs text-dark-muted font-mono">
+        <div className="pt-3 border-t border-paper-border flex items-center justify-between text-xs text-paper-muted font-mono">
           <ReadTimeBadge seconds={concept.estimatedReadSeconds} />
 
           {concept.askedByCompanies && concept.askedByCompanies.length > 0 && (
             <div className="flex items-center gap-1 overflow-hidden">
-              <span className="text-[10px] text-dark-sub">Interviews:</span>
-              <span className="text-[11px] text-dark-muted font-medium truncate max-w-[120px]">
+              <span className="text-[10px] text-paper-sub">Interviews:</span>
+              <span className="text-[11px] text-paper-muted font-medium truncate max-w-[120px]">
                 {concept.askedByCompanies.slice(0, 2).join(', ')}
               </span>
             </div>

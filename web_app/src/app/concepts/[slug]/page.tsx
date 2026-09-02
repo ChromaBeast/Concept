@@ -56,7 +56,7 @@ function ConceptDetailContent() {
   }, [concept]);
 
   if (loading) {
-    return <div className="p-20 text-center text-dark-muted font-mono">Loading reference...</div>;
+    return <div className="p-20 text-center text-paper-muted font-mono">Loading reference...</div>;
   }
 
   if (!concept) return notFound();
@@ -78,7 +78,7 @@ function ConceptDetailContent() {
   };
 
   return (
-    <article className="min-h-screen bg-obsidian-bg">
+    <article className="min-h-screen bg-paper-bg">
       <ConceptHeaderEditorial
         title={concept.title}
         oneLiner={concept.oneLiner}
@@ -88,66 +88,66 @@ function ConceptDetailContent() {
       />
 
       {/* Divided 2-Column Grid Container */}
-      <div className="flex divide-x divide-obsidian-border relative max-w-7xl mx-auto border-x border-obsidian-border">
+      <div className="flex divide-x divide-paper-border relative max-w-7xl mx-auto border-x border-paper-border">
         {/* Main Content Column */}
         <main className="w-full p-6 lg:p-10 space-y-10 min-w-0">
           {/* 01. Definition */}
           <section id="definition" className="space-y-3">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-dark-muted">
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
               [ 01 / AXIOM DEFINITION ]
             </h2>
-            <p className="text-xl sm:text-2xl font-semibold text-white leading-relaxed text-balance">
+            <p className="text-xl sm:text-2xl font-semibold text-paper-text leading-relaxed text-balance">
               {concept.body.definition}
             </p>
           </section>
 
           {/* 02. Why It Matters */}
-          <section id="why-it-matters" className="space-y-3 pt-8 border-t border-obsidian-border">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-dark-muted">
+          <section id="why-it-matters" className="space-y-3 pt-8 border-t border-paper-border">
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
               [ 02 / WHY IT MATTERS ON THE JOB ]
             </h2>
-            <p className="text-base sm:text-lg text-dark-muted leading-relaxed">
+            <p className="text-base sm:text-lg text-paper-muted leading-relaxed">
               {concept.body.whyItMatters}
             </p>
           </section>
 
           {/* Visual Aid */}
           {concept.visualAid && (
-            <div className="pt-6 border-t border-obsidian-border">
+            <div className="pt-6 border-t border-paper-border">
               <ConceptHeroVisual title={concept.title} imageUrl={concept.heroImageUrl} imagePrompt={concept.imagePrompt} />
             </div>
           )}
 
           {/* 03. Code & Scenario */}
-          <section id="code-example" className="space-y-3 pt-8 border-t border-obsidian-border">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-dark-muted">
+          <section id="code-example" className="space-y-3 pt-8 border-t border-paper-border">
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
               [ 03 / CODE &amp; CONCRETE SCENARIO ]
             </h2>
             <CodeBlock code={concept.body.example} title={`${concept.title} implementation`} />
           </section>
 
           {/* 04. Pitfalls & 05. Interview Angle */}
-          <section id="pitfall" className="space-y-5 pt-8 border-t border-obsidian-border">
+          <section id="pitfall" className="space-y-5 pt-8 border-t border-paper-border">
             <PitfallBox pitfall={concept.body.commonPitfall} />
             <InterviewBox interviewAngle={concept.body.interviewAngle} />
           </section>
 
           {/* 06. Quick Check Drill */}
-          <section id="quick-checks" className="space-y-4 pt-8 border-t border-obsidian-border">
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-dark-muted">
+          <section id="quick-checks" className="space-y-4 pt-8 border-t border-paper-border">
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">
               [ 06 / ACTIVE RECALL DRILL ]
             </h2>
             <QuickCheckList quickChecks={concept.body.quickChecks} />
           </section>
 
           {/* 07. Related Concepts */}
-          <section id="related" className="pt-8 border-t border-obsidian-border">
+          <section id="related" className="pt-8 border-t border-paper-border">
             <RelatedConcepts relatedConceptIds={concept.relatedConceptIds} />
           </section>
         </main>
 
         {/* Right Sticky Sidebar */}
-        <aside className="hidden lg:block w-[340px] flex-shrink-0 p-6 lg:p-10 bg-obsidian-surface/20">
+        <aside className="hidden lg:block w-[340px] flex-shrink-0 p-6 lg:p-10 bg-paper-surface/40">
           <div className="sticky top-20">
             <ConceptSidebar
               bookmarked={bookmarked}
@@ -168,7 +168,7 @@ function ConceptDetailContent() {
 
 export default function ConceptDetailPage() {
   return (
-    <Suspense fallback={<div className="p-20 text-center text-dark-muted font-mono">Loading concept...</div>}>
+    <Suspense fallback={<div className="p-20 text-center text-paper-muted font-mono">Loading concept...</div>}>
       <ConceptDetailContent />
     </Suspense>
   );

@@ -26,39 +26,39 @@ function QuickCheckItem({ item, index }: { item: QuickCheckType; index: number }
   return (
     <div
       onClick={() => setRevealed(!revealed)}
-      className="p-5 rounded-2xl border border-obsidian-border bg-obsidian-card hover:border-obsidian-border/80 cursor-pointer transition-colors select-none group flex flex-col justify-between space-y-3"
+      className="p-5 rounded-2xl border border-paper-border bg-paper-card hover:border-ochre/40 cursor-pointer transition-colors select-none group flex flex-col justify-between space-y-3 shadow-sm"
     >
       <div>
         <div className="flex items-center justify-between gap-2 mb-2 font-mono text-xs">
-          <span className="text-electric font-bold">
+          <span className="text-ochre font-bold">
             QUESTION {index}
           </span>
-          <span className="text-[11px] text-dark-muted flex items-center gap-1 group-hover:text-dark-text transition-colors">
+          <span className="text-[11px] text-paper-muted flex items-center gap-1 group-hover:text-paper-text transition-colors">
             {revealed ? (
               <>
-                <EyeOff className="w-3.5 h-3.5 text-electric" /> Hide Answer
+                <EyeOff className="w-3.5 h-3.5 text-ochre" /> Hide Answer
               </>
             ) : (
               <>
-                <Eye className="w-3.5 h-3.5 text-dark-muted" /> Tap to Reveal
+                <Eye className="w-3.5 h-3.5 text-paper-muted" /> Tap to Reveal
               </>
             )}
           </span>
         </div>
 
-        <p className="text-sm font-semibold text-white leading-snug font-sans">
+        <p className="text-sm font-semibold text-paper-text leading-snug font-sans">
           {item.question}
         </p>
       </div>
 
-      <div className="pt-3 border-t border-obsidian-border/60 font-mono text-xs">
+      <div className="pt-3 border-t border-paper-border/60 font-mono text-xs">
         {revealed ? (
-          <div className="flex items-start gap-2 text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 p-3 rounded-xl animate-fadeIn">
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-emerald-400" />
-            <span className="leading-relaxed font-sans">{item.answer}</span>
+          <div className="flex items-start gap-2 text-teal bg-teal/10 border border-teal/25 p-3 rounded-xl animate-fadeIn">
+            <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5 text-teal" />
+            <span className="leading-relaxed font-sans text-paper-text">{item.answer}</span>
           </div>
         ) : (
-          <div className="text-[11px] text-dark-muted italic">
+          <div className="text-[11px] text-paper-muted italic">
             Click card to reveal architectural answer...
           </div>
         )}

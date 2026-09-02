@@ -32,8 +32,8 @@ export function ConceptSidebar({
           onClick={onToggleLearned}
           className={`py-2.5 px-3 rounded-xl border text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
             learned
-              ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
-              : 'bg-obsidian-surface border-obsidian-border hover:bg-obsidian-variant text-dark-text'
+              ? 'bg-teal/15 border-teal/40 text-teal'
+              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text shadow-sm'
           }`}
         >
           <CheckCircle2 className="w-3.5 h-3.5" />
@@ -45,8 +45,8 @@ export function ConceptSidebar({
           onClick={onToggleBookmark}
           className={`py-2.5 px-3 rounded-xl border text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
             bookmarked
-              ? 'bg-rose-500/20 border-rose-500/40 text-rose-400'
-              : 'bg-obsidian-surface border-obsidian-border hover:bg-obsidian-variant text-dark-text'
+              ? 'bg-ochre/15 border-ochre/40 text-ochre'
+              : 'bg-paper-card border-paper-border hover:bg-paper-surface text-paper-text shadow-sm'
           }`}
         >
           <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
@@ -55,22 +55,22 @@ export function ConceptSidebar({
       </div>
 
       {/* Table of Contents Container */}
-      <div className="p-5 rounded-2xl border border-obsidian-border bg-obsidian-card">
+      <div className="p-5 rounded-2xl border border-paper-border bg-paper-card shadow-sm">
         <ConceptTableOfContents />
       </div>
 
       {/* Company Interview Targets */}
       {companies && companies.length > 0 && (
-        <div className="p-5 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-3 font-mono">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-dark-text">
-            <Building2 className="w-4 h-4 text-electric" />
+        <div className="p-5 rounded-2xl border border-paper-border bg-paper-card space-y-3 font-mono shadow-sm">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-paper-text">
+            <Building2 className="w-4 h-4 text-ochre" />
             <span>Asked in Interviews at</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {companies.map((c) => (
               <span
                 key={c}
-                className="px-2.5 py-1 rounded-lg bg-obsidian-surface border border-obsidian-border text-[11px] text-dark-muted"
+                className="px-2.5 py-1 rounded-lg bg-paper-surface border border-paper-border text-[11px] text-paper-muted"
               >
                 {c}
               </span>
@@ -81,15 +81,15 @@ export function ConceptSidebar({
 
       {/* Course Context Card */}
       {course && (
-        <div className="p-5 rounded-2xl border border-electric/30 bg-electric/5 space-y-3 font-mono">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-electric">
+        <div className="p-5 rounded-2xl border border-ochre/30 bg-ochre/5 space-y-3 font-mono shadow-sm">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-ochre">
             <BookOpen className="w-4 h-4" />
             <span>Learning Track</span>
           </div>
-          <div className="text-sm font-bold text-white">{course.title}</div>
+          <div className="text-sm font-bold text-paper-text">{course.title}</div>
           <Link
             href={`/courses/${course.slug}`}
-            className="inline-block text-xs text-electric hover:underline font-bold"
+            className="inline-block text-xs text-ochre hover:underline font-bold"
           >
             Track Playlist &rarr;
           </Link>
