@@ -133,7 +133,7 @@ export function OverviewHeroMetrics({ stats, onNavigate }: OverviewHeroMetricsPr
             AI Engine Model
           </div>
           <div className="text-lg font-bold text-paper-text tracking-tight mt-1 font-sans truncate">
-            Gemini 3.7 &rarr; 3.6 Flash
+            Gemini 3.8 &rarr; 3.7 Flash
           </div>
         </div>
         <div className="text-[11px] text-paper-muted font-mono pt-1 flex items-center justify-between">

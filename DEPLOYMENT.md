@@ -1,4 +1,4 @@
-﻿# Concept Platform — Deployment Guide
+# Concept Platform — Deployment Guide
 
 Comprehensive deployment guide using the **Appwrite CLI**, **Next.js Web App** (Bun), and **Flutter Mobile App**.
 
@@ -29,8 +29,8 @@ appwrite push all
 ### Step 3: Configure Function Environment Variables
 In [Appwrite Console](https://cloud.appwrite.io) $\to$ **Functions** $\to$ **Settings** $\to$ **Global Variables**:
 - `GEMINI_API_KEY`: Your Google AI Gemini API Key
-- `GEMINI_MODEL`: `gemini-3.7-flash` (Primary synthesis & structured generation)
-- `GEMINI_VALIDATOR_MODEL`: `gemini-3.5-flash-lite` (Fast validation & roadmap expansion)
+- `GEMINI_MODEL`: `gemini-3.8-flash` (Primary synthesis & structured generation)
+- `GEMINI_VALIDATOR_MODEL`: `gemini-3.8-flash` (Fast validation & roadmap expansion)
 - `APPWRITE_API_KEY`: Server API key with `databases.*`, `files.*`, `functions.*` scopes
 - `APPWRITE_ENDPOINT`: `https://cloud.appwrite.io/v1`
 - `APPWRITE_PROJECT_ID`: `concept-app`

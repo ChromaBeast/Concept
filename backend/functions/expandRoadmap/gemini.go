@@ -20,7 +20,7 @@ type GeminiExpandClient struct {
 // NewGeminiExpandClient instantiates a GeminiExpandClient.
 func NewGeminiExpandClient(apiKey, model string) *GeminiExpandClient {
 	if model == "" {
-		model = "gemini-3.5-flash-lite"
+		model = "gemini-3.8-flash"
 	}
 	return &GeminiExpandClient{
 		APIKey: apiKey,

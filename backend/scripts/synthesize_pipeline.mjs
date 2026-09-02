@@ -3,12 +3,11 @@ import path from 'path';
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
-// Cascade according to user spec: 3.7 Flash -> 3.6 Flash -> 3.5 Flash -> 3.5 Flash Lite -> 3.1 Flash Lite
+// Cascade: 3.8 Flash -> 3.7 Flash -> 3.6 Flash -> 3.1 Flash Lite -> 2.0 Flash
 const MODEL_CASCADE = [
+  { name: 'gemini-3.8-flash', delayMs: 12500, type: 'flash' },
   { name: 'gemini-3.7-flash', delayMs: 12500, type: 'flash' },
   { name: 'gemini-3.6-flash', delayMs: 12500, type: 'flash' },
-  { name: 'gemini-3.5-flash', delayMs: 12500, type: 'flash' },
-  { name: 'gemini-3.5-flash-lite', delayMs: 4200, type: 'lite' },
   { name: 'gemini-3.1-flash-lite', delayMs: 4200, type: 'lite' },
   { name: 'gemini-2.0-flash', delayMs: 12500, type: 'flash' },
   { name: 'gemini-1.5-flash', delayMs: 12500, type: 'flash' },

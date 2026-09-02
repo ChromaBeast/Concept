@@ -31,7 +31,7 @@ export function PipelineRunnerCard({ onRefresh }: { onRefresh?: () => void }) {
 
   const handleRunPipeline = async () => {
     setLoading(true);
-    addLog(`Triggering Content Pipeline Batch (batchSize=${batchSize}, Model=Gemini 3.7/3.6 Flash)...`);
+    addLog(`Triggering Content Pipeline Batch (batchSize=${batchSize}, Model=Gemini 3.8 Flash)...`);
     try {
       const res = await adminApi.triggerEngine('pipeline', { batch: batchSize });
       addLog(`Pipeline result: Published=${res.published || 0}, Reviewed=${res.reviewed || 0}`);
@@ -45,7 +45,7 @@ export function PipelineRunnerCard({ onRefresh }: { onRefresh?: () => void }) {
 
   const handleExpandRoadmap = async () => {
     setLoading(true);
-    addLog(`Expanding Roadmap for category: "${selectedCategory}" via Gemini 3.7/3.6 Flash...`);
+    addLog(`Expanding Roadmap for category: "${selectedCategory}" via Gemini 3.8 Flash...`);
     try {
       const res = await adminApi.triggerEngine('expand', { category: selectedCategory });
       addLog(`Expansion result: Inserted ${res.inserted || 0} new topics to roadmap.`);

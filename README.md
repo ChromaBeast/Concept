@@ -1,4 +1,4 @@
-﻿# Concept — Software Engineering Microlearning Platform
+# Concept — Software Engineering Microlearning Platform
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B?logo=flutter)](https://flutter.dev)
 [![Next.js](https://img.shields.io/badge/Next.js-14+-black?logo=next.js)](https://nextjs.org)
@@ -18,7 +18,7 @@ A dense, high-signal engineering reference and daily learning loop built for sof
 - **Cross-Platform**:
   - 📱 **Mobile**: Flutter with Riverpod, offline Hive caching, haptics, and thumb-friendly navigation.
   - 🌐 **Web**: Next.js 14 (App Router) + Bun, Tailwind CSS, `Cmd+K` Command Palette, Breadcrumbs, and keyboard navigation (`←`/`→`).
-  - ⚙️ **Backend**: Appwrite Cloud Functions written in **Go 1.26.5** with automated multi-stage Gemini 3.7 Flash & 3.5 Flash-Lite content pipelines.
+  - ⚙️ **Backend**: Appwrite Cloud Functions written in **Go 1.26.5** with automated multi-stage Gemini 3.8 Flash content pipelines.
 
 ---
 
@@ -70,8 +70,8 @@ go run .
 
 ## 🤖 Content Generation Architecture
 
-1. **Roadmap Expansion**: `expandRoadmap` invokes `gemini-3.5-flash-lite` to discover high-priority curriculum gaps.
-2. **Draft Generation**: `runContentPipeline` prompts `gemini-3.7-flash` with strict JSON schema constraints.
+1. **Roadmap Expansion**: `expandRoadmap` invokes `gemini-3.8-flash` to discover high-priority curriculum gaps.
+2. **Draft Generation**: `runContentPipeline` prompts `gemini-3.8-flash` with strict JSON schema constraints.
 3. **Automated Validation**: `validator.go` checks schema integrity, word limits, and runs an accuracy verification pass before auto-publishing.
 
 ---

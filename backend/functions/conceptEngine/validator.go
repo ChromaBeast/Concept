@@ -12,7 +12,7 @@ type ContentValidator struct {
 
 func NewContentValidator(gemini *GeminiClient, validatorModel string) *ContentValidator {
 	if validatorModel == "" {
-		validatorModel = "gemini-3.5-flash-lite"
+		validatorModel = "gemini-3.8-flash"
 	}
 	return &ContentValidator{
 		geminiClient:   gemini,

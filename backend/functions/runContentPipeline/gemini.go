@@ -20,10 +20,10 @@ type GeminiClient struct {
 // NewGeminiClient instantiates a new GeminiClient with cost-effective defaults.
 func NewGeminiClient(apiKey, model, validatorModel string) *GeminiClient {
 	if model == "" {
-		model = "gemini-3.7-flash"
+		model = "gemini-3.8-flash"
 	}
 	if validatorModel == "" {
-		validatorModel = "gemini-3.5-flash-lite"
+		validatorModel = "gemini-3.8-flash"
 	}
 	return &GeminiClient{
 		APIKey:         apiKey,

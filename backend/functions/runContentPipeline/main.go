@@ -35,8 +35,8 @@ func loadConfig(ctx openruntimes.Context) *PipelineConfig {
 	apiKey := getEnvOrDefault("APPWRITE_API_KEY", getEnvOrDefault("APPWRITE_FUNCTION_API_KEY", ""))
 	databaseID := getEnvOrDefault("APPWRITE_DATABASE_ID", "concepts_db")
 	geminiKey := getEnvOrDefault("GEMINI_API_KEY", getEnvOrDefault("GEMINI_KEY", ""))
-	aiModel := getEnvOrDefault("GEMINI_MODEL", getEnvOrDefault("AI_MODEL", "gemini-3.7-flash"))
-	validatorModel := getEnvOrDefault("GEMINI_VALIDATOR_MODEL", "gemini-3.5-flash-lite")
+	aiModel := getEnvOrDefault("GEMINI_MODEL", getEnvOrDefault("AI_MODEL", "gemini-3.8-flash"))
+	validatorModel := getEnvOrDefault("GEMINI_VALIDATOR_MODEL", "gemini-3.8-flash")
 	promptVersion := getEnvOrDefault("PROMPT_VERSION", "v1")
 
 	batchSize := 15

@@ -48,7 +48,7 @@ export const appwriteWriter = {
       estimatedReadSeconds: doc.estimatedReadSeconds || 90,
       status: doc.status || 'published',
       source: 'ai_generated',
-      aiModel: doc.aiModel || 'gemini-3.7-flash',
+      aiModel: doc.aiModel || 'gemini-3.8-flash',
       promptVersion: 'v1.0',
       tagIds: doc.tagIds || [],
       visualAid: doc.visualAid || false,

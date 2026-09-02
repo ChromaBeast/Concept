@@ -35,7 +35,7 @@ class Concept {
   final int estimatedReadSeconds;    // computed, target 90–120
   final ContentStatus status;        // draft | needs_review | published | flagged
   final ContentSource source;        // ai_generated | ai_generated_reviewed | human_authored
-  final String? aiModel;             // e.g. "gemini-2.5-flash"
+  final String? aiModel;             // e.g. "gemini-3.8-flash"
   final String? promptVersion;       // e.g. "v3" — lets you regenerate stale content later
   final List<String> relatedConceptIds;
   final List<String> askedByCompanies; // optional, e.g. ["Google","Amazon"] — nullable list
@@ -220,7 +220,7 @@ Appwrite Functions support configurable execution timeouts well beyond what a 15
 
 ```go
 req, _ := http.NewRequest("POST",
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent",
     bytes.NewBuffer(mustJSON(map[string]any{
         "contents": []any{map[string]any{
             "parts": []any{map[string]any{"text": buildPrompt(topic, category, difficulty)}},
@@ -337,7 +337,7 @@ A concept auto-publishes only if **all** of the following pass; otherwise it's w
 
 ### 4.6 Cost & rate control
 
-- Default to `gemini-2.5-flash` for both the generation and self-check text calls — cheap enough that the two-call pattern per topic is still inexpensive at this content length.
+- Default to `gemini-3.8-flash` for both the generation and self-check text calls — cheap enough that the two-call pattern per topic is still inexpensive at this content length.
 - Bounded concurrency (3–4 topics in flight, not the whole batch at once) keeps you under Gemini's per-minute rate limits without needing a queueing system.
 - Gemini API key stored as an encrypted Appwrite Function environment variable, never hardcoded or committed.
 - No image API spend — image generation runs through Google Flow credits already included in your Gemini Pro plan, not the billed Gemini API (§4.4). The only cost left in the pipeline is the two text calls per concept.

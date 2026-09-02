@@ -19,7 +19,7 @@ type GeminiCurateClient struct {
 // NewGeminiCurateClient instantiates a GeminiCurateClient.
 func NewGeminiCurateClient(apiKey, model string) *GeminiCurateClient {
 	if model == "" {
-		model = "gemini-3.7-flash"
+		model = "gemini-3.8-flash"
 	}
 	return &GeminiCurateClient{
 		APIKey: apiKey,

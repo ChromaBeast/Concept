@@ -58,7 +58,7 @@ async function syncAllCatalog() {
         estimatedReadSeconds: c.estimatedReadSeconds || 85,
         status: 'published',
         source: 'human_authored',
-        aiModel: 'gemini-3.7-flash',
+        aiModel: 'gemini-3.8-flash',
         promptVersion: 'v1.0',
         tagIds: c.tagIds || [],
         visualAid: Boolean(c.visualAid),

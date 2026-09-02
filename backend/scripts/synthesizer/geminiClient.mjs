@@ -1,10 +1,9 @@
 const MODEL_CASCADE = [
-  { name: 'gemini-2.5-flash', delayMs: 5000, type: 'flash' },
-  { name: 'gemini-2.0-flash', delayMs: 5000, type: 'flash' },
-  { name: 'gemini-1.5-flash', delayMs: 5000, type: 'flash' },
-  { name: 'gemini-1.5-flash-8b', delayMs: 3000, type: 'lite' },
+  { name: 'gemini-3.8-flash', delayMs: 12500, type: 'flash' },
   { name: 'gemini-3.7-flash', delayMs: 12500, type: 'flash' },
   { name: 'gemini-3.6-flash', delayMs: 12500, type: 'flash' },
+  { name: 'gemini-2.0-flash', delayMs: 5000, type: 'flash' },
+  { name: 'gemini-1.5-flash', delayMs: 5000, type: 'flash' },
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

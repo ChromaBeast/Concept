@@ -31,8 +31,8 @@ class AppConstants {
   static const int pipelineBatchSize = 15;
   static const int pipelineBoundedConcurrency = 4;
   static const int maxGenerationRetries = 2;
-  static const String defaultAiModel = 'gemini-3.7-flash';
-  static const String defaultValidatorModel = 'gemini-3.5-flash-lite';
+  static const String defaultAiModel = 'gemini-3.8-flash';
+  static const String defaultValidatorModel = 'gemini-3.8-flash';
   static const String defaultPromptVersion = 'v1';
 
   // Courses (Spec §4.7)
