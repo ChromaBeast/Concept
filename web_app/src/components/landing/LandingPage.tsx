@@ -7,7 +7,6 @@ import { StatsCounter } from './StatsCounter';
 import { BentoCurriculum } from './BentoCurriculum';
 import { ArchitectureFormula } from './ArchitectureFormula';
 import { LiveConceptSandbox } from './LiveConceptSandbox';
-import { DeveloperQuotes } from './DeveloperQuotes';
 import { GiantWatermarkFooter } from './GiantWatermarkFooter';
 
 export function LandingPage() {
@@ -19,7 +18,6 @@ export function LandingPage() {
       <BentoCurriculum />
       <ArchitectureFormula />
       <LiveConceptSandbox />
-      <DeveloperQuotes />
       <GiantWatermarkFooter />
     </div>
   );

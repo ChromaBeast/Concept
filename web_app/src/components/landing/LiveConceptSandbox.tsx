@@ -18,9 +18,9 @@ const DRILL_SCENARIO = {
   options: [
     {
       id: '1',
-      label: 'Cascading network partition due to Raft split-brain condition.',
+      label: 'Range queries across shards silently return incomplete results.',
       isCorrect: false,
-      explanation: 'Raft consensus manages state replication, not static partition routing.',
+      explanation: 'Cross-shard scatter-gather queries require explicit coordinator aggregation, but skew directly exhausts single-shard capacity first.',
     },
     {
       id: '2',
@@ -50,20 +50,14 @@ export function LiveConceptSandbox() {
 
   return (
     <section className="section-fluid border-t border-paper-border bg-paper-bg font-sans">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
-          <div className="space-y-2">
-            <span className="text-xs font-mono font-semibold uppercase tracking-widest text-ochre">
-              [ LIVE RETENTION DRILL ]
-            </span>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-paper-text font-sans">
-              Test Your Architectural Recall. <br />
-              <span className="text-ochre">Instant Trade-Off Feedback.</span>
-            </h2>
-          </div>
-          <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-sm">
-            Active recall cards embedded in every concept. Try this production scenario:
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+          <p className="text-base sm:text-lg font-mono font-semibold text-paper-text">
+            Try one before you scroll further.
           </p>
+          <span className="text-xs text-paper-muted font-mono">
+            Active recall drill &bull; Instant trade-off feedback
+          </span>
         </div>
 
         <div className="max-w-3xl mx-auto p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 shadow-sm">
@@ -143,7 +137,7 @@ export function LiveConceptSandbox() {
               href="/browse"
               className="text-ochre font-bold hover:underline flex items-center gap-1"
             >
-              <span>Explore 197 Invariants</span>
+              <span>Explore All Concepts</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>

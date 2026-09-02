@@ -45,7 +45,7 @@ export function GiantWatermarkFooter() {
           <div className="space-y-3">
             <div className="text-paper-text font-bold uppercase tracking-wider">Explore</div>
             <ul className="space-y-2 text-paper-muted">
-              <li><Link href="/browse" className="hover:text-ochre transition-colors">All 197 Concepts</Link></li>
+              <li><Link href="/browse" className="hover:text-ochre transition-colors">All Concepts</Link></li>
               <li><Link href="/courses" className="hover:text-ochre transition-colors">Curated Study Paths</Link></li>
               <li><Link href="/browse?domain=systems_cloud" className="hover:text-ochre transition-colors">Distributed Systems</Link></li>
               <li><Link href="/browse?domain=core_cs" className="hover:text-ochre transition-colors">Core Computer Science</Link></li>
@@ -78,16 +78,18 @@ export function GiantWatermarkFooter() {
               <li><span className="text-paper-muted">Appwrite Go Cloud Backend</span></li>
               <li><span className="text-paper-muted">Flutter iOS / Android</span></li>
               <li><span className="text-paper-muted">Next.js Web App</span></li>
-              <li><span className="text-paper-muted">Automated Factual Verification</span></li>
+              <li><span className="text-paper-muted">Human-Reviewed Before Publish</span></li>
             </ul>
           </div>
         </div>
 
         {/* Footer Bottom Bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-paper-muted pt-6 border-t border-paper-border gap-2">
-          <div>&copy; {new Date().getFullYear()} Concept. Architectural Mental Models in &lt;2 Minutes.</div>
+          <div className="space-y-0.5 text-center sm:text-left">
+            <div className="text-paper-text font-semibold">Concept &mdash; Engineering Mental Models in &lt;2 minutes.</div>
+            <div>&copy; 2026 Concept.</div>
+          </div>
           <div className="flex items-center gap-4">
-            <span>Ink &amp; Ochre Technical Edition</span>
             <span>v1.0.0</span>
           </div>
         </div>

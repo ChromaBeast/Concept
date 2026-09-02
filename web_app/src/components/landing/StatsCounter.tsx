@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { CountUp, SpotlightCard } from '@/components/animations';
+import { CheckCircle2 } from 'lucide-react';
 
 const LIMITS = [
   { field: '01. Axiom Definition', limit: '≤ 40 words', intent: 'One clear, unambiguous architectural invariant' },
@@ -17,12 +18,9 @@ export function StatsCounter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
           <div className="space-y-2">
-            <span className="text-xs font-mono font-semibold uppercase tracking-widest text-ochre">
-              [ SPECIFICATION SPEC ]
-            </span>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-paper-text font-sans">
               Hard Cognitive Limits. <br />
-              <span className="text-ochre">Zero Long-Winded Filler.</span>
+              <span className="text-ochre">No Padding.</span>
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-sm">
@@ -34,7 +32,7 @@ export function StatsCounter() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-8 rounded-2xl border border-paper-border bg-paper-card overflow-hidden text-xs font-mono shadow-sm">
             <div className="px-4 py-2.5 bg-paper-surface border-b border-paper-border text-paper-muted flex justify-between font-semibold">
-              <span>Section Constraint Protocol</span>
+              <span className="text-ochre">[ CONTENT CONSTRAINTS ]</span>
               <span>Max Word Limit</span>
             </div>
             <div className="divide-y divide-paper-border">
@@ -63,19 +61,20 @@ export function StatsCounter() {
                 <CountUp to={90} duration={1.5} suffix="s Read" />
               </div>
               <p className="text-xs text-paper-muted leading-relaxed font-sans">
-                Dense, high-retention mental models. Eliminates 45-minute YouTube video bloat while delivering verified invariants.
+                Dense, high-retention mental models. Eliminates 45-minute YouTube video bloat while delivering verified mental models.
               </p>
             </SpotlightCard>
 
             <div className="grid grid-cols-2 gap-4">
               <SpotlightCard
                 spotlightColor="rgba(13, 148, 136, 0.15)"
-                className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm"
+                className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm flex flex-col justify-center"
               >
-                <div className="text-2xl font-bold text-paper-text font-sans">
-                  <CountUp to={100} duration={1.5} suffix="%" />
+                <div className="text-sm font-bold text-paper-text font-sans flex items-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-teal shrink-0" />
+                  <span>Human-Reviewed</span>
                 </div>
-                <div className="text-[11px] text-paper-muted font-mono">Factual Self-Checked</div>
+                <div className="text-[11px] text-paper-muted font-mono">Before publish</div>
               </SpotlightCard>
               <SpotlightCard
                 spotlightColor="rgba(217, 119, 6, 0.15)"

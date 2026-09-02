@@ -20,7 +20,7 @@ export function BentoCurriculum() {
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-sm">
-            4 focused domains grouping 16 core disciplines with zero choice fatigue.
+            4 focused domains grouping 16 core disciplines without the scroll-forever problem.
           </p>
         </div>
 
@@ -40,7 +40,7 @@ export function BentoCurriculum() {
                   <span className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">SYSTEMS &amp; SCALE</span>
                 </div>
                 <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-paper-surface border border-paper-border text-paper-text font-semibold">
-                  52 Models
+                  Architecture
                 </span>
               </div>
 
@@ -78,7 +78,7 @@ export function BentoCurriculum() {
                   <span className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">FOUNDATIONS</span>
                 </div>
                 <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-paper-surface border border-paper-border text-paper-text font-semibold">
-                  64 Models
+                  CS Primitives
                 </span>
               </div>
 
@@ -110,7 +110,7 @@ export function BentoCurriculum() {
                   <span className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">APPLICATION</span>
                 </div>
                 <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-paper-surface border border-paper-border text-paper-text font-semibold">
-                  48 Models
+                  Software Patterns
                 </span>
               </div>
 
@@ -142,7 +142,7 @@ export function BentoCurriculum() {
                   <span className="text-xs font-mono font-bold uppercase tracking-wider text-paper-muted">OPERATIONS</span>
                 </div>
                 <span className="text-xs font-mono px-2.5 py-0.5 rounded-full bg-paper-surface border border-paper-border text-paper-text font-semibold">
-                  33 Models
+                  Resilience &amp; SRE
                 </span>
               </div>
 

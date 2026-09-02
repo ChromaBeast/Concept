@@ -28,6 +28,7 @@ export function LearningDashboard() {
   const [trending, setTrending] = useState<Concept[]>([]);
   const [featuredCourse, setFeaturedCourse] = useState<Course | null>(null);
   const [learnedCount, setLearnedCount] = useState(0);
+  const [totalConcepts, setTotalConcepts] = useState(21);
   const [streak, setStreak] = useState({ streakDays: 4, lastActiveDate: '' });
 
   useEffect(() => {
@@ -35,9 +36,11 @@ export function LearningDashboard() {
       const daily = await dataService.getDailyConcept();
       const list = await dataService.getConcepts({ limit: 6 });
       const courses = await dataService.getCourses({ limit: 1 });
+      const stats = await dataService.getStats();
       setDailyConcept(daily);
       setTrending(list);
       if (courses.length > 0) setFeaturedCourse(courses[0]);
+      if (stats.totalConcepts > 0) setTotalConcepts(stats.totalConcepts);
       setLearnedCount(storage.getLearned().length);
       setStreak(storage.getStreak());
     };
@@ -112,7 +115,7 @@ export function LearningDashboard() {
             <Compass className="w-5 h-5 text-ochre" />
           </div>
           <div>
-            <div className="text-lg font-bold text-paper-text font-sans">197+</div>
+            <div className="text-lg font-bold text-paper-text font-sans">{totalConcepts}</div>
             <div className="text-xs text-paper-muted font-mono">Reference Library</div>
           </div>
         </div>

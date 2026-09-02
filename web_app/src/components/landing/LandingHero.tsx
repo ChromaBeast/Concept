@@ -1,13 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Zap, AlertOctagon, Clock } from 'lucide-react';
 import { DotGrid, BlurText, ShinyText, SpotlightCard, ClickSpark } from '@/components/animations';
+import { dataService } from '@/lib/dataService';
 
 export function LandingHero() {
   const [activeTab, setActiveTab] = useState<'invariant' | 'failure_mode'>('invariant');
   const [drillAnswered, setDrillAnswered] = useState(false);
+  const [conceptCount, setConceptCount] = useState<number>(21);
+
+  useEffect(() => {
+    dataService.getAllConcepts().then((list) => {
+      if (list && list.length > 0) setConceptCount(list.length);
+    });
+  }, []);
 
   return (
     <section className="relative pt-6 sm:pt-10 pb-16 overflow-hidden">
@@ -46,7 +54,7 @@ export function LandingHero() {
                 href="/browse"
                 className="px-6 py-3.5 rounded-xl bg-ochre hover:bg-ochre-dim text-white font-bold font-mono text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm"
               >
-                <span>Browse 197 Reference Models</span>
+                <span>Browse {conceptCount} Reference Models</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
 
@@ -59,7 +67,7 @@ export function LandingHero() {
             </div>
 
             <div className="flex items-center gap-6 pt-4 border-t border-paper-border text-xs font-mono text-paper-muted">
-              <div><span className="text-paper-text font-bold">197+</span> Invariants</div>
+              <div><span className="text-paper-text font-bold">{conceptCount}</span> Concepts</div>
               <div><span className="text-paper-text font-bold">16</span> Disciplines</div>
               <div><span className="text-ochre font-bold">&le;90s</span> Read Cap</div>
             </div>
