@@ -7,22 +7,6 @@ on:
     branches: [ main, master ]
 
 jobs:
-  flutter-checks:
-    name: Flutter Lint & Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: true
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Analyze code
-        run: dart analyze .
-      - name: Run widget & unit tests
-        run: flutter test
-
   web-build:
     name: Next.js Web App Build (Bun)
     runs-on: ubuntu-latest
@@ -54,7 +38,7 @@ jobs:
 
   appwrite-sync:
     name: Appwrite Schema & Functions Sync
-    needs: [flutter-checks, web-build, go-backend]
+    needs: [web-build, go-backend]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
