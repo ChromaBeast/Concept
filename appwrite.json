@@ -8,6 +8,10 @@
             "runtime": "go-1.26",
             "path": "backend/functions/conceptEngine",
             "entrypoint": "main.go",
+            "execute": [
+                "any",
+                "users"
+            ],
             "schedule": "0 2 * * *",
             "timeout": 300,
             "enabled": true,
@@ -365,7 +369,10 @@
         {
             "$id": "roadmapTopics",
             "$permissions": [
-                "read(\"users\")"
+                "read(\"any\")",
+                "create(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
             ],
             "databaseId": "6a97fc7c0037107a5f9a",
             "name": "Roadmap Topics",
@@ -450,7 +457,7 @@
         {
             "$id": "pipelineRuns",
             "$permissions": [
-                "read(\"users\")"
+                "read(\"any\")"
             ],
             "databaseId": "6a97fc7c0037107a5f9a",
             "name": "Pipeline Runs",
@@ -504,7 +511,9 @@
         {
             "$id": "userProfiles",
             "$permissions": [
-                "read(\"users\")"
+                "read(\"any\")",
+                "create(\"any\")",
+                "update(\"any\")"
             ],
             "databaseId": "6a97fc7c0037107a5f9a",
             "name": "User Profiles",

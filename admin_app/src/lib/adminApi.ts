@@ -93,19 +93,27 @@ export const adminApi = {
     return `${APPWRITE_CONFIG.endpoint}/storage/buckets/${bucketId}/files/${uploaded.$id}/view?project=${APPWRITE_CONFIG.projectId}`;
   },
 
-  // 5. Trigger Cloud Function
+  // 5. Trigger Cloud Function (via Secure Server Proxy with Master Key)
   async triggerEngine(action: 'pipeline' | 'expand' | 'seed' | 'status', payload: Record<string, any> = {}) {
-    const res = await functions.createExecution(
-      'conceptEngine',
-      JSON.stringify({ action, ...payload }),
-      false,
-      `/?action=${action}`,
-      ExecutionMethod.POST
-    );
     try {
-      return JSON.parse(res.responseBody || '{}');
+      const res = await fetch('/api/pipeline', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action, ...payload }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Server pipeline error');
+      return data;
     } catch {
-      return { raw: res.responseBody, status: res.status };
+      // Fallback to direct client SDK execution
+      const res = await functions.createExecution(
+        'conceptEngine',
+        JSON.stringify({ action, ...payload }),
+        false,
+        `/?action=${action}`,
+        ExecutionMethod.POST
+      );
+      return JSON.parse(res.responseBody || '{}');
     }
   },
 
