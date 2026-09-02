@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, BookOpen, Layers, Bookmark, User, Shield, ArrowRight, X } from 'lucide-react';
+import { Search, BookOpen, Layers, Bookmark, User, ArrowRight, X } from 'lucide-react';
 import { dataService } from '@/lib/dataService';
 import { Concept, Course } from '@/lib/types';
 
@@ -62,7 +62,6 @@ export function CommandPalette() {
         { id: 'courses', title: 'Explore Curated Tracks', group: 'Navigation', icon: Layers, url: '/courses' },
         { id: 'bookmarks', title: 'Saved References', group: 'Navigation', icon: Bookmark, url: '/bookmarks' },
         { id: 'profile', title: 'Learning Habit & Profile', group: 'Navigation', icon: User, url: '/profile' },
-        { id: 'admin', title: 'Admin Console & Image Queue', group: 'Navigation', icon: Shield, url: '/admin' },
       ];
     }
 

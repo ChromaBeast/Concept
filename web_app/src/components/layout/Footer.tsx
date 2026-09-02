@@ -33,9 +33,6 @@ export function Footer() {
           <Link href="/login" className="hover:text-ochre transition-colors">
             Sign In
           </Link>
-          <Link href="/admin" className="hover:text-ochre transition-colors">
-            Admin
-          </Link>
         </div>
       </div>
     </footer>

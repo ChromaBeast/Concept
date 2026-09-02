@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { User, ShieldCheck, LogOut, Bookmark, ChevronDown } from 'lucide-react';
+import { User, LogOut, Bookmark, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/lib/authContext';
 
 export function UserNavDropdown() {
@@ -64,15 +64,6 @@ export function UserNavDropdown() {
             >
               <Bookmark className="w-3.5 h-3.5 text-ochre" />
               <span>Saved Bookmarks</span>
-            </Link>
-
-            <Link
-              href="/admin"
-              onClick={() => setOpen(false)}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl text-paper-text hover:bg-paper-surface transition-colors"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-ochre" />
-              <span>Admin Console</span>
             </Link>
           </div>
 

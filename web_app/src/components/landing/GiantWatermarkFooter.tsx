@@ -58,7 +58,7 @@ export function GiantWatermarkFooter() {
               <li><Link href="/search" className="hover:text-ochre transition-colors">Instant Keyword Search</Link></li>
               <li><Link href="/bookmarks" className="hover:text-ochre transition-colors">Personal Saved Library</Link></li>
               <li><Link href="/profile" className="hover:text-ochre transition-colors">Daily Streak &amp; Habit</Link></li>
-              <li><Link href="/admin" className="hover:text-ochre transition-colors">Admin &amp; Curation Engine</Link></li>
+              <li><Link href="/courses" className="hover:text-ochre transition-colors">Curated Study Tracks</Link></li>
             </ul>
           </div>
 
