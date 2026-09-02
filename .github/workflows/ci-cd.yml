@@ -1,0 +1,77 @@
+﻿name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  flutter-checks:
+    name: Flutter Lint & Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Analyze code
+        run: dart analyze .
+      - name: Run widget & unit tests
+        run: flutter test
+
+  web-build:
+    name: Next.js Web App Build (Bun)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web_app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: bun install
+      - name: Build Next.js app
+        run: bun run build
+
+  go-backend:
+    name: Go Backend Functions Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.23.x'
+          cache: true
+      - name: Build Go Functions
+        run: |
+          cd backend/functions/runContentPipeline && go build ./...
+          cd ../expandRoadmap && go build ./...
+          cd ../curateCourses && go build ./...
+          cd ../onConceptPublish && go build ./...
+          cd ../../scripts && go build ./...
+
+  appwrite-sync:
+    name: Appwrite Schema & Functions Sync
+    needs: [flutter-checks, web-build, go-backend]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Appwrite CLI
+        run: npm install -g appwrite-cli
+      - name: Deploy to Appwrite Cloud
+        if: env.APPWRITE_API_KEY != ''
+        env:
+          APPWRITE_API_KEY: ${{ secrets.APPWRITE_API_KEY }}
+          APPWRITE_ENDPOINT: https://sgp.cloud.appwrite.io/v1
+          APPWRITE_PROJECT_ID: 6a97fc420033ed1fefd0
+        run: |
+          appwrite client --endpoint https://sgp.cloud.appwrite.io/v1 --project-id 6a97fc420033ed1fefd0 --key "$APPWRITE_API_KEY"
+          appwrite push collection --all --force
+          appwrite push function --all --force
