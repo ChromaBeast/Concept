@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/appwrite/sdk-for-go/appwrite"
+	"github.com/appwrite/sdk-for-go/databases"
 	"github.com/open-runtimes/types-for-go/v4/openruntimes"
 )
 
@@ -66,6 +68,20 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 	}
 
 	switch action {
+	case "seed":
+		client := appwrite.NewClient(
+			appwrite.WithEndpoint(cfg.Endpoint),
+			appwrite.WithProject(cfg.ProjectID),
+			appwrite.WithKey(cfg.APIKey),
+		)
+		db := databases.New(client)
+		inserted, _ := SeedInitialRoadmapTopics(db, cfg.DatabaseID)
+		return res.Json(map[string]interface{}{
+			"success":  true,
+			"action":   "seed",
+			"inserted": inserted,
+		})
+
 	case "expand":
 		rm := NewRoadmapManager(cfg)
 		inserted, err := rm.ExpandCategory(category)
@@ -105,7 +121,7 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 			"success": true,
 			"service": "Concept Unified Engine",
 			"runtime": "go-1.26",
-			"actions": []string{"pipeline", "expand"},
+			"actions": []string{"pipeline", "expand", "curate", "seed"},
 		})
 	}
 }

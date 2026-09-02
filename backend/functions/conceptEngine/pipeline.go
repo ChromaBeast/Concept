@@ -66,6 +66,7 @@ func (p *ContentPipeline) RunBatch(batchSize int) (int, int, error) {
 	}
 
 	if len(topics) == 0 {
+		_, _ = SeedInitialRoadmapTopics(p.db, p.config.DatabaseID)
 		return 0, 0, nil
 	}
 
