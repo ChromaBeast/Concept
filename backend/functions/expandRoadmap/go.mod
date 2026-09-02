@@ -1,6 +1,6 @@
 module expandRoadmap
 
-go 1.23.0
+go 1.26.0
 
 require (
 	github.com/appwrite/sdk-for-go v1.0.0

@@ -160,7 +160,7 @@
     {
       "$id": "runContentPipeline",
       "name": "Run Content Pipeline",
-      "runtime": "go-1.23",
+      "runtime": "go-1.26",
       "path": "backend/functions/runContentPipeline",
       "entrypoint": "main.go",
       "schedule": "0 2 * * *",
@@ -171,7 +171,7 @@
     {
       "$id": "expandRoadmap",
       "name": "Expand Roadmap Topics",
-      "runtime": "go-1.23",
+      "runtime": "go-1.26",
       "path": "backend/functions/expandRoadmap",
       "entrypoint": "main.go",
       "schedule": "0 0 * * 0",
