@@ -15,10 +15,15 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 	req := Context.Req
 	res := Context.Res
 
+	apiKey := req.Headers["x-appwrite-key"]
+	if apiKey == "" {
+		apiKey = getEnv("APPWRITE_API_KEY", os.Getenv("APPWRITE_FUNCTION_API_KEY"))
+	}
+
 	cfg := PipelineConfig{
 		Endpoint:        getEnv("APPWRITE_ENDPOINT", "https://sgp.cloud.appwrite.io/v1"),
 		ProjectID:       getEnv("APPWRITE_PROJECT_ID", "6a97fc420033ed1fefd0"),
-		APIKey:          getEnv("APPWRITE_API_KEY", os.Getenv("APPWRITE_FUNCTION_API_KEY")),
+		APIKey:          apiKey,
 		DatabaseID:      getEnv("APPWRITE_DATABASE_ID", "6a97fc7c0037107a5f9a"),
 		GeminiKey:       getEnv("GEMINI_API_KEY", ""),
 		GeminiModel:     getEnv("GEMINI_MODEL", "gemini-3.7-flash"),
@@ -26,13 +31,6 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 		BatchSize:       5,
 		MaxConcurrency:  3,
 		DefaultDuration: 90,
-	}
-
-	if cfg.GeminiKey == "" {
-		return res.Json(map[string]interface{}{
-			"success": false,
-			"error":   "GEMINI_API_KEY environment variable is missing",
-		})
 	}
 
 	action := "pipeline"
@@ -68,6 +66,14 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 	}
 
 	switch action {
+	case "status":
+		return res.Json(map[string]interface{}{
+			"success": true,
+			"service": "Concept Unified Engine",
+			"runtime": "go-1.26",
+			"actions": []string{"pipeline", "expand", "curate", "seed", "status"},
+		})
+
 	case "seed":
 		client := appwrite.NewClient(
 			appwrite.WithEndpoint(cfg.Endpoint),
@@ -75,7 +81,14 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 			appwrite.WithKey(cfg.APIKey),
 		)
 		db := databases.New(client)
-		inserted, _ := SeedInitialRoadmapTopics(db, cfg.DatabaseID)
+		inserted, err := SeedInitialRoadmapTopics(db, cfg.DatabaseID)
+		if err != nil {
+			return res.Json(map[string]interface{}{
+				"success": false,
+				"action":  "seed",
+				"error":   err.Error(),
+			})
+		}
 		return res.Json(map[string]interface{}{
 			"success":  true,
 			"action":   "seed",
@@ -83,6 +96,12 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 		})
 
 	case "expand":
+		if cfg.GeminiKey == "" {
+			return res.Json(map[string]interface{}{
+				"success": false,
+				"error":   "GEMINI_API_KEY is not configured",
+			})
+		}
 		rm := NewRoadmapManager(cfg)
 		inserted, err := rm.ExpandCategory(category)
 		if err != nil {
@@ -100,6 +119,12 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 		})
 
 	case "pipeline":
+		if cfg.GeminiKey == "" {
+			return res.Json(map[string]interface{}{
+				"success": false,
+				"error":   "GEMINI_API_KEY is not configured",
+			})
+		}
 		pipeline := NewContentPipeline(cfg)
 		pub, rev, err := pipeline.RunBatch(batch)
 		if err != nil {
@@ -121,7 +146,7 @@ func Main(Context openruntimes.Context) openruntimes.Response {
 			"success": true,
 			"service": "Concept Unified Engine",
 			"runtime": "go-1.26",
-			"actions": []string{"pipeline", "expand", "curate", "seed"},
+			"actions": []string{"pipeline", "expand", "curate", "seed", "status"},
 		})
 	}
 }

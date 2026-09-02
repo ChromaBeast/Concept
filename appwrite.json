@@ -166,7 +166,13 @@
       "schedule": "0 2 * * *",
       "timeout": 300,
       "enabled": true,
-      "logging": true
+      "logging": true,
+      "scopes": [
+        "documents.read",
+        "documents.write",
+        "databases.read",
+        "databases.write"
+      ]
     }
   ]
 }
