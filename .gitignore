@@ -1,0 +1,51 @@
+﻿# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+*.local
+
+# Flutter & Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+**/ios/Flutter/.last_build_id
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Node & Next.js / Bun
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+out/
+**/out/
+.bun/
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+backend/functions/**/bin/
+backend/functions/**/*.exe

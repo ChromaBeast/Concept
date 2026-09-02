@@ -1,0 +1,72 @@
+import '../../models/models.dart';
+
+final List<Course> seedCourses = [
+  Course(
+    id: 'course-system-design-fundamentals',
+    slug: 'system-design-fundamentals',
+    title: 'System Design Fundamentals',
+    description:
+        'Master the core architectural building blocks: distributed consistency, consistent hashing, rate limiting, and database partitioning.',
+    primaryCategory: Category.systemDesign,
+    difficulty: Difficulty.intermediate,
+    conceptIds: const [
+      'concept-cap-theorem',
+      'concept-consistent-hashing',
+      'concept-rate-limiting',
+      'concept-database-sharding',
+      'concept-event-sourcing',
+    ],
+    totalReadSeconds: 450,
+    status: ContentStatus.published,
+    source: ContentSource.humanCurated,
+    startedCount: 1420,
+    completedCount: 890,
+    createdAt: DateTime(2026, 1, 1),
+    updatedAt: DateTime(2026, 1, 1),
+  ),
+  Course(
+    id: 'course-dsa-core-patterns',
+    slug: 'dsa-core-patterns',
+    title: 'DSA Core Patterns',
+    description:
+        'Key algorithmic building blocks every software engineer must know: Binary Search, LRU Caching, Graph Traversals, and Trie trees.',
+    primaryCategory: Category.dsa,
+    difficulty: Difficulty.intermediate,
+    conceptIds: const [
+      'concept-binary-search',
+      'concept-lru-cache',
+      'concept-graph-bfs-dfs',
+      'concept-trie',
+    ],
+    totalReadSeconds: 345,
+    status: ContentStatus.published,
+    source: ContentSource.humanCurated,
+    startedCount: 2310,
+    completedCount: 1640,
+    createdAt: DateTime(2026, 1, 1),
+    updatedAt: DateTime(2026, 1, 1),
+  ),
+  Course(
+    id: 'course-backend-reliability',
+    slug: 'backend-reliability-architecture',
+    title: 'Backend Reliability & Architecture',
+    description:
+        'Build bulletproof backend services: network handshakes, concurrency paradigms, circuit breakers, idempotency, and zero-downtime releases.',
+    primaryCategory: Category.backend,
+    difficulty: Difficulty.intermediate,
+    conceptIds: const [
+      'concept-tcp-handshake',
+      'concept-concurrency-parallelism',
+      'concept-circuit-breaker',
+      'concept-idempotency',
+      'concept-zero-downtime',
+    ],
+    totalReadSeconds: 430,
+    status: ContentStatus.published,
+    source: ContentSource.humanCurated,
+    startedCount: 980,
+    completedCount: 520,
+    createdAt: DateTime(2026, 1, 1),
+    updatedAt: DateTime(2026, 1, 1),
+  ),
+];

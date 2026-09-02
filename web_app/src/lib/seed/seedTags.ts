@@ -1,0 +1,26 @@
+import { Tag } from '../types';
+
+export const seedTags: Tag[] = [
+  { id: 'tag-binary-search', name: 'Binary Search', slug: 'binary-search', usageCount: 2, category: 'dsa' },
+  { id: 'tag-algorithms', name: 'Algorithms', slug: 'algorithms', usageCount: 6, category: 'dsa' },
+  { id: 'tag-caching', name: 'Caching', slug: 'caching', usageCount: 3, category: 'system_design' },
+  { id: 'tag-data-structures', name: 'Data Structures', slug: 'data-structures', usageCount: 5, category: 'dsa' },
+  { id: 'tag-graphs', name: 'Graphs', slug: 'graphs', usageCount: 2, category: 'dsa' },
+  { id: 'tag-trees', name: 'Trees & Tries', slug: 'trees-tries', usageCount: 2, category: 'dsa' },
+  { id: 'tag-cap-theorem', name: 'CAP Theorem', slug: 'cap-theorem', usageCount: 2, category: 'system_design' },
+  { id: 'tag-distributed-systems', name: 'Distributed Systems', slug: 'distributed-systems', usageCount: 8, category: 'system_design' },
+  { id: 'tag-scalability', name: 'Scalability', slug: 'scalability', usageCount: 7, category: 'system_design' },
+  { id: 'tag-rate-limiting', name: 'Rate Limiting', slug: 'rate-limiting', usageCount: 2, category: 'system_design' },
+  { id: 'tag-databases', name: 'Databases', slug: 'databases', usageCount: 4, category: 'databases' },
+  { id: 'tag-event-sourcing', name: 'Event Sourcing', slug: 'event-sourcing', usageCount: 2, category: 'system_design' },
+  { id: 'tag-tcp-ip', name: 'TCP/IP', slug: 'tcp-ip', usageCount: 2, category: 'networking' },
+  { id: 'tag-networking', name: 'Networking', slug: 'networking', usageCount: 3, category: 'networking' },
+  { id: 'tag-os', name: 'Operating Systems', slug: 'operating-systems', usageCount: 4, category: 'operating_systems' },
+  { id: 'tag-concurrency', name: 'Concurrency', slug: 'concurrency', usageCount: 3, category: 'operating_systems' },
+  { id: 'tag-async-io', name: 'Async I/O', slug: 'async-io', usageCount: 2, category: 'operating_systems' },
+  { id: 'tag-design-patterns', name: 'Design Patterns', slug: 'design-patterns', usageCount: 3, category: 'oop_design_patterns' },
+  { id: 'tag-reliability', name: 'Reliability', slug: 'reliability', usageCount: 5, category: 'backend' },
+  { id: 'tag-api-design', name: 'API Design', slug: 'api-design', usageCount: 3, category: 'backend' },
+  { id: 'tag-devops', name: 'DevOps', slug: 'devops', usageCount: 2, category: 'devops_infra' },
+  { id: 'tag-ci-cd', name: 'CI/CD & Deployments', slug: 'ci-cd-deployments', usageCount: 2, category: 'devops_infra' },
+];

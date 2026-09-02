@@ -1,0 +1,1578 @@
+[
+  {
+    "topic": "Binary Search & Variations",
+    "category": "dsa",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Two Pointers Technique",
+    "category": "dsa",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Sliding Window Pattern",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Fast and Slow Pointers (Floyd's Cycle Finding)",
+    "category": "dsa",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Monotonic Stack",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Prefix Sum & Difference Array",
+    "category": "dsa",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Breadth-First Search (BFS) on Graphs",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Depth-First Search (DFS) & Backtracking",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Topological Sort (Kahn's Algorithm)",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Dijkstra's Shortest Path Algorithm",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Dynamic Programming: 0/1 Knapsack",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Dynamic Programming: Longest Common Subsequence",
+    "category": "dsa",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Trie (Prefix Tree) Data Structure",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Min/Max Heap & Priority Queue",
+    "category": "dsa",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Disjoint Set Union (Union-Find)",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Segment Tree & Range Queries",
+    "category": "dsa",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Quickselect Algorithm (k-th Largest Element)",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Bit Manipulation & XOR Patterns",
+    "category": "dsa",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CAP Theorem & PACELC",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Consistent Hashing",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Rate Limiting Algorithms (Token & Leaky Bucket)",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Database Sharding & Horizontal Partitioning",
+    "category": "system_design",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Caching Strategies (Cache-Aside, Write-Through)",
+    "category": "system_design",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Message Queues & Event Streaming (Kafka vs RabbitMQ)",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Load Balancing Algorithms (Round Robin, Least Connections)",
+    "category": "system_design",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Distributed Tracing & OpenTelemetry",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Circuit Breaker Pattern",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Saga Pattern for Distributed Transactions",
+    "category": "system_design",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Change Data Capture (CDC)",
+    "category": "system_design",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Idempotency Keys in Distributed APIs",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Write-Ahead Logging (WAL) in Distributed Storage",
+    "category": "system_design",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Reverse Proxy & API Gateway Architecture",
+    "category": "system_design",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Content Delivery Networks (CDN) & Edge Caching",
+    "category": "system_design",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Service Discovery & Heartbeat Mechanisms",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Leader Election (Raft Consensus)",
+    "category": "system_design",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Bloom Filters in Distributed Caches",
+    "category": "system_design",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "ACID vs BASE Properties",
+    "category": "databases",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "B-Tree vs LSM-Tree Storage Engines",
+    "category": "databases",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Clustered vs Non-Clustered Indexes",
+    "category": "databases",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Composite Indexes & Leftmost Prefix Rule",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Optimistic vs Pessimistic Concurrency Control",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SQL Transaction Isolation Levels",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Write-Ahead Log (WAL) & Crash Recovery",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Read Replicas & Replication Lag",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Database Normalization (1NF to BCNF) vs Denormalization",
+    "category": "databases",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SQL Query Execution Plans & Cost Optimizer",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Database Connection Pooling Architecture",
+    "category": "databases",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Multi-Version Concurrency Control (MVCC)",
+    "category": "databases",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "NoSQL Data Models (Document, Columnar, Graph)",
+    "category": "databases",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Vector Databases & HNSW Indexing",
+    "category": "databases",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "N+1 Query Problem & Batch Loading",
+    "category": "databases",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Database Deadlocks & Deadlock Graphs",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Materialized Views & Incremental Refresh",
+    "category": "databases",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Processes vs Threads",
+    "category": "operating_systems",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Context Switching & CPU Registers",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Virtual Memory & Multi-Level Page Tables",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Page Faults & Page Replacement Algorithms",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CPU Scheduling Algorithms (CFS & Priority)",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Mutex vs Semaphore vs Spinlock",
+    "category": "operating_systems",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Deadlock & Coffman Conditions",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "System Calls & Ring Transitions",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Inter-Process Communication (IPC) Mechanisms",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "File System Inodes & Directory Structure",
+    "category": "operating_systems",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Memory-Mapped Files (mmap)",
+    "category": "operating_systems",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Thread Synchronization & Race Conditions",
+    "category": "operating_systems",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Copy-on-Write (CoW) in Fork",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CPU Caches (L1/L2/L3) & MESI Protocol",
+    "category": "operating_systems",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "POSIX Signals & Signal Handlers",
+    "category": "operating_systems",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Zombie and Orphan Processes",
+    "category": "operating_systems",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "TCP vs UDP: Trade-offs & Protocols",
+    "category": "networking",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "TCP 3-Way Handshake & 4-Way Teardown",
+    "category": "networking",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "TCP Flow Control & Congestion Control",
+    "category": "networking",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "DNS Resolution Lifecycle",
+    "category": "networking",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "HTTP/1.1 vs HTTP/2 vs HTTP/3 (QUIC)",
+    "category": "networking",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "TLS/SSL Handshake & Public Key Cryptography",
+    "category": "networking",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "WebSockets vs Server-Sent Events (SSE)",
+    "category": "networking",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "REST vs gRPC vs GraphQL Trade-offs",
+    "category": "networking",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CORS & Preflight Requests",
+    "category": "networking",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Subnetting, CIDR & IPv4 vs IPv6",
+    "category": "networking",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "BGP (Border Gateway Protocol) & Routing",
+    "category": "networking",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "NAT (Network Address Translation) & PAT",
+    "category": "networking",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "OSI 7-Layer Model in Practice",
+    "category": "networking",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SYN Flood Attacks & TCP SYN Cookies",
+    "category": "networking",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "MTU & Path MTU Discovery",
+    "category": "networking",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Anycast Routing in Edge Infrastructure",
+    "category": "networking",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SOLID: Single Responsibility & Open-Closed",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SOLID: Liskov Substitution & Interface Segregation",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SOLID: Dependency Inversion Principle",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Factory Method & Abstract Factory",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Singleton Pattern & Anti-Pattern Traps",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Observer Pattern & Event Listeners",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Strategy Pattern for Pluggable Algorithms",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Decorator Pattern for Dynamic Composition",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Adapter vs Facade Pattern",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Builder Pattern for Complex Objects",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Dependency Injection & IoC Containers",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Composition over Inheritance Principle",
+    "category": "oop_design_patterns",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Chain of Responsibility Pattern",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Command Pattern & Undo/Redo Stacks",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "State Pattern for State Machines",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Proxy Pattern (Virtual, Protection, Remote)",
+    "category": "oop_design_patterns",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Browser Critical Rendering Path",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "JavaScript Event Loop & Microtask Queue",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Virtual DOM & Reconciliation Diffing",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SSR vs CSR vs SSG vs ISR",
+    "category": "frontend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Hydration vs Resumability",
+    "category": "frontend",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CSS Stacking Context & z-index Internals",
+    "category": "frontend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Web Workers & Background Computation",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Core Web Vitals (LCP, INP, CLS)",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Browser Storage (IndexedDB, LocalStorage, Cookies)",
+    "category": "frontend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Memory Leaks in JavaScript & Garbage Collection",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CSS Container Queries vs Media Queries",
+    "category": "frontend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Shadow DOM & Web Components Encapsulation",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Tree Shaking & ESM Module Resolution",
+    "category": "frontend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Debouncing vs Throttling Event Listeners",
+    "category": "frontend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Web Accessibility (a11y) & ARIA Patterns",
+    "category": "frontend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Client-Side Routing & History API",
+    "category": "frontend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Idempotent HTTP APIs & Design",
+    "category": "backend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "JWT vs Stateful Session Cookies",
+    "category": "backend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "API Gateway Routing & Request Aggregation",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Distributed Rate Limiting with Redis",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Asynchronous Job Queues & Worker Pools",
+    "category": "backend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Webhook Design, HMAC Signatures & Retries",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CQRS & Event Sourcing Architecture",
+    "category": "backend",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "GraphQL Schema Design & DataLoader",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "gRPC & Protocol Buffers Serialization",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Database Connection Pool Tuning",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Distributed Locks (Redlock Algorithm)",
+    "category": "backend",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "REST API Versioning Strategies",
+    "category": "backend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Exponential Backoff with Jitter",
+    "category": "backend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "HTTP Status Codes Hierarchy & Semantics",
+    "category": "backend",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Graceful Shutdown in Backend Services",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "The 3 Pillars of Observability (Logs, Metrics, Traces)",
+    "category": "backend",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Containers vs Virtual Machines (cgroups & namespaces)",
+    "category": "devops_infra",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Kubernetes Architecture (Control Plane, Pods, Services)",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Continuous Integration vs Continuous Delivery (CI/CD)",
+    "category": "devops_infra",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Infrastructure as Code (IaC) with Terraform",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Blue-Green vs Canary vs Rolling Deployments",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Docker Multi-Stage Builds & Layer Caching",
+    "category": "devops_infra",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Reverse Proxies (NGINX & Envoy) Load Balancing",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Service Mesh & Sidecar Proxies",
+    "category": "devops_infra",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Kubernetes Liveness, Readiness & Startup Probes",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Secret Management & HashiCorp Vault",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Prometheus Metrics & Pull-Based Scraping",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Centralized Logging Pipelines (Fluentd, Loki)",
+    "category": "devops_infra",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "GitOps with ArgoCD",
+    "category": "devops_infra",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Linux epoll & Asynchronous I/O Multiplexing",
+    "category": "devops_infra",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Zero-Downtime Database Migrations (Expand/Contract)",
+    "category": "devops_infra",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Chaos Engineering & Fault Injection",
+    "category": "devops_infra",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "SQL Injection & Parameterized Queries",
+    "category": "security",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Cross-Site Scripting (XSS): Stored, Reflected, DOM",
+    "category": "security",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Cross-Site Request Forgery (CSRF) & SameSite",
+    "category": "security",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "OAuth 2.0 Authorization Code Flow with PKCE",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "OpenID Connect (OIDC) vs OAuth 2.0",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Password Hashing (Argon2, bcrypt) & Salt/Pepper",
+    "category": "security",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "HTTPS, Certificate Authorities & HSTS",
+    "category": "security",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Content Security Policy (CSP) Headers",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Zero Trust Security Architecture",
+    "category": "security",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "JWT Vulnerabilities: None Algorithm & Key Confusion",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Broken Object Level Authorization (BOLA / IDOR)",
+    "category": "security",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Server-Side Request Forgery (SSRF)",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "DDoS Mitigation & Rate Limiting Layers",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Symmetric vs Asymmetric Cryptography (AES vs RSA/ECC)",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Role-Based vs Attribute-Based Access Control (RBAC vs ABAC)",
+    "category": "security",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "CORS Misconfigurations & Security Risks",
+    "category": "security",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "IaaS vs PaaS vs SaaS vs Serverless Compute",
+    "category": "cloud",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Cloud Object Storage & S3 Lifecycle Policies",
+    "category": "cloud",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "VPC, Subnets, NAT Gateways & Route Tables",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Auto-Scaling Groups & Target Tracking Policies",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Multi-Region High Availability & RTO/RPO",
+    "category": "cloud",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Serverless Cold Starts & Optimization",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "IAM Roles, Policies & Principle of Least Privilege",
+    "category": "cloud",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Edge Computing & Cloudflare Workers / Lambda@Edge",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Spot & Preemptible Cloud Instances",
+    "category": "cloud",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Cloud Network Ingress vs Egress Cost Architecture",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Managed Cloud Databases vs Self-Hosted DBs",
+    "category": "cloud",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Application Load Balancer (ALB) vs Network Load Balancer (NLB)",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Block Storage vs File Storage vs Object Storage",
+    "category": "cloud",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Ephemeral Storage vs Cloud Persistent Volumes",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Event-Driven Serverless Pub/Sub (SNS, SQS, EventBridge)",
+    "category": "cloud",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "FinOps: Cost Allocation Tags & Reserved Instances",
+    "category": "cloud",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "STAR Method (Situation, Task, Action, Result) Framework",
+    "category": "behavioral_interview",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Resolving Technical Disagreements with Peers",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Managing Production Outages & Blameless Post-Mortems",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Handling Ambiguous Product Requirements",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Explaining Complex Technical Trade-offs to Non-Engineers",
+    "category": "behavioral_interview",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Giving and Receiving Constructive Code Review Feedback",
+    "category": "behavioral_interview",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Prioritizing Technical Debt vs New Features",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Mentoring Junior Engineers & Fostering Growth",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Taking Ownership of High-Impact Mistakes",
+    "category": "behavioral_interview",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Driving Consensus Across Cross-Functional Teams",
+    "category": "behavioral_interview",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Managing Competing Deadlines & Scope Creep",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Leading a Major System Migration Under Pressure",
+    "category": "behavioral_interview",
+    "difficulty": "advanced",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Advocating for Engineering Best Practices and Quality",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Handling Difficult Stakeholders & Unrealistic Deadlines",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Continuous Learning & Adapting to New Tech Stacks",
+    "category": "behavioral_interview",
+    "difficulty": "beginner",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  },
+  {
+    "topic": "Measuring Engineering Impact Beyond Lines of Code",
+    "category": "behavioral_interview",
+    "difficulty": "intermediate",
+    "priority": 1,
+    "status": "pending",
+    "source": "seed"
+  }
+]
