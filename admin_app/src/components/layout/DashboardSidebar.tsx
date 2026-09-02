@@ -9,10 +9,10 @@ import {
   Image as ImageIcon,
   Layers,
   LogOut,
-  ShieldCheck,
 } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback } from '../ui/avatar';
+import { AdminLogo } from '../ui/logo';
 import { useAuth } from '@/lib/authContext';
 import { cn } from '@/lib/utils';
 
@@ -35,33 +35,22 @@ export function DashboardSidebar({ currentTab, onSelectTab, stats }: SidebarProp
   const navItems: NavItem[] = [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'pipeline', label: 'AI Pipeline', icon: Sparkles },
-    { id: 'roadmap', label: 'Roadmap Queue', icon: ListTree, badge: stats?.totalRoadmap || 155 },
-    { id: 'concepts', label: 'Review & Triage', icon: FileCheck, badge: stats?.totalConcepts || 18 },
+    { id: 'roadmap', label: 'Roadmap Queue', icon: ListTree, badge: stats?.totalRoadmap || 355 },
+    { id: 'concepts', label: 'Review & Triage', icon: FileCheck, badge: stats?.totalConcepts || 36 },
     { id: 'media', label: 'Image Studio', icon: ImageIcon },
     { id: 'courses', label: 'Study Tracks', icon: Layers, badge: stats?.totalCourses || 3 },
   ];
 
   return (
     <aside className="w-64 shrink-0 border-r border-paper-border bg-paper-card/80 backdrop-blur-md flex flex-col justify-between h-screen sticky top-0 font-sans text-xs select-none z-30">
-      {/* Top Brand Header & Nav */}
       <div className="flex flex-col h-full overflow-hidden">
-        {/* Brand Header */}
-        <div className="h-16 px-5 border-b border-paper-border flex items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-ochre flex items-center justify-center font-bold text-white text-base shadow-sm font-mono shrink-0">
-              C
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-sm tracking-tight text-paper-text font-sans leading-none">
-                Concept Admin
-              </span>
-              <span className="text-[10px] text-paper-muted font-mono mt-0.5">Mission Control</span>
-            </div>
-          </div>
-          <Badge variant="accent" className="text-[10px] px-1.5 py-0">v1.0</Badge>
+        {/* Brand Header with Vector Geometric Logo */}
+        <div className="h-16 px-4 border-b border-paper-border flex items-center justify-between gap-2 shrink-0">
+          <AdminLogo size="md" />
+          <Badge variant="accent" className="text-[10px] font-mono px-1.5 py-0">v1.0</Badge>
         </div>
 
-        {/* Nav Items */}
+        {/* Navigation Items */}
         <div className="p-4 space-y-6 overflow-y-auto flex-1">
           <div className="space-y-1">
             <div className="text-[10px] font-bold text-paper-muted uppercase font-mono px-3 mb-2.5 tracking-wider">
