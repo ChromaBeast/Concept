@@ -33,14 +33,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkCurrentUser = async () => {
     try {
       const res = await account.get();
-      if (res) {
+      if (res && res.$id) {
         setUser({
           id: res.$id,
           name: res.name || res.email.split('@')[0],
           email: res.email,
         });
+      } else {
+        setUser(null);
       }
     } catch {
+      // 401 User (role: guests) missing scopes is standard Appwrite response for non-authenticated sessions
       setUser(null);
     } finally {
       setLoading(false);
