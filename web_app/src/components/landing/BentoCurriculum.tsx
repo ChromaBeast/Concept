@@ -15,12 +15,12 @@ export function BentoCurriculum() {
               [ DOMAIN TRACKS ]
             </span>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-paper-text font-sans">
-              Curriculum Built for <br />
-              <span className="text-ochre">Every Layer of Production</span>
+              Every Layer of Production, <br />
+              <span className="text-ochre">Covered.</span>
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-sm">
-            4 focused domains grouping 16 core disciplines without the scroll-forever problem.
+            4 domains, 16 disciplines. Pick a track and go deep.
           </p>
         </div>
 

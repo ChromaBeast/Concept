@@ -18,13 +18,16 @@ export function StatsCounter() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
           <div className="space-y-2">
+            <span className="text-xs font-mono font-semibold uppercase tracking-widest text-ochre">
+              [ CONTENT CONSTRAINTS ]
+            </span>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-paper-text font-sans">
-              Hard Cognitive Limits. <br />
-              <span className="text-ochre">No Padding.</span>
+              One format. <br />
+              <span className="text-ochre">No exceptions.</span>
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-sm">
-            Every concept is mathematically capped at &le;230 words to guarantee true under-2-minute retention.
+            Every card is capped at 230 words. That&apos;s the whole reason it takes under two minutes to read &mdash; not a claim, just arithmetic.
           </p>
         </div>
 
@@ -32,7 +35,7 @@ export function StatsCounter() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <div className="lg:col-span-8 rounded-2xl border border-paper-border bg-paper-card overflow-hidden text-xs font-mono shadow-sm">
             <div className="px-4 py-2.5 bg-paper-surface border-b border-paper-border text-paper-muted flex justify-between font-semibold">
-              <span className="text-ochre">[ CONTENT CONSTRAINTS ]</span>
+              <span>Section Constraint Protocol</span>
               <span>Max Word Limit</span>
             </div>
             <div className="divide-y divide-paper-border">
@@ -61,7 +64,7 @@ export function StatsCounter() {
                 <CountUp to={90} duration={1.5} suffix="s Read" />
               </div>
               <p className="text-xs text-paper-muted leading-relaxed font-sans">
-                Dense, high-retention mental models. Eliminates 45-minute YouTube video bloat while delivering verified mental models.
+                No headers to skim past, no intro to sit through. Just the part you needed.
               </p>
             </SpotlightCard>
 
@@ -80,10 +83,10 @@ export function StatsCounter() {
                 spotlightColor="rgba(217, 119, 6, 0.15)"
                 className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm"
               >
-                <div className="text-2xl font-bold text-teal font-sans">
-                  <CountUp to={0} duration={1} suffix=" min" />
+                <div className="text-2xl font-bold text-ochre font-sans">
+                  <CountUp to={5} duration={1} />
                 </div>
-                <div className="text-[11px] text-paper-muted font-mono">Video Fluff</div>
+                <div className="text-[11px] text-paper-muted font-mono">Fixed Sections</div>
               </SpotlightCard>
             </div>
           </div>

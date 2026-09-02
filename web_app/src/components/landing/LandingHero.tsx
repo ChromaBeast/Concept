@@ -39,14 +39,14 @@ export function LandingHero() {
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-paper-text leading-[1.05] font-sans">
-              <BlurText text="Engineering mental models." as="span" /> <br />
+              <BlurText text="Engineering mental models," as="span" /> <br />
               <ShinyText shineColor="rgba(255, 255, 255, 0.95)">
-                <span className="text-ochre">Zero video bloat.</span>
+                <span className="text-ochre">without the scroll.</span>
               </ShinyText>
             </h1>
 
             <p className="text-base sm:text-lg text-paper-muted max-w-xl leading-relaxed">
-              Master the distributed invariants, database internals, and concurrency trade-offs senior engineers use daily. Designed as a study companion and technical almanac.
+              Distributed systems, database internals, and concurrency trade-offs &mdash; explained the way you&apos;d explain them to a colleague, not a lecture hall. A study companion for the stuff you&apos;re expected to already know.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
@@ -154,7 +154,7 @@ export function LandingHero() {
                     className="p-3 rounded-xl border border-dashed border-ochre/40 bg-ochre/5 hover:bg-ochre/10 cursor-pointer transition-colors space-y-1.5"
                   >
                     <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-bold text-ochre">Drill: Standard modulo hashing failure?</span>
+                      <span className="font-bold text-ochre">Drill: Why does standard modulo hashing fail here?</span>
                       <span className="text-paper-muted">{drillAnswered ? 'Hide' : 'Reveal'}</span>
                     </div>
                     {drillAnswered && (

@@ -24,7 +24,7 @@ const DRILL_SCENARIO = {
     },
     {
       id: '2',
-      label: 'Hot shard bottleneck: 1 physical database hits CPU/IOPS saturation while other shards sit idle.',
+      label: 'Hot shard bottleneck: one physical database hits CPU/IOPS saturation while the others sit idle.',
       isCorrect: true,
       explanation: 'Modulo hashing ignores uneven tenant data volumes, causing catastrophic single-shard exhaustion.',
     },

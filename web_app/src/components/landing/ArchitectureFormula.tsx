@@ -8,9 +8,9 @@ export function ArchitectureFormula() {
 
   const concepts = {
     lru: {
-      title: 'LRU Cache Invariant',
+      title: 'LRU Cache Eviction',
       videoBloat: "Video tutorials trade time for context you don't need. This trades context for time you do.",
-      conceptAxiom: 'Doubly-Linked List provides O(1) node relocation. Hash Map provides O(1) key lookup. Tail eviction drops oldest item on capacity overflow.',
+      conceptAxiom: 'Doubly-linked list gives O(1) node relocation. Hash map gives O(1) key lookup. Tail eviction drops the oldest item on capacity overflow.',
       codeSnippet: 'this.map.set(key, this.list.moveToHead(node));',
     },
     raft: {
@@ -34,13 +34,16 @@ export function ArchitectureFormula() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
           <div className="space-y-2">
+            <span className="text-xs font-mono font-semibold uppercase tracking-widest text-ochre">
+              [ THE COMPARISON ]
+            </span>
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-paper-text font-sans">
-              45-Min Video Fluff vs. <br />
-              <span className="text-ochre">90-Second Invariant Logic</span>
+              45 Minutes of Video vs. <br />
+              <span className="text-ochre">90 Seconds of Reference.</span>
             </h2>
           </div>
           <p className="text-xs sm:text-sm text-paper-muted font-mono max-w-sm">
-            Compare standard bloated video tutorials with Concept&apos;s structured cognitive axioms.
+            See the difference for yourself.
           </p>
         </div>
 
@@ -49,14 +52,10 @@ export function ArchitectureFormula() {
           <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border border-rose-500/20 bg-rose-500/5 space-y-6 shadow-sm">
             <div className="flex items-center gap-2 text-rose-500 dark:text-rose-400 font-mono text-xs font-bold uppercase tracking-wider">
               <XCircle className="w-4 h-4" />
-              <span>Standard Video Tutorial</span>
+              <span>Standard Video Tutorial &middot; Passive Video</span>
             </div>
 
             <div className="space-y-3">
-              <div className="flex items-center gap-2 text-2xl font-bold text-paper-text font-mono">
-                <Clock className="w-6 h-6 text-rose-500" />
-                <span>Passive Video</span>
-              </div>
               <p className="text-xs sm:text-sm text-paper-muted leading-relaxed font-sans">
                 {curr.videoBloat}
               </p>
@@ -71,13 +70,9 @@ export function ArchitectureFormula() {
           <div className="lg:col-span-7 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 shadow-sm">
             <div className="flex items-center justify-between text-xs font-mono flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-ochre px-2 py-0.5 rounded bg-ochre/10 border border-ochre/25">
-                  [ THE RETENTION FORMULA ]
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-teal px-2 py-0.5 rounded bg-teal/10 border border-teal/25">
+                  [ STRUCTURED REFERENCE ]
                 </span>
-                <div className="flex items-center gap-1.5 text-teal font-bold uppercase tracking-wider">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Structured Reference</span>
-                </div>
               </div>
               <span className="text-ochre font-bold bg-ochre/10 px-2.5 py-0.5 rounded-md border border-ochre/25">
                 &le;90s Read
