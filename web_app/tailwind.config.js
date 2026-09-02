@@ -9,6 +9,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        electric: {
+          DEFAULT: '#E2FB3C',
+          400: '#EEFC6A',
+          500: '#E2FB3C',
+          600: '#C2DB2A',
+          dim: '#B5CE22',
+        },
+        obsidian: {
+          bg: '#070B12',
+          surface: '#0E1420',
+          card: '#141C2B',
+          variant: '#1B263B',
+          border: '#243249',
+          subtle: '#101726',
+        },
         brand: {
           50: '#eef2ff',
           100: '#e0e7ff',
@@ -18,15 +33,15 @@ module.exports = {
           700: '#4338ca',
         },
         dark: {
-          bg: '#0D1117',
-          surface: '#161B22',
-          card: '#1C2128',
-          variant: '#22272E',
-          border: '#30363D',
-          subtle: '#21262D',
-          text: '#F0F6FC',
-          muted: '#8B949E',
-          sub: '#484F58',
+          bg: '#070B12',
+          surface: '#0E1420',
+          card: '#131A28',
+          variant: '#1A2436',
+          border: '#222E42',
+          subtle: '#0F1622',
+          text: '#F1F5F9',
+          muted: '#94A3B8',
+          sub: '#64748B',
         },
         category: {
           dsa: '#58A6FF',
@@ -50,6 +65,21 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-jetbrains-mono)', 'monospace'],
+        display: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+      },
+      animation: {
+        'marquee': 'marquee 25s linear infinite',
+        'marquee-reverse': 'marquee-reverse 25s linear infinite',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+        'marquee-reverse': {
+          '0%': { transform: 'translateX(-50%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
       },
     },
   },

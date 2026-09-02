@@ -3,21 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --bg-default: #F6F8FA;
-  --surface-default: #FFFFFF;
-  --card-default: #FFFFFF;
-  --border-default: #D0D7DE;
-  --text-default: #1F2328;
-  --text-muted: #656D76;
-}
-
-.dark {
-  --bg-default: #0D1117;
-  --surface-default: #161B22;
-  --card-default: #1C2128;
-  --border-default: #30363D;
-  --text-default: #F0F6FC;
-  --text-muted: #8B949E;
+  --bg-default: #070B12;
+  --surface-default: #0E1420;
+  --card-default: #131A28;
+  --border-default: #222E42;
+  --text-default: #F1F5F9;
+  --text-muted: #94A3B8;
+  --electric: #E2FB3C;
 }
 
 body {
@@ -31,25 +23,36 @@ body {
 
 /* Custom modern scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 148, 158, 0.25);
+  background: rgba(148, 163, 184, 0.2);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 148, 158, 0.45);
+  background: rgba(226, 251, 60, 0.4);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fadeIn {
-  animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Bold Display Outline Text */
+.text-stroke {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.18);
+  color: transparent;
+}
+
+.text-stroke-electric {
+  -webkit-text-stroke: 1.5px rgba(226, 251, 60, 0.35);
+  color: transparent;
 }

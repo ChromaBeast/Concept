@@ -1,14 +1,30 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Flame, BookOpen, Clock, Bookmark, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { Flame, BookOpen, Clock, Bookmark, CheckCircle2, LogOut, LogIn, User } from 'lucide-react';
 import { allSeedConcepts } from '@/lib/seed';
 import { storage } from '@/lib/storage';
 import { CATEGORY_META } from '@/lib/constants';
 import { Category } from '@/lib/types';
 import { ProgressBar } from '@/components/ui/ProgressBar';
+import { useAuth } from '@/lib/authContext';
+
+const CATEGORIES: Category[] = [
+  'dsa',
+  'system_design',
+  'databases',
+  'operating_systems',
+  'networking',
+  'oop_design_patterns',
+  'backend',
+  'devops_infra',
+];
+
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export default function ProfilePage() {
+  const { user, logout } = useAuth();
   const [streak, setStreak] = useState({ streakDays: 4, lastActiveDate: '' });
   const [learnedIds, setLearnedIds] = useState<string[]>([]);
   const [bookmarksCount, setBookmarksCount] = useState(0);
@@ -30,84 +46,98 @@ export default function ProfilePage() {
 
   const totalMinutes = Math.ceil(totalReadSeconds / 60);
 
-  const categories: Category[] = [
-    'dsa',
-    'system_design',
-    'databases',
-    'operating_systems',
-    'networking',
-    'oop_design_patterns',
-    'backend',
-    'devops_infra',
-  ];
-
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
   return (
     <div className="max-w-4xl mx-auto space-y-8 pb-16">
-      <div className="space-y-2">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-dark-text">
-          Learning Profile & Progress
-        </h1>
-        <p className="text-sm text-dark-muted">
-          Your daily streak, category mastery, and reading velocity metrics.
-        </p>
+      {/* Account Info Header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 rounded-3xl border border-obsidian-border bg-obsidian-card">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-2xl bg-electric text-obsidian-bg flex items-center justify-center font-black text-lg">
+            {user ? user.name.charAt(0).toUpperCase() : <User className="w-6 h-6" />}
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-white">
+              {user ? user.name : 'Guest Engineer'}
+            </h1>
+            <p className="text-xs text-dark-muted font-mono">
+              {user ? user.email : 'Local Session — Sign in to sync progress to cloud'}
+            </p>
+          </div>
+        </div>
+
+        {user ? (
+          <button
+            type="button"
+            onClick={() => logout()}
+            className="px-4 py-2 rounded-xl border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-mono font-bold flex items-center gap-1.5 transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out</span>
+          </button>
+        ) : (
+          <Link
+            href="/login"
+            className="px-4 py-2 rounded-xl bg-electric hover:bg-electric-400 text-obsidian-bg text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md shadow-electric/10"
+          >
+            <LogIn className="w-3.5 h-3.5" />
+            <span>Sign In to Sync</span>
+          </Link>
+        )}
       </div>
 
       {/* Metrics Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-4 rounded-xl border border-dark-border bg-dark-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-amber-400 font-semibold">
-            <Flame className="w-4 h-4 fill-current" /> Streak
+        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
+          <div className="flex items-center gap-1.5 text-xs text-amber-400 font-semibold font-mono">
+            <Flame className="w-4 h-4 fill-current" /> STREAK
           </div>
-          <div className="text-2xl font-bold text-dark-text">{streak.streakDays} Days</div>
-          <div className="text-[11px] text-dark-muted">Continuous learning</div>
+          <div className="text-2xl font-bold text-white">{streak.streakDays} Days</div>
+          <div className="text-[11px] text-dark-muted font-mono">Active daily habit</div>
         </div>
 
-        <div className="p-4 rounded-xl border border-dark-border bg-dark-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
-            <BookOpen className="w-4 h-4" /> Learned
+        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
+          <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold font-mono">
+            <BookOpen className="w-4 h-4" /> LEARNED
           </div>
-          <div className="text-2xl font-bold text-dark-text">{learnedIds.length}</div>
-          <div className="text-[11px] text-dark-muted">Of {allSeedConcepts.length} concepts</div>
+          <div className="text-2xl font-bold text-white">{learnedIds.length}</div>
+          <div className="text-[11px] text-dark-muted font-mono">Of 197+ concepts</div>
         </div>
 
-        <div className="p-4 rounded-xl border border-dark-border bg-dark-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-brand-400 font-semibold">
-            <Clock className="w-4 h-4" /> Time Spent
+        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
+          <div className="flex items-center gap-1.5 text-xs text-electric font-semibold font-mono">
+            <Clock className="w-4 h-4" /> TIME SPENT
           </div>
-          <div className="text-2xl font-bold text-dark-text">{totalMinutes}m</div>
-          <div className="text-[11px] text-dark-muted">Dense reading time</div>
+          <div className="text-2xl font-bold text-white">{totalMinutes}m</div>
+          <div className="text-[11px] text-dark-muted font-mono">Dense reading time</div>
         </div>
 
-        <div className="p-4 rounded-xl border border-dark-border bg-dark-card space-y-1">
-          <div className="flex items-center gap-1.5 text-xs text-rose-400 font-semibold">
-            <Bookmark className="w-4 h-4" /> Saved
+        <div className="p-4 rounded-2xl border border-obsidian-border bg-obsidian-card space-y-1">
+          <div className="flex items-center gap-1.5 text-xs text-rose-400 font-semibold font-mono">
+            <Bookmark className="w-4 h-4" /> SAVED
           </div>
-          <div className="text-2xl font-bold text-dark-text">{bookmarksCount}</div>
-          <div className="text-[11px] text-dark-muted">Bookmarked cards</div>
+          <div className="text-2xl font-bold text-white">{bookmarksCount}</div>
+          <div className="text-[11px] text-dark-muted font-mono">Bookmarked cards</div>
         </div>
       </div>
 
       {/* Weekly Activity Tracker */}
-      <div className="p-6 rounded-2xl border border-dark-border bg-dark-card space-y-4">
+      <div className="p-6 rounded-3xl border border-obsidian-border bg-obsidian-card space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-dark-text flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-white flex items-center gap-2">
             <Flame className="w-4 h-4 text-amber-400" /> Weekly Activity
           </h2>
           <span className="text-xs text-dark-muted font-mono">{streak.streakDays} day current streak</span>
         </div>
 
         <div className="grid grid-cols-7 gap-2">
-          {days.map((d, i) => {
-            const active = i >= 3; // Simulated activity
+          {DAYS.map((d, i) => {
+            const active = i >= 3;
             return (
               <div
                 key={d}
-                className={`flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all ${
+                className={`flex flex-col items-center justify-center p-3 rounded-2xl border text-center transition-all ${
                   active
                     ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-                    : 'bg-dark-surface border-dark-border text-dark-muted'
+                    : 'bg-obsidian-surface border-obsidian-border text-dark-muted'
                 }`}
               >
                 <span className="text-[11px] font-mono mb-1">{d}</span>
@@ -122,12 +152,14 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Category Mastery Breakdown */}
-      <div className="p-6 rounded-2xl border border-dark-border bg-dark-card space-y-4">
-        <h2 className="text-sm font-semibold text-dark-text">Discipline Mastery Breakdown</h2>
+      {/* Discipline Mastery Breakdown */}
+      <div className="p-6 rounded-3xl border border-obsidian-border bg-obsidian-card space-y-4">
+        <h2 className="text-sm font-semibold text-white uppercase tracking-wider font-mono">
+          Discipline Mastery Breakdown
+        </h2>
 
         <div className="space-y-3.5">
-          {categories.map((cat) => {
+          {CATEGORIES.map((cat) => {
             const catConcepts = allSeedConcepts.filter((c) => c.category === cat);
             if (catConcepts.length === 0) return null;
             const learnedCatCount = catConcepts.filter((c) => learnedIds.includes(c.id)).length;
@@ -138,14 +170,14 @@ export default function ProfilePage() {
               <div key={cat} className="space-y-1.5">
                 <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: meta.color }} />
-                    <span className="font-medium text-dark-text">{meta.label}</span>
+                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: meta?.color }} />
+                    <span className="font-medium text-dark-text">{meta?.label}</span>
                   </div>
                   <span className="text-dark-muted font-mono">
                     {learnedCatCount}/{catConcepts.length} ({percentage}%)
                   </span>
                 </div>
-                <ProgressBar value={percentage} colorHex={meta.color} />
+                <ProgressBar value={percentage} colorHex={meta?.color} />
               </div>
             );
           })}

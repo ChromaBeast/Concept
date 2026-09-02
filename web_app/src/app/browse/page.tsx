@@ -1,12 +1,12 @@
-﻿'use client';
+'use client';
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Filter, Search, Sparkles } from 'lucide-react';
-import { allSeedConcepts } from '@/lib/seed';
+import { Filter, Search } from 'lucide-react';
+import { dataService } from '@/lib/dataService';
 import { CATEGORY_META, DIFFICULTY_META } from '@/lib/constants';
 import { CATEGORY_DOMAINS } from '@/lib/domains';
-import { Category, Difficulty } from '@/lib/types';
+import { Category, Difficulty, Concept } from '@/lib/types';
 import { ConceptCard } from '@/components/concept/ConceptCard';
 import { Chip } from '@/components/ui/Chip';
 
@@ -14,10 +14,15 @@ function BrowseContent() {
   const searchParams = useSearchParams();
   const initialCategory = (searchParams.get('category') as Category) || 'all';
 
+  const [concepts, setConcepts] = useState<Concept[]>([]);
   const [selectedDomain, setSelectedDomain] = useState<string>('all');
   const [selectedCategory, setSelectedCategory] = useState<Category | 'all'>(initialCategory);
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | 'all'>('all');
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    dataService.getAllConcepts().then(setConcepts);
+  }, []);
 
   const activeDomain = useMemo(
     () => CATEGORY_DOMAINS.find((d) => d.id === selectedDomain) || CATEGORY_DOMAINS[0],
@@ -31,7 +36,7 @@ function BrowseContent() {
   const difficulties: (Difficulty | 'all')[] = ['all', 'beginner', 'intermediate', 'advanced'];
 
   const filteredConcepts = useMemo(() => {
-    return allSeedConcepts.filter((c) => {
+    return concepts.filter((c) => {
       if (c.status === 'needs_review') return false;
       if (selectedDomain !== 'all' && !activeDomain.categories.includes(c.category)) return false;
       if (selectedCategory !== 'all' && c.category !== selectedCategory) return false;
@@ -44,15 +49,15 @@ function BrowseContent() {
       }
       return true;
     });
-  }, [selectedDomain, activeDomain, selectedCategory, selectedDifficulty, query]);
+  }, [concepts, selectedDomain, activeDomain, selectedCategory, selectedDifficulty, query]);
 
   return (
     <div className="space-y-6 pb-12">
       <div className="space-y-1">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-dark-text">
-          Browse Concept Catalog
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white uppercase font-display">
+          Concept Catalog
         </h1>
-        <p className="text-sm text-dark-muted">
+        <p className="text-xs sm:text-sm text-dark-muted font-mono">
           Dense, structured 90-second references organized into intuitive domain clusters.
         </p>
       </div>
@@ -71,10 +76,10 @@ function BrowseContent() {
                   setSelectedCategory('all');
                 }
               }}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all border ${
                 isSelected
-                  ? 'bg-brand-500/20 text-brand-400 border-brand-500/50 shadow-sm'
-                  : 'bg-dark-card text-dark-muted hover:text-dark-text border-dark-border'
+                  ? 'bg-electric text-obsidian-bg border-electric shadow-sm'
+                  : 'bg-obsidian-card text-dark-muted hover:text-dark-text border-obsidian-border'
               }`}
             >
               {domain.label}
@@ -100,8 +105,8 @@ function BrowseContent() {
       </div>
 
       {/* Difficulty & Quick Filters */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-xl border border-dark-border bg-dark-card">
-        <div className="flex items-center gap-2 flex-wrap">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 rounded-2xl border border-obsidian-border bg-obsidian-card">
+        <div className="flex items-center gap-2 flex-wrap font-mono">
           <span className="text-xs text-dark-muted font-medium flex items-center gap-1">
             <Filter className="w-3.5 h-3.5" /> Difficulty:
           </span>
@@ -110,10 +115,10 @@ function BrowseContent() {
               key={diff}
               type="button"
               onClick={() => setSelectedDifficulty(diff)}
-              className={`text-xs px-2.5 py-1 rounded-md border font-medium transition-colors ${
+              className={`text-xs px-2.5 py-1 rounded-lg border font-medium transition-colors ${
                 selectedDifficulty === diff
-                  ? 'bg-brand-500/20 text-brand-400 border-brand-500/40'
-                  : 'bg-dark-surface text-dark-muted hover:text-dark-text border-dark-border'
+                  ? 'bg-electric/20 text-electric border-electric/40'
+                  : 'bg-obsidian-surface text-dark-muted hover:text-dark-text border-obsidian-border'
               }`}
             >
               {diff === 'all' ? 'Any' : DIFFICULTY_META[diff].label}
@@ -128,13 +133,13 @@ function BrowseContent() {
             placeholder="Filter list..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-dark-surface border border-dark-border rounded-lg pl-8 pr-3 py-1.5 text-xs text-dark-text placeholder-dark-muted focus:outline-none focus:border-brand-500"
+            className="w-full bg-obsidian-surface border border-obsidian-border rounded-xl pl-8 pr-3 py-1.5 text-xs text-dark-text placeholder-dark-muted focus:outline-none focus:border-electric font-mono"
           />
         </div>
       </div>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between text-xs text-dark-muted">
+      <div className="flex items-center justify-between text-xs text-dark-muted font-mono">
         <span>Showing {filteredConcepts.length} concepts</span>
         {(selectedDomain !== 'all' || selectedCategory !== 'all' || selectedDifficulty !== 'all' || query) && (
           <button
@@ -144,7 +149,7 @@ function BrowseContent() {
               setSelectedDifficulty('all');
               setQuery('');
             }}
-            className="text-brand-400 hover:underline"
+            className="text-electric hover:underline"
           >
             Reset filters
           </button>
@@ -159,7 +164,7 @@ function BrowseContent() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 border border-dashed border-dark-border rounded-2xl p-8">
+        <div className="text-center py-16 border border-dashed border-obsidian-border rounded-2xl p-8 font-mono">
           <p className="text-dark-text font-medium mb-1">No matching concepts found</p>
           <p className="text-xs text-dark-muted">Try adjusting your domain, category, or difficulty filters.</p>
         </div>
@@ -170,7 +175,7 @@ function BrowseContent() {
 
 export default function BrowsePage() {
   return (
-    <Suspense fallback={<div className="p-8 text-center text-dark-muted">Loading catalog...</div>}>
+    <Suspense fallback={<div className="p-8 text-center text-dark-muted font-mono">Loading catalog...</div>}>
       <BrowseContent />
     </Suspense>
   );
