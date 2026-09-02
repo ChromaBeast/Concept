@@ -2,12 +2,13 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { BookOpen, Clock, Layers, ArrowRight } from 'lucide-react';
+import { Clock, Layers, ArrowRight } from 'lucide-react';
 import { Course } from '@/lib/types';
 import { CATEGORY_META, DIFFICULTY_META } from '@/lib/constants';
 import { storage } from '@/lib/storage';
 import { calculateCourseProgress, formatMinutesTotal } from '@/lib/utils';
 import { ProgressBar } from '../ui/ProgressBar';
+import { SpotlightCard } from '@/components/animations';
 
 export interface CourseCardProps {
   course: Course;
@@ -33,7 +34,9 @@ export function CourseCard({ course, className }: CourseCardProps) {
 
   return (
     <Link href={`/courses/${course.slug}`} className="block group h-full">
-      <div
+      <SpotlightCard
+        spotlightColor={`${catMeta.color}22`}
+        radius={260}
         className={`h-full flex flex-col justify-between p-6 rounded-2xl border border-paper-border bg-paper-card hover:border-ochre/40 transition-all duration-150 shadow-sm ${className || ''}`}
       >
         <div className="space-y-4">
@@ -83,7 +86,7 @@ export function CourseCard({ course, className }: CourseCardProps) {
             <ArrowRight className="w-3.5 h-3.5" />
           </div>
         </div>
-      </div>
+      </SpotlightCard>
     </Link>
   );
 }

@@ -32,6 +32,18 @@ export interface QuickCheck {
   answer: string;
 }
 
+export interface DeepDiveSection {
+  heading: string;
+  content: string;
+  codeSnippet?: string;
+}
+
+export interface DeepDiveContent {
+  title?: string;
+  estimatedReadSeconds?: number;
+  sections: DeepDiveSection[];
+}
+
 export interface ConceptBody {
   definition: string;
   whyItMatters: string;
@@ -39,6 +51,8 @@ export interface ConceptBody {
   commonPitfall?: string;
   interviewAngle?: string;
   quickChecks: QuickCheck[];
+  needsDeepDive?: boolean;
+  deepDive?: DeepDiveContent;
 }
 
 export interface Concept {
@@ -64,6 +78,8 @@ export interface Concept {
   visualAid?: boolean;
   heroImageUrl?: string | null;
   imagePrompt?: string;
+  needsDeepDive?: boolean;
+  deepDive?: DeepDiveContent;
   needsReviewReasons?: string[];
 }
 

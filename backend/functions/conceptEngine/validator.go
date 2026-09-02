@@ -46,14 +46,28 @@ func (v *ContentValidator) Validate(draft *ConceptDraft) ValidationResult {
 	interviewWords := countWords(draft.Body.InterviewAngle)
 	totalWords := defWords + whyWords + exWords + pitfallWords + interviewWords
 
-	if defWords > 55 {
-		reasons = append(reasons, fmt.Sprintf("Definition word count (%d) exceeds limit (40)", defWords))
+	if defWords > 75 {
+		reasons = append(reasons, fmt.Sprintf("Definition word count (%d) exceeds limit (75)", defWords))
 	}
-	if whyWords > 80 {
-		reasons = append(reasons, fmt.Sprintf("WhyItMatters word count (%d) exceeds limit (60)", whyWords))
+	if whyWords > 110 {
+		reasons = append(reasons, fmt.Sprintf("WhyItMatters word count (%d) exceeds limit (110)", whyWords))
 	}
-	if totalWords > 260 {
-		reasons = append(reasons, fmt.Sprintf("Total word count (%d) exceeds hard cap (260)", totalWords))
+	if totalWords > 350 {
+		reasons = append(reasons, fmt.Sprintf("Total core word count (%d) exceeds hard cap (350)", totalWords))
+	}
+
+	if draft.NeedsDeepDive && draft.DeepDive != nil {
+		deepWords := 0
+		for _, sec := range draft.DeepDive.Sections {
+			deepWords += countWords(sec.Heading) + countWords(sec.Content)
+		}
+		if draft.Difficulty == "beginner" && deepWords > 100 {
+			reasons = append(reasons, "Beginner concepts should not have extended deep dives")
+		} else if draft.Difficulty == "intermediate" && deepWords > 500 {
+			reasons = append(reasons, fmt.Sprintf("Intermediate deep dive word count (%d) exceeds budget (400)", deepWords))
+		} else if draft.Difficulty == "advanced" && deepWords > 1100 {
+			reasons = append(reasons, fmt.Sprintf("Advanced deep dive word count (%d) exceeds budget (900)", deepWords))
+		}
 	}
 
 	if len(reasons) > 0 {

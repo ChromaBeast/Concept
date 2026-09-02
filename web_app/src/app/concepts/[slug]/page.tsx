@@ -7,14 +7,15 @@ import { storage } from '@/lib/storage';
 import { useToast } from '@/components/ui/Toast';
 import { ConceptHeaderEditorial } from '@/components/concept/ConceptHeaderEditorial';
 import { ConceptSidebar } from '@/components/concept/ConceptSidebar';
+import { ConceptMobileActions } from '@/components/concept/ConceptMobileActions';
 import { CodeBlock } from '@/components/concept/CodeBlock';
 import { PitfallBox } from '@/components/concept/PitfallBox';
 import { InterviewBox } from '@/components/concept/InterviewBox';
 import { QuickCheckList } from '@/components/concept/QuickCheck';
+import { DeepDiveSection } from '@/components/concept/DeepDiveSection';
 import { RelatedConcepts } from '@/components/concept/RelatedConcepts';
 import { NextInCourseBar } from '@/components/concept/NextInCourseBar';
 import { ConceptHeroVisual } from '@/components/concept/ConceptHeroVisual';
-import { Bookmark, CheckCircle2 } from 'lucide-react';
 import { Concept, Course } from '@/lib/types';
 
 function ConceptDetailContent() {
@@ -78,6 +79,9 @@ function ConceptDetailContent() {
     }
   };
 
+  const deepDiveData = concept.deepDive || concept.body.deepDive;
+  const needsDeepDive = concept.needsDeepDive || concept.body.needsDeepDive;
+
   return (
     <article className="min-h-screen bg-paper-bg font-sans pb-16 lg:pb-0">
       <ConceptHeaderEditorial
@@ -88,37 +92,15 @@ function ConceptDetailContent() {
         estimatedReadSeconds={concept.estimatedReadSeconds}
       />
 
-      {/* Divided 2-Column Responsive Layout */}
       <div className="flex flex-col lg:flex-row lg:divide-x divide-paper-border relative max-w-7xl mx-auto border-x border-paper-border">
         {/* Main Content Column */}
         <main className="w-full p-4 sm:p-6 lg:p-10 space-y-8 sm:space-y-10 min-w-0">
-          {/* Mobile Study Utility Bar */}
-          <div className="lg:hidden flex items-center gap-1.5 p-1 rounded-xl bg-paper-surface border border-paper-border font-mono shadow-sm">
-            <button
-              type="button"
-              onClick={handleToggleLearned}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
-                learned
-                  ? 'bg-teal text-white shadow-sm'
-                  : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
-              }`}
-            >
-              <CheckCircle2 className="w-3.5 h-3.5" />
-              <span>{learned ? 'Mastered' : 'Mark Mastered'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={handleToggleBookmark}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
-                bookmarked
-                  ? 'bg-ochre text-white shadow-sm'
-                  : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
-              }`}
-            >
-              <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
-              <span>{bookmarked ? 'Saved' : 'Bookmark'}</span>
-            </button>
-          </div>
+          <ConceptMobileActions
+            learned={learned}
+            bookmarked={bookmarked}
+            onToggleLearned={handleToggleLearned}
+            onToggleBookmark={handleToggleBookmark}
+          />
 
           {/* Definition */}
           <section id="definition" className="space-y-2.5">
@@ -170,6 +152,13 @@ function ConceptDetailContent() {
             </h2>
             <QuickCheckList quickChecks={concept.body.quickChecks} />
           </section>
+
+          {/* Optional Collapsed Deep Dive Section */}
+          {deepDiveData && (
+            <section id="deep-dive" className="pt-6 sm:pt-8 border-t border-paper-border">
+              <DeepDiveSection deepDive={deepDiveData} needsDeepDive={needsDeepDive} />
+            </section>
+          )}
 
           {/* Related Concepts */}
           <section id="related" className="pt-6 sm:pt-8 border-t border-paper-border">

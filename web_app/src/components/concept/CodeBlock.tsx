@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Copy, Check, Code2 } from 'lucide-react';
+import { DecryptedText, ClickSpark } from '@/components/animations';
 
 export interface CodeBlockProps {
   code: string;
@@ -24,30 +25,32 @@ export function CodeBlock({ code, language = 'typescript', title = 'Example Impl
       <div className="flex items-center justify-between px-4 py-2.5 bg-paper-card border-b border-paper-border text-xs text-paper-muted font-mono">
         <div className="flex items-center gap-2">
           <Code2 className="w-3.5 h-3.5 text-ochre" />
-          <span className="text-paper-text font-medium">{title}</span>
+          <DecryptedText text={title} speed={30} animateOn="hover" className="text-paper-text font-medium cursor-default" />
           <span className="text-[10px] uppercase px-1.5 py-0.5 rounded bg-paper-surface border border-paper-border text-paper-muted">
             {language}
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-paper-surface text-paper-muted hover:text-paper-text transition-colors"
-          title="Copy snippet"
-        >
-          {copied ? (
-            <>
-              <Check className="w-3.5 h-3.5 text-teal" />
-              <span className="text-teal font-mono text-[11px] font-semibold">Copied</span>
-            </>
-          ) : (
-            <>
-              <Copy className="w-3.5 h-3.5" />
-              <span className="font-mono text-[11px]">Copy</span>
-            </>
-          )}
-        </button>
+        <ClickSpark sparkCount={10} sparkColors={['#0d9488', '#10b981', '#ffffff']}>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className="flex items-center gap-1.5 px-2 py-1 rounded hover:bg-paper-surface text-paper-muted hover:text-paper-text transition-colors"
+            title="Copy snippet"
+          >
+            {copied ? (
+              <>
+                <Check className="w-3.5 h-3.5 text-teal" />
+                <span className="text-teal font-mono text-[11px] font-semibold">Copied</span>
+              </>
+            ) : (
+              <>
+                <Copy className="w-3.5 h-3.5" />
+                <span className="font-mono text-[11px]">Copy</span>
+              </>
+            )}
+          </button>
+        </ClickSpark>
       </div>
 
       <div className="p-4 overflow-x-auto text-xs font-mono leading-relaxed bg-[var(--color-code-bg)] text-paper-text">

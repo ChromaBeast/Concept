@@ -3,11 +3,9 @@ import { Client, Account, Databases, Storage } from 'appwrite';
 const endpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || 'https://sgp.cloud.appwrite.io/v1';
 const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || '6a97fc420033ed1fefd0';
 
-export const appwriteClient = new Client();
-
-if (typeof window !== 'undefined') {
-  appwriteClient.setEndpoint(endpoint).setProject(projectId);
-}
+export const appwriteClient = new Client()
+  .setEndpoint(endpoint)
+  .setProject(projectId);
 
 export const account = new Account(appwriteClient);
 export const databases = new Databases(appwriteClient);

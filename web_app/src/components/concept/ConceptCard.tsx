@@ -7,6 +7,7 @@ import { Concept } from '@/lib/types';
 import { CATEGORY_META, DIFFICULTY_META } from '@/lib/constants';
 import { storage } from '@/lib/storage';
 import { ReadTimeBadge } from '../ui/ReadTimeBadge';
+import { SpotlightCard, ClickSpark } from '@/components/animations';
 
 export interface ConceptCardProps {
   concept: Concept;
@@ -39,7 +40,9 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
 
   return (
     <Link href={`/concepts/${concept.slug}`} className="block group h-full">
-      <div
+      <SpotlightCard
+        spotlightColor={`${catMeta.color}22`}
+        radius={240}
         className={`h-full flex flex-col justify-between p-5 rounded-2xl border border-paper-border bg-paper-card hover:border-ochre/50 transition-all duration-150 shadow-sm ${className || ''}`}
       >
         <div>
@@ -65,18 +68,20 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
               )}
             </div>
 
-            <button
-              type="button"
-              onClick={handleBookmarkToggle}
-              className={`p-1.5 rounded-lg border transition-colors ${
-                bookmarked
-                  ? 'bg-ochre/15 text-ochre border-ochre/40'
-                  : 'text-paper-muted hover:text-paper-text border-transparent hover:border-paper-border hover:bg-paper-surface'
-              }`}
-              title={bookmarked ? 'Remove bookmark' : 'Bookmark concept'}
-            >
-              <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
-            </button>
+            <ClickSpark sparkCount={8} sparkColors={[catMeta.color, '#d97706', '#ffffff']}>
+              <button
+                type="button"
+                onClick={handleBookmarkToggle}
+                className={`p-1.5 rounded-lg border transition-colors ${
+                  bookmarked
+                    ? 'bg-ochre/15 text-ochre border-ochre/40'
+                    : 'text-paper-muted hover:text-paper-text border-transparent hover:border-paper-border hover:bg-paper-surface'
+                }`}
+                title={bookmarked ? 'Remove bookmark' : 'Bookmark concept'}
+              >
+                <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
+              </button>
+            </ClickSpark>
           </div>
 
           <h3 className="text-base font-bold text-paper-text group-hover:text-ochre transition-colors mb-1.5 line-clamp-1 font-sans">
@@ -100,7 +105,7 @@ export function ConceptCard({ concept, className }: ConceptCardProps) {
             </div>
           )}
         </div>
-      </div>
+      </SpotlightCard>
     </Link>
   );
 }

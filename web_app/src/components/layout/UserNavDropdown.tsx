@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { User, ShieldCheck, LogOut, Bookmark, ChevronDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/lib/authContext';
 
 export function UserNavDropdown() {
@@ -39,65 +38,59 @@ export function UserNavDropdown() {
         <ChevronDown className={`w-3.5 h-3.5 text-paper-muted transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 6, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 6, scale: 0.96 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
-            className="absolute right-0 mt-2 w-52 rounded-2xl border border-paper-border bg-paper-card shadow-xl p-1.5 z-50 font-mono text-xs"
-          >
-            <div className="px-3 py-2 border-b border-paper-border/70 mb-1">
-              <div className="font-bold text-paper-text truncate">{user.name}</div>
-              <div className="text-[11px] text-paper-muted truncate">{user.email}</div>
-            </div>
+      {open && (
+        <div
+          className="absolute right-0 mt-2 w-52 rounded-2xl border border-paper-border bg-paper-card shadow-xl p-1.5 z-50 font-mono text-xs animate-fadeIn"
+        >
+          <div className="px-3 py-2 border-b border-paper-border/70 mb-1">
+            <div className="font-bold text-paper-text truncate">{user.name}</div>
+            <div className="text-[11px] text-paper-muted truncate">{user.email}</div>
+          </div>
 
-            <div className="space-y-0.5">
-              <Link
-                href="/profile"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-paper-text hover:bg-paper-surface transition-colors"
-              >
-                <User className="w-3.5 h-3.5 text-ochre" />
-                <span>My Profile &amp; Habit</span>
-              </Link>
+          <div className="space-y-0.5">
+            <Link
+              href="/profile"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-paper-text hover:bg-paper-surface transition-colors"
+            >
+              <User className="w-3.5 h-3.5 text-ochre" />
+              <span>My Profile &amp; Habit</span>
+            </Link>
 
-              <Link
-                href="/bookmarks"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-paper-text hover:bg-paper-surface transition-colors"
-              >
-                <Bookmark className="w-3.5 h-3.5 text-ochre" />
-                <span>Saved Bookmarks</span>
-              </Link>
+            <Link
+              href="/bookmarks"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-paper-text hover:bg-paper-surface transition-colors"
+            >
+              <Bookmark className="w-3.5 h-3.5 text-ochre" />
+              <span>Saved Bookmarks</span>
+            </Link>
 
-              <Link
-                href="/admin"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-2 px-3 py-2 rounded-xl text-paper-text hover:bg-paper-surface transition-colors"
-              >
-                <ShieldCheck className="w-3.5 h-3.5 text-ochre" />
-                <span>Admin Console</span>
-              </Link>
-            </div>
+            <Link
+              href="/admin"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-paper-text hover:bg-paper-surface transition-colors"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-ochre" />
+              <span>Admin Console</span>
+            </Link>
+          </div>
 
-            <div className="pt-1 mt-1 border-t border-paper-border/70">
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  logout();
-                }}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors"
-              >
-                <LogOut className="w-3.5 h-3.5" />
-                <span>Sign Out</span>
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className="pt-1 mt-1 border-t border-paper-border/70">
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                logout();
+              }}
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-rose-600 dark:text-rose-400 hover:bg-rose-500/10 transition-colors"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

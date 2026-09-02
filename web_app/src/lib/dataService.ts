@@ -64,7 +64,7 @@ export const dataService = {
     }
 
     try {
-      if (typeof window !== 'undefined' && APPWRITE_CONFIG.databaseId) {
+      if (APPWRITE_CONFIG.databaseId) {
         const res = await databases.listDocuments(
           APPWRITE_CONFIG.databaseId,
           APPWRITE_CONFIG.collections.concepts,
@@ -88,7 +88,7 @@ export const dataService = {
 
   async getConceptBySlug(slug: string): Promise<Concept | null> {
     try {
-      if (typeof window !== 'undefined' && APPWRITE_CONFIG.databaseId) {
+      if (APPWRITE_CONFIG.databaseId) {
         const res = await databases.listDocuments(
           APPWRITE_CONFIG.databaseId,
           APPWRITE_CONFIG.collections.concepts,
@@ -101,13 +101,13 @@ export const dataService = {
     } catch {}
 
     const all = await this.getAllConcepts();
-    return all.find((c) => c.slug === slug) || null;
+    return all.find((c) => c.slug === slug || c.id === slug) || null;
   },
 
   async getCourses(options?: { category?: Category | 'all'; limit?: number }): Promise<Course[]> {
     let list: Course[] = [];
     try {
-      if (typeof window !== 'undefined' && APPWRITE_CONFIG.databaseId) {
+      if (APPWRITE_CONFIG.databaseId) {
         const res = await databases.listDocuments(
           APPWRITE_CONFIG.databaseId,
           APPWRITE_CONFIG.collections.courses,

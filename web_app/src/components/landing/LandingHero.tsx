@@ -3,14 +3,25 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Zap, AlertOctagon, Clock } from 'lucide-react';
+import { DotGrid, BlurText, ShinyText, SpotlightCard, ClickSpark } from '@/components/animations';
 
 export function LandingHero() {
   const [activeTab, setActiveTab] = useState<'invariant' | 'failure_mode'>('invariant');
   const [drillAnswered, setDrillAnswered] = useState(false);
 
   return (
-    <section className="relative pt-6 sm:pt-10 pb-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="relative pt-6 sm:pt-10 pb-16 overflow-hidden">
+      {/* Background Interactive Dot Grid */}
+      <DotGrid
+        spacing={30}
+        baseRadius={1.2}
+        maxRadius={3.5}
+        baseColor="rgba(150, 150, 150, 0.12)"
+        activeColor="rgba(217, 119, 6, 0.55)"
+        influenceRadius={140}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: High-Conviction Narrative (7 cols) */}
           <div className="lg:col-span-7 space-y-6">
@@ -20,8 +31,10 @@ export function LandingHero() {
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-paper-text leading-[1.05] font-sans">
-              Engineering mental models. <br />
-              <span className="text-ochre">Zero video bloat.</span>
+              <BlurText text="Engineering mental models." as="span" /> <br />
+              <ShinyText shineColor="rgba(255, 255, 255, 0.95)">
+                <span className="text-ochre">Zero video bloat.</span>
+              </ShinyText>
             </h1>
 
             <p className="text-base sm:text-lg text-paper-muted max-w-xl leading-relaxed">
@@ -54,7 +67,11 @@ export function LandingHero() {
 
           {/* Right Column: Interactive Concept Inspector (5 cols) */}
           <div className="lg:col-span-5">
-            <div className="rounded-2xl border border-paper-border bg-paper-card shadow-md overflow-hidden">
+            <SpotlightCard
+              spotlightColor="rgba(217, 119, 6, 0.18)"
+              radius={260}
+              className="rounded-2xl border border-paper-border bg-paper-card shadow-md overflow-hidden"
+            >
               {/* Header Bar */}
               <div className="flex items-center justify-between px-4 py-3 border-b border-paper-border bg-paper-surface text-xs font-mono">
                 <div className="flex items-center gap-2 text-paper-text font-semibold">
@@ -122,23 +139,25 @@ export function LandingHero() {
                   </div>
                 )}
 
-                {/* Instant Retention Check */}
-                <div
-                  onClick={() => setDrillAnswered(!drillAnswered)}
-                  className="p-3 rounded-xl border border-dashed border-ochre/40 bg-ochre/5 hover:bg-ochre/10 cursor-pointer transition-colors space-y-1.5"
-                >
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="font-bold text-ochre">Drill: Standard modulo hashing failure?</span>
-                    <span className="text-paper-muted">{drillAnswered ? 'Hide' : 'Reveal'}</span>
-                  </div>
-                  {drillAnswered && (
-                    <div className="text-[11px] text-paper-text font-sans pt-1 border-t border-ochre/20">
-                      Adding 1 server invalidates nearly 100% of cached keys, triggering an instant cache stampede against your primary database.
+                {/* Instant Retention Check with ClickSpark */}
+                <ClickSpark sparkCount={10} sparkColors={['#d97706', '#f59e0b', '#10b981']}>
+                  <div
+                    onClick={() => setDrillAnswered(!drillAnswered)}
+                    className="p-3 rounded-xl border border-dashed border-ochre/40 bg-ochre/5 hover:bg-ochre/10 cursor-pointer transition-colors space-y-1.5"
+                  >
+                    <div className="flex items-center justify-between text-[11px]">
+                      <span className="font-bold text-ochre">Drill: Standard modulo hashing failure?</span>
+                      <span className="text-paper-muted">{drillAnswered ? 'Hide' : 'Reveal'}</span>
                     </div>
-                  )}
-                </div>
+                    {drillAnswered && (
+                      <div className="text-[11px] text-paper-text font-sans pt-1 border-t border-ochre/20">
+                        Adding 1 server invalidates nearly 100% of cached keys, triggering an instant cache stampede against your primary database.
+                      </div>
+                    )}
+                  </div>
+                </ClickSpark>
               </div>
-            </div>
+            </SpotlightCard>
           </div>
         </div>
       </div>

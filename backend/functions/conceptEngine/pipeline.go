@@ -47,8 +47,7 @@ func (p *ContentPipeline) RunBatch(batchSize int) (int, int, error) {
 		p.config.DatabaseID,
 		"roadmapTopics",
 		p.db.WithListDocumentsQueries([]string{
-			query.Equal("status", []string{"pending"}),
-			query.OrderDesc("priority"),
+			query.Equal("status", "pending"),
 			query.Limit(batchSize),
 		}),
 	)

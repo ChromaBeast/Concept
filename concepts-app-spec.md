@@ -46,6 +46,7 @@ class Concept {
   final bool visualAid;                    // did this concept warrant a generated image?
   final String? heroImageUrl;              // Appwrite Storage file URL, placed mid-card (§5.2)
   final String? imagePrompt;               // prompt used — kept so an image can be regenerated
+  final bool needsDeepDive;                // did this concept warrant an optional extended deep dive? (§2.4)
   final List<String>? needsReviewReasons;  // populated only when automated checks failed
 }
 ```
@@ -58,7 +59,7 @@ Flat top-level categories, cross-cut by tags (tags carry the actual granularity)
 
 ### 2.3 ConceptBody — the structured content itself
 
-Every card follows the **same skeleton**, so the reader's eyes always know where to look. This structure is also what you hand to Gemini as the output schema.
+Every card follows the **same core skeleton**, so the reader's eyes always know where to look. For dense topics requiring deeper exploration, an optional collapsed `deepDive` is attached at the bottom.
 
 ```dart
 class ConceptBody {
@@ -68,28 +69,52 @@ class ConceptBody {
   final String? commonPitfall;    // the misconception that trips people up
   final String? interviewAngle;   // how this actually gets asked, phrased as a question
   final List<QuickCheck> quickChecks; // 1–2 tiny recall questions, answer hidden until tapped
+  final DeepDive? deepDive;       // optional collapsed extension, self-flagged by Gemini (§2.4)
 }
 
 class QuickCheck {
   final String question;
   final String answer; // short, revealed on tap — not a scored quiz, just self-check
 }
+
+class DeepDive {
+  final String? title;                   // e.g. "Consensus Protocol Mechanics & Invariants"
+  final int estimatedReadSeconds;        // computed: ~180s (intermediate) to ~420s (advanced)
+  final List<DeepDiveSection> sections; // structured in-depth breakdown
+}
+
+class DeepDiveSection {
+  final String heading;                  // e.g. "Under the Hood: Log Replication"
+  final String content;                  // deep technical explanation
+  final String? codeSnippet;             // optional code or architectural diagram
+}
 ```
 
-### 2.4 Hard word budget (this is what makes "under 2 minutes" real)
+### 2.4 Hard word budget & The Two-Layer Content Model
 
-Reading speed for dense technical text is closer to 130–160 wpm than the 250 wpm people quote for prose. Target:
+This is what makes "under 2 minutes" real while still giving dense topics room to breathe:
 
-| Section | Word cap |
-|---|---|
-| definition | 40 |
-| whyItMatters | 60 |
-| example | 60 (code doesn't count toward word cap, judged separately by line count ≤ 12) |
-| commonPitfall | 40 |
-| interviewAngle | 30 |
-| **Total body** | **~230 words hard cap, 260 absolute max** |
+1. **Mandatory Core Card (All Concepts):**
+   Every concept gets the full ~230-word core card, no exceptions — that's the guarantee users can always rely on across every difficulty level.
 
-This cap is enforced programmatically (word-count the generated JSON, reject and regenerate if over budget) — not left to the model's discretion. See §4.3.
+   | Section | Word cap |
+   |---|---|
+   | definition | 40 |
+   | whyItMatters | 60 |
+   | example | 60 (code doesn't count toward word cap, judged separately by line count ≤ 12) |
+   | commonPitfall | 40 |
+   | interviewAngle | 30 |
+   | **Total core body** | **~230 words hard cap, 260 absolute max (~90–120 sec read)** |
+
+2. **Optional "Go Deeper" Layer (`needsDeepDive`):**
+   - For dense topics where two minutes really isn't enough (e.g. consensus algorithms, memory models, distributed transactions), Gemini self-flags `needsDeepDive: true` during generation (same pattern as `visualAid`).
+   - The deep dive lives in a **separate, collapsed section** at the bottom of the card ("Go deeper (~6 min)" — tap to expand).
+   - It **never** displaces the core card and **never** alters the "~90 sec read" badge seen while scanning lists or browsing.
+   - Scaled word budget for Deep Dive:
+     - **Beginner:** No deep dive by default (0 extra words).
+     - **Intermediate:** Up to ~400 words (~3 extra minutes).
+     - **Advanced:** Up to ~900 words (~6–7 extra minutes).
+   - Total read time tops out around 8–10 minutes only for concepts that warrant it, and only for users who tap to expand.
 
 ### 2.5 Course object (an ordered playlist of existing concepts)
 
@@ -213,7 +238,7 @@ resp, err := httpClient.Do(req)
 
 ### 4.3 Prompt template
 
-The model now also decides whether a visual helps and writes its own image brief — that's what makes image generation selective instead of forced onto every card.
+The model writes the mandatory ~230-word core card for all concepts. It also decides whether a visual helps (`visualAid`) and self-flags whether dense technical complexity warrants an optional extended deep dive (`needsDeepDive`):
 
 ```
 You are writing one entry for a software engineering reference app.
@@ -224,6 +249,23 @@ Difficulty: {{difficulty}}
 Write in plain, direct language. No buzzwords, no hype, no filler phrases
 like "in today's fast-paced world." Assume the reader is a working developer,
 not a beginner to computing in general.
+
+CORE CARD RULES:
+1. Definition: strictly <= 40 words.
+2. Why It Matters: strictly <= 60 words.
+3. Example: strictly <= 60 words or <= 12 lines of code.
+4. Common Pitfall: strictly <= 40 words.
+5. Interview Angle: strictly <= 30 words.
+6. Total word count across core body (definition + whyItMatters + example + commonPitfall + interviewAngle) must NOT exceed 230 words.
+7. Include 1-2 QuickChecks (question + concise answer).
+
+DEEP DIVE RULES (OPTIONAL EXTENSION):
+- If the topic is genuinely dense (e.g. consensus algorithms, memory models, distributed transactions, internal engine mechanics) where 2 minutes isn't enough, set "needsDeepDive": true and provide "deepDive".
+- For concepts that can be explained adequately in 2 minutes, set "needsDeepDive": false and omit "deepDive".
+- Deep dive word budget:
+  * beginner: no deep dive ("needsDeepDive": false).
+  * intermediate: up to ~400 words (~3 min extra read).
+  * advanced: up to ~900 words (~6–7 min extra read).
 
 Return ONLY valid JSON matching this exact shape:
 {
@@ -237,15 +279,20 @@ Return ONLY valid JSON matching this exact shape:
   ],
   "suggestedTags": ["tag-slug-1", "tag-slug-2"],
   "visualAid": true,
-  "imagePrompt": "if visualAid is true, describe ONE simple visual concept for an
-    illustration — a diagram, flow, or metaphor. Leave empty string if visualAid is false.
-    Concepts like system design, networking, or data structures usually benefit from one;
-    behavioral/interview-technique or trivia-style concepts usually don't."
+  "imagePrompt": "if visualAid is true, describe ONE simple visual concept for an illustration. Leave empty string if false.",
+  "needsDeepDive": true,
+  "deepDive": {
+    "title": "In-Depth Architectural & Protocol Mechanics",
+    "estimatedReadSeconds": 360,
+    "sections": [
+      {
+        "heading": "Under the Hood: State Machine Replication",
+        "content": "Detailed walkthrough of state transitions, commit logs, and failure recovery...",
+        "codeSnippet": "// Optional code or pseudo-code"
+      }
+    ]
+  }
 }
-
-Total word count across definition + whyItMatters + example + commonPitfall +
-interviewAngle must not exceed 230 words. Be precise over exhaustive — cut
-detail before you cut clarity.
 ```
 
 ### 4.4 Image generation — manual, via Google Flow (not an API call)
@@ -272,9 +319,10 @@ This is the part worth being deliberate about: "approve" going from a human clic
 
 A concept auto-publishes only if **all** of the following pass; otherwise it's written as `needs_review` with the specific failure reasons attached (so the fallback screen tells you *why*, not just *that*):
 
-1. **Schema check** — JSON parses, no required field empty.
-2. **Word-count gate** — total body ≤ 260 words (§2.4), reject/regenerate up to 2 retries before failing.
-3. **Self-check pass** — a second, separate Gemini call, given the generated JSON, asked to rate factual accuracy and flag any error:
+1. **Schema check** — JSON parses, all mandatory core fields non-empty.
+2. **Core word-count gate** — total core body ≤ 260 words (§2.4), reject/regenerate up to 2 retries before failing.
+3. **Deep dive budget gate** — if `needsDeepDive: true`, deep dive word count must not exceed difficulty budget (≤ 450 words for intermediate, ≤ 950 words for advanced; beginner concepts must not have deep dive).
+4. **Self-check pass** — a second, separate Gemini call, given the generated JSON, asked to rate factual accuracy and flag any error:
    ```
    Review this content for factual accuracy: {{generatedJSON}}
    Return JSON: { "pass": true|false, "issues": ["..."] }
@@ -282,7 +330,7 @@ A concept auto-publishes only if **all** of the following pass; otherwise it's w
    protocol/algorithm detail, or a misleading interview framing. Minor style
    issues are not a failure reason.
    ```
-4. **Image is not a publish gate** — `visualAid` and `imagePrompt` just get written to the doc; the image itself is generated manually later (§4.4) and never blocks a concept from publishing.
+5. **Image is not a publish gate** — `visualAid` and `imagePrompt` just get written to the doc; the image itself is generated manually later (§4.4) and never blocks a concept from publishing.
 
 - **Spot-check quota**: independent of the auto-check above, re-run the self-check prompt against a random 10% of already-published cards weekly — catches drift if a prompt version turns out weaker than expected, without needing you to read everything.
 - **Staleness**: `promptVersion` on each concept lets you find and regenerate everything written under an older prompt in one query, if you tighten the prompt later.
@@ -337,17 +385,21 @@ Design priority: **typography-first.** This app is mostly text, read quickly, of
 | **Courses** | Available learning paths, grouped by category — title, difficulty, concept count, total time, progress bar if started |
 | **Course detail** | Header (title, description, total time) → ordered concept list with a checkmark per completed one → tap any concept to read it |
 | **Search** | Search bar, recent searches, trending tags when empty |
-| **Concept detail** | The card itself: title → definition → why it matters → example → pitfall → interview angle → quick checks (tap to reveal) → related concepts row at the bottom |
+| **Concept detail** | The card itself: title → definition → why it matters → example → pitfall → interview angle → quick checks (tap to reveal) → optional collapsed "Go deeper" section → related concepts row |
 | **Bookmarks** | Saved concepts, same list UI as Browse |
 | **Profile** | Streak calendar, concepts-learned count per category, theme toggle, notification settings |
 
 ### 5.2 Concept detail card — layout notes
 
-- Small "~90 sec read" badge near the title, calculated from `estimatedReadSeconds` — this is the app's core promise, make it visible, not just true.
-- Sections are visually distinct (definition in larger type, pitfall in a subtly flagged block) but **not walled off in accordions** — the whole thing should read top-to-bottom in one continuous scroll, since forcing taps to expand sections defeats the "fast read" goal.
+- Small "~90 sec read" badge near the title, calculated from the core card `estimatedReadSeconds` — this is the app's core promise, make it visible and consistent across all cards and browse lists.
+- Sections are visually distinct (definition in larger type, pitfall in a subtly flagged block) but **not walled off in accordions** — the core ~230-word card reads top-to-bottom in one continuous scroll.
 - "Mark as learned" + bookmark icon in the app bar, not buried at the bottom.
 - When `heroImageUrl` is present, it renders between "why it matters" and the example — a visual breather at the natural midpoint, not a banner stacked above the title.
-- Quick-check questions are collapsed by default (answer hidden), tap to reveal — this is the one place a tap is appropriate, since revealing the answer immediately would let the eye skip straight to it.
+- Quick-check questions are collapsed by default (answer hidden), tap to reveal — this is appropriate since revealing the answer immediately would let the eye skip straight to it.
+- **Optional "Go Deeper" Collapsed Section:**
+  - For concepts where `needsDeepDive: true` and `deepDive` content exists, a **separate collapsed accordion** is rendered at the bottom: `"Go deeper (~6 min)"` (with estimated read time for the deep dive).
+  - Tap to expand reveals structured sections (e.g. deep architectural mechanics, state machine nuances, code diagrams).
+  - It **never** displaces the core card and **never** changes the "~90 sec read" badge seen when scanning lists.
 - When a concept is opened from within a course, a slim "next in course" bar sits at the bottom — tapping it advances to the next concept in that course's sequence without a trip back to the course screen.
 
 ### 5.3 Visual direction

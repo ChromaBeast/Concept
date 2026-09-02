@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { CountUp, SpotlightCard } from '@/components/animations';
 
 const LIMITS = [
   { field: '01. Axiom Definition', limit: '≤ 40 words', intent: 'One clear, unambiguous architectural invariant' },
@@ -52,23 +53,39 @@ export function StatsCounter() {
           </div>
 
           <div className="lg:col-span-4 flex flex-col justify-between gap-4">
-            <div className="p-6 rounded-2xl border border-paper-border bg-paper-card space-y-3 shadow-sm">
+            <SpotlightCard
+              spotlightColor="rgba(217, 119, 6, 0.15)"
+              className="p-6 rounded-2xl border border-paper-border bg-paper-card space-y-3 shadow-sm"
+            >
               <div className="text-xs font-mono font-bold uppercase tracking-wider text-ochre">230-Word Total Cap</div>
-              <div className="text-3xl font-bold text-paper-text font-sans">~90s Read</div>
+              <div className="text-3xl font-bold text-paper-text font-sans flex items-baseline gap-1">
+                <span>~</span>
+                <CountUp to={90} duration={1.5} suffix="s Read" />
+              </div>
               <p className="text-xs text-paper-muted leading-relaxed font-sans">
                 Dense, high-retention mental models. Eliminates 45-minute YouTube video bloat while delivering verified invariants.
               </p>
-            </div>
+            </SpotlightCard>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
-                <div className="text-2xl font-bold text-paper-text font-sans">100%</div>
+              <SpotlightCard
+                spotlightColor="rgba(13, 148, 136, 0.15)"
+                className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm"
+              >
+                <div className="text-2xl font-bold text-paper-text font-sans">
+                  <CountUp to={100} duration={1.5} suffix="%" />
+                </div>
                 <div className="text-[11px] text-paper-muted font-mono">Factual Self-Checked</div>
-              </div>
-              <div className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm">
-                <div className="text-2xl font-bold text-teal font-sans">0 min</div>
+              </SpotlightCard>
+              <SpotlightCard
+                spotlightColor="rgba(217, 119, 6, 0.15)"
+                className="p-4 rounded-2xl border border-paper-border bg-paper-card space-y-1 shadow-sm"
+              >
+                <div className="text-2xl font-bold text-teal font-sans">
+                  <CountUp to={0} duration={1} suffix=" min" />
+                </div>
                 <div className="text-[11px] text-paper-muted font-mono">Video Fluff</div>
-              </div>
+              </SpotlightCard>
             </div>
           </div>
         </div>

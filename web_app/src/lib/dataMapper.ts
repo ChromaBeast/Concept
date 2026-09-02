@@ -1,6 +1,7 @@
 import { Concept, Course } from './types';
 
 export function mapDocToConcept(d: any): Concept {
+  const parsedBody = typeof d.body === 'string' ? JSON.parse(d.body) : d.body || {};
   return {
     id: d.$id,
     slug: d.slug,
@@ -9,7 +10,7 @@ export function mapDocToConcept(d: any): Concept {
     category: d.category,
     tagIds: d.tagIds || [],
     difficulty: d.difficulty,
-    body: typeof d.body === 'string' ? JSON.parse(d.body) : d.body,
+    body: parsedBody,
     estimatedReadSeconds: d.estimatedReadSeconds || 90,
     status: d.status,
     source: d.source || 'ai_generated',
@@ -17,6 +18,8 @@ export function mapDocToConcept(d: any): Concept {
     visualAid: d.visualAid || false,
     heroImageUrl: d.heroImageUrl,
     imagePrompt: d.imagePrompt,
+    needsDeepDive: d.needsDeepDive ?? parsedBody.needsDeepDive ?? (parsedBody.deepDive ? true : false),
+    deepDive: d.deepDive ?? parsedBody.deepDive ?? null,
     relatedConceptIds: d.relatedConceptIds || [],
     askedByCompanies: d.askedByCompanies || [],
     createdAt: d.$createdAt,

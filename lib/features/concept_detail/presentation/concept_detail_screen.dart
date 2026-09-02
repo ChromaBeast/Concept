@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
@@ -15,6 +15,7 @@ import 'widgets/concept_hero_image.dart';
 import 'widgets/concept_interview_box.dart';
 import 'widgets/concept_pitfall_box.dart';
 import 'widgets/concept_quick_checks_section.dart';
+import 'widgets/concept_deep_dive_box.dart';
 import 'widgets/concept_related_row.dart';
 import 'widgets/concept_why_matters_box.dart';
 import 'widgets/next_in_course_bar.dart';
@@ -149,6 +150,10 @@ class ConceptDetailScreen extends ConsumerWidget {
                 if (concept.body.quickChecks.isNotEmpty)
                   ConceptQuickChecksSection(
                     quickChecks: concept.body.quickChecks,
+                  ),
+                if (concept.body.deepDive != null)
+                  ConceptDeepDiveBox(
+                    deepDive: concept.body.deepDive!,
                   ),
                 relatedAsync.when(
                   data: (related) => ConceptRelatedRow(relatedConcepts: related),

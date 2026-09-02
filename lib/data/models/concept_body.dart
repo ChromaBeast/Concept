@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart' show listEquals;
 import 'quick_check.dart';
+import 'deep_dive.dart';
 
 class ConceptBody {
   const ConceptBody({
@@ -10,6 +11,8 @@ class ConceptBody {
     this.commonPitfall,
     this.interviewAngle,
     this.quickChecks = const [],
+    this.needsDeepDive = false,
+    this.deepDive,
   });
 
   final String definition;
@@ -18,6 +21,8 @@ class ConceptBody {
   final String? commonPitfall;
   final String? interviewAngle;
   final List<QuickCheck> quickChecks;
+  final bool needsDeepDive;
+  final DeepDive? deepDive;
 
   ConceptBody copyWith({
     String? definition,
@@ -26,6 +31,8 @@ class ConceptBody {
     String? commonPitfall,
     String? interviewAngle,
     List<QuickCheck>? quickChecks,
+    bool? needsDeepDive,
+    DeepDive? deepDive,
   }) {
     return ConceptBody(
       definition: definition ?? this.definition,
@@ -34,6 +41,8 @@ class ConceptBody {
       commonPitfall: commonPitfall ?? this.commonPitfall,
       interviewAngle: interviewAngle ?? this.interviewAngle,
       quickChecks: quickChecks ?? this.quickChecks,
+      needsDeepDive: needsDeepDive ?? this.needsDeepDive,
+      deepDive: deepDive ?? this.deepDive,
     );
   }
 
@@ -45,10 +54,13 @@ class ConceptBody {
       'commonPitfall': commonPitfall,
       'interviewAngle': interviewAngle,
       'quickChecks': quickChecks.map((x) => x.toMap()).toList(),
+      'needsDeepDive': needsDeepDive,
+      'deepDive': deepDive?.toMap(),
     };
   }
 
   factory ConceptBody.fromMap(Map<String, dynamic> map) {
+    final rawDeepDive = map['deepDive'];
     return ConceptBody(
       definition: map['definition'] as String? ?? '',
       whyItMatters: map['whyItMatters'] as String? ?? '',
@@ -59,6 +71,10 @@ class ConceptBody {
               ?.map((x) => QuickCheck.fromMap(x as Map<String, dynamic>))
               .toList() ??
           const [],
+      needsDeepDive: map['needsDeepDive'] as bool? ?? (rawDeepDive != null),
+      deepDive: rawDeepDive != null && rawDeepDive is Map<String, dynamic>
+          ? DeepDive.fromMap(rawDeepDive)
+          : null,
     );
   }
 
@@ -66,13 +82,6 @@ class ConceptBody {
 
   factory ConceptBody.fromJson(String source) =>
       ConceptBody.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'ConceptBody(definition: $definition, whyItMatters: $whyItMatters, '
-        'example: $example, commonPitfall: $commonPitfall, '
-        'interviewAngle: $interviewAngle, quickChecks: $quickChecks)';
-  }
 
   @override
   bool operator ==(Object other) {
@@ -83,6 +92,8 @@ class ConceptBody {
         other.example == example &&
         other.commonPitfall == commonPitfall &&
         other.interviewAngle == interviewAngle &&
+        other.needsDeepDive == needsDeepDive &&
+        other.deepDive == deepDive &&
         listEquals(other.quickChecks, quickChecks);
   }
 
@@ -93,6 +104,8 @@ class ConceptBody {
         example.hashCode ^
         commonPitfall.hashCode ^
         interviewAngle.hashCode ^
+        needsDeepDive.hashCode ^
+        deepDive.hashCode ^
         Object.hashAll(quickChecks);
   }
 }

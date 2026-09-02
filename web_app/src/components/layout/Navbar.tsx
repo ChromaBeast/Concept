@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Compass, BookOpen, Search, Bookmark, Menu, X, LogIn } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { storage } from '@/lib/storage';
 import { useAuth } from '@/lib/authContext';
@@ -68,10 +67,8 @@ export function Navbar() {
                 )}
               >
                 {(isHovered || (!hoveredTab && isActive)) && (
-                  <motion.div
-                    layoutId="nav-pill"
-                    transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                    className="absolute inset-0 rounded-full bg-paper-card border border-paper-border shadow-sm -z-10"
+                  <div
+                    className="absolute inset-0 rounded-full bg-paper-card border border-paper-border shadow-sm -z-10 animate-fadeIn"
                   />
                 )}
                 <Icon className="w-3.5 h-3.5" />

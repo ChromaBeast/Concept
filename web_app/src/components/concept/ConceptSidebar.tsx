@@ -5,6 +5,7 @@ import { ConceptTableOfContents } from './ConceptTableOfContents';
 import { Bookmark, CheckCircle2, Building2, BookOpen } from 'lucide-react';
 import { Course } from '@/lib/types';
 import Link from 'next/link';
+import { ClickSpark, SpotlightCard } from '@/components/animations';
 
 interface ConceptSidebarProps {
   bookmarked: boolean;
@@ -25,33 +26,37 @@ export function ConceptSidebar({
 }: ConceptSidebarProps) {
   return (
     <div className="space-y-8">
-      {/* Unified Segmented Study Utility Bar */}
+      {/* Unified Segmented Study Utility Bar with ClickSpark */}
       <div className="flex items-center gap-1 p-1 rounded-xl bg-paper-surface border border-paper-border font-mono shadow-inner">
-        <button
-          type="button"
-          onClick={onToggleLearned}
-          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
-            learned
-              ? 'bg-teal text-white shadow-sm'
-              : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
-          }`}
-        >
-          <CheckCircle2 className="w-3.5 h-3.5" />
-          <span>{learned ? 'Mastered' : 'Mark Learned'}</span>
-        </button>
+        <ClickSpark sparkCount={14} sparkColors={['#0d9488', '#10b981', '#ffffff']} className="flex-1">
+          <button
+            type="button"
+            onClick={onToggleLearned}
+            className={`w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+              learned
+                ? 'bg-teal text-white shadow-sm'
+                : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
+            }`}
+          >
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span>{learned ? 'Mastered' : 'Mark Learned'}</span>
+          </button>
+        </ClickSpark>
 
-        <button
-          type="button"
-          onClick={onToggleBookmark}
-          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
-            bookmarked
-              ? 'bg-ochre text-white shadow-sm'
-              : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
-          }`}
-        >
-          <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
-          <span>{bookmarked ? 'Saved' : 'Bookmark'}</span>
-        </button>
+        <ClickSpark sparkCount={12} sparkColors={['#d97706', '#f59e0b', '#ffffff']} className="flex-1">
+          <button
+            type="button"
+            onClick={onToggleBookmark}
+            className={`w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+              bookmarked
+                ? 'bg-ochre text-white shadow-sm'
+                : 'text-paper-muted hover:text-paper-text hover:bg-paper-card'
+            }`}
+          >
+            <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-current' : ''}`} />
+            <span>{bookmarked ? 'Saved' : 'Bookmark'}</span>
+          </button>
+        </ClickSpark>
       </div>
 
       {/* Sleek Unboxed Table of Contents */}
@@ -79,9 +84,12 @@ export function ConceptSidebar({
         </div>
       )}
 
-      {/* Course Context Card */}
+      {/* Course Context Card with Spotlight */}
       {course && (
-        <div className="p-4 rounded-xl border border-ochre/30 bg-ochre/5 space-y-2 font-mono shadow-sm">
+        <SpotlightCard
+          spotlightColor="rgba(217, 119, 6, 0.12)"
+          className="p-4 rounded-xl border border-ochre/30 bg-ochre/5 space-y-2 font-mono shadow-sm"
+        >
           <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-ochre">
             <BookOpen className="w-3.5 h-3.5" />
             <span>Current Track</span>
@@ -93,7 +101,7 @@ export function ConceptSidebar({
           >
             Track Playlist &rarr;
           </Link>
-        </div>
+        </SpotlightCard>
       )}
     </div>
   );

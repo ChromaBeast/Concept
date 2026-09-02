@@ -1,0 +1,76 @@
+import { Concept } from '../types';
+
+export const seedConceptsFrontendSecurity: Concept[] = [
+  {
+    id: 'concept-browser-event-loop',
+    slug: 'browser-event-loop-macrotasks',
+    title: 'Browser Event Loop & Microtask Queue',
+    oneLiner: 'Single-threaded concurrency coordinator orchestrating Call Stack, Microtask queue, and Render steps.',
+    category: 'frontend',
+    difficulty: 'intermediate',
+    tagIds: ['tag-frontend', 'tag-javascript', 'tag-browser'],
+    status: 'published',
+    source: 'human_curated',
+    estimatedReadSeconds: 85,
+    askedByCompanies: ['Google', 'Meta', 'Netflix', 'Uber'],
+    relatedConceptIds: ['concept-concurrency-parallelism'],
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    visualAid: true,
+    heroImageUrl: null,
+    imagePrompt: 'Event loop sequence diagram: Call Stack -> Microtask Queue -> Render Pipeline -> Macrotask Queue.',
+    body: {
+      definition: 'The JavaScript Event Loop is a coordination loop that continuously executes scripts, processes events, and manages asynchronous callbacks via two distinct queues: Microtasks (Promises, queueMicrotask) and Macrotasks (setTimeout, I/O).',
+      whyItMatters: 'Explains asynchronous execution order in web apps and Node.js. Microtasks ALWAYS execute immediately following the current synchronous stack before the browser renders frames or processes macrotasks.',
+      example: 'console.log("1: Sync");\nsetTimeout(() => console.log("4: Macrotask"), 0);\nPromise.resolve().then(() => console.log("2: Microtask 1"))\n               .then(() => console.log("3: Microtask 2"));\n// Output order: 1 -> 2 -> 3 -> 4',
+      commonPitfall: 'Starving the event loop and freezing the UI by recursively enqueuing microtasks without yielding to the render cycle.',
+      interviewAngle: 'Universal frontend interview question: predicting console output order, explaining requestAnimationFrame timing vs microtasks, and Web Workers offloading.',
+      quickChecks: [
+        {
+          question: 'What executes first after synchronous call stack clears: setTimeout callback or Promise.then?',
+          answer: 'Promise.then() (Microtask queue is always drained before the next Macrotask).',
+        },
+        {
+          question: 'When does browser layout and paint occur relative to microtasks?',
+          answer: 'After the microtask queue is completely drained, before running the next macrotask.',
+        },
+      ],
+    },
+  },
+  {
+    id: 'concept-oauth2-pkce',
+    slug: 'oauth2-pkce-flow',
+    title: 'OAuth 2.0 & Proof Key for Code Exchange (PKCE)',
+    oneLiner: 'Secure authorization framework allowing public mobile/SPA clients to authenticate without hardcoded client secrets.',
+    category: 'security',
+    difficulty: 'advanced',
+    tagIds: ['tag-security', 'tag-auth', 'tag-oauth'],
+    status: 'published',
+    source: 'human_curated',
+    estimatedReadSeconds: 90,
+    askedByCompanies: ['Auth0', 'Okta', 'Google', 'Microsoft'],
+    relatedConceptIds: ['concept-idempotency'],
+    createdAt: '2026-01-01T00:00:00.000Z',
+    updatedAt: '2026-01-01T00:00:00.000Z',
+    visualAid: true,
+    heroImageUrl: null,
+    imagePrompt: 'Authorization code flow with Code Verifier and Code Challenge SHA-256 exchange.',
+    body: {
+      definition: 'OAuth 2.0 with PKCE (Proof Key for Code Exchange) is an authorization extension that protects Single Page Apps (SPAs) and mobile apps from authorization code interception attacks without requiring a static client secret.',
+      whyItMatters: 'Public clients cannot securely store static secrets. PKCE dynamically generates a cryptographic Code Verifier and sends its SHA-256 hash (Code Challenge) on login, validating proof on token exchange.',
+      example: '// 1. Generate Verifier & Challenge\nconst verifier = generateRandomString(64);\nconst challenge = sha256Base64Url(verifier);\n\n// 2. Redirect to Auth Server: /authorize?code_challenge=challenge&code_challenge_method=S256\n// 3. Exchange Code for Token: POST /token body: { code, code_verifier: verifier }',
+      commonPitfall: 'Using the deprecated OAuth 2.0 Implicit Flow (returning access tokens directly in URL hash fragments), exposing tokens to browser history leaks and referer headers.',
+      interviewAngle: 'Security design questions on token storage (HttpOnly cookie vs memory), refresh token rotation, Cross-Site Scripting (XSS), and Cross-Site Request Forgery (CSRF).',
+      quickChecks: [
+        {
+          question: 'Why can SPAs and mobile apps not use standard Authorization Code Flow with a Client Secret?',
+          answer: 'Client code is publicly inspectable and decompilable, making secrets impossible to protect.',
+        },
+        {
+          question: 'How does PKCE prevent an intercepted authorization code from being exchanged?',
+          answer: 'The attacker does not possess the original plaintext Code Verifier generated in client memory.',
+        },
+      ],
+    },
+  },
+];

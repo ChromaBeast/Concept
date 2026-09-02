@@ -81,8 +81,18 @@ module.exports = {
       animation: {
         'marquee': 'marquee 25s linear infinite',
         'marquee-reverse': 'marquee-reverse 25s linear infinite',
+        'shine': 'shine 3.5s linear infinite',
+        'fadeIn': 'fadeIn 0.2s ease-out forwards',
       },
       keyframes: {
+        shine: {
+          '0%': { 'background-position': '100%' },
+          '100%': { 'background-position': '-100%' },
+        },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
         marquee: {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },

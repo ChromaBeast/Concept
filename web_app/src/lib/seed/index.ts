@@ -3,14 +3,18 @@ import { seedTags } from './seedTags';
 import { seedCourses } from './seedCourses';
 import { seedConceptsDsa } from './seedConceptsDsa';
 import { seedConceptsSysDesign } from './seedConceptsSysDesign';
+import { seedConceptsDatabases } from './seedConceptsDatabases';
 import { seedConceptsOsNet } from './seedConceptsOsNet';
 import { seedConceptsPatterns } from './seedConceptsPatterns';
+import { seedConceptsFrontendSecurity } from './seedConceptsFrontendSecurity';
 
 export const allSeedConcepts: Concept[] = [
   ...seedConceptsDsa,
   ...seedConceptsSysDesign,
+  ...seedConceptsDatabases,
   ...seedConceptsOsNet,
   ...seedConceptsPatterns,
+  ...seedConceptsFrontendSecurity,
 ];
 
 export {
@@ -18,8 +22,10 @@ export {
   seedCourses,
   seedConceptsDsa,
   seedConceptsSysDesign,
+  seedConceptsDatabases,
   seedConceptsOsNet,
   seedConceptsPatterns,
+  seedConceptsFrontendSecurity,
 };
 
 export function getSeedConceptBySlug(slug: string): Concept | undefined {

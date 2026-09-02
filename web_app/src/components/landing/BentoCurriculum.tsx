@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Cpu, Network, Layers, ShieldCheck } from 'lucide-react';
+import { SpotlightCard } from '@/components/animations';
 
 export function BentoCurriculum() {
   return (
@@ -23,10 +24,13 @@ export function BentoCurriculum() {
           </p>
         </div>
 
-        {/* Asymmetrical 12-Column Grid */}
+        {/* Asymmetrical 12-Column Grid with SpotlightCards */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Card 1: Distributed Systems (7 cols) */}
-          <div className="lg:col-span-7 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm">
+          <SpotlightCard
+            spotlightColor="rgba(147, 51, 234, 0.14)"
+            className="lg:col-span-7 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm"
+          >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -58,10 +62,13 @@ export function BentoCurriculum() {
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
+          </SpotlightCard>
 
           {/* Card 2: Core CS (5 cols) */}
-          <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm">
+          <SpotlightCard
+            spotlightColor="rgba(37, 99, 235, 0.14)"
+            className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm"
+          >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -87,10 +94,13 @@ export function BentoCurriculum() {
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
+          </SpotlightCard>
 
           {/* Card 3: Software & Web (5 cols) */}
-          <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm">
+          <SpotlightCard
+            spotlightColor="rgba(13, 148, 136, 0.14)"
+            className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm"
+          >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -116,10 +126,13 @@ export function BentoCurriculum() {
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
+          </SpotlightCard>
 
           {/* Card 4: Reliability & Operations (7 cols) */}
-          <div className="lg:col-span-7 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm">
+          <SpotlightCard
+            spotlightColor="rgba(22, 163, 74, 0.14)"
+            className="lg:col-span-7 p-6 sm:p-8 rounded-2xl border border-paper-border bg-paper-card space-y-6 flex flex-col justify-between hover:border-ochre/40 transition-colors shadow-sm"
+          >
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -150,7 +163,7 @@ export function BentoCurriculum() {
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
             </div>
-          </div>
+          </SpotlightCard>
         </div>
       </div>
     </section>
