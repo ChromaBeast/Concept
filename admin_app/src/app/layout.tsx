@@ -1,0 +1,43 @@
+import type { Metadata } from 'next';
+import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
+import { ThemeProvider } from 'next-themes';
+import './globals.css';
+import { AdminNavbar } from '@/components/layout/AdminNavbar';
+
+const ibmSans = IBM_Plex_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-ibm-sans',
+  display: 'swap',
+});
+
+const ibmMono = IBM_Plex_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-ibm-mono',
+  display: 'swap',
+});
+
+export const metadata: Metadata = {
+  title: 'Concept Admin Studio',
+  description: 'Mission Control & Editorial Triage for Concept Microlearning Platform',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning className={`${ibmSans.variable} ${ibmMono.variable}`}>
+      <body className="bg-paper-bg text-paper-text font-sans min-h-screen selection:bg-ochre/20">
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <AdminNavbar />
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {children}
+          </main>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}
