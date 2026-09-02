@@ -6,7 +6,7 @@ const projectId = '6a97fc420033ed1fefd0';
 const databaseId = '6a97fc7c0037107a5f9a';
 const key = 'YOUR_APPWRITE_API_KEY';
 
-console.log('🌱 Starting Appwrite Database Seeder...\n');
+console.log('🌱 Starting Appwrite Database Seeder with Master Admin Key...\n');
 
 const client = new Client().setEndpoint(endpoint).setProject(projectId).setKey(key);
 const databases = new Databases(client);

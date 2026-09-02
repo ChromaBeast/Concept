@@ -15,7 +15,7 @@ async function inspectRoadmap() {
     ]);
     console.log(`📊 Found ${res.total} roadmapTopics in Appwrite DB:`);
     res.documents.forEach((d, i) => {
-      console.log(`  [${i + 1}] ID: ${d.$id} | Topic: "${d.topic}" | Status: ${d.status} | Priority: ${d.priority} | Attempts: ${d.attempts} | LastError: ${d.lastError || 'none'}`);
+      console.log(`  [${i + 1}] ID: ${d.$id} | Topic: "${d.topic}" | Category: ${d.category} | Status: ${d.status} | Priority: ${d.priority}`);
     });
   } catch (err) {
     console.error('Error listing roadmapTopics:', err.message);

@@ -9,9 +9,9 @@ const client = new Client().setEndpoint(endpoint).setProject(projectId).setKey(k
 const functions = new Functions(client);
 
 async function trigger() {
-  console.log('⚡ Executing Cloud Function "conceptEngine" Actions...\n');
+  console.log('⚡ Executing Cloud Function "conceptEngine" with Master Admin Key...\n');
 
-  // 1. Trigger Status
+  // 1. Status Check
   try {
     console.log('1. Status Check:');
     const res = await functions.createExecution(
@@ -27,7 +27,7 @@ async function trigger() {
     console.error(`   ⚠️ Status Error: ${err.message}\n`);
   }
 
-  // 2. Trigger Seed
+  // 2. Seed Roadmap Topics
   try {
     console.log('2. Seed Roadmap Topics:');
     const res = await functions.createExecution(
@@ -43,36 +43,20 @@ async function trigger() {
     console.error(`   ⚠️ Seed Error: ${err.message}\n`);
   }
 
-  // 3. Trigger Expand
+  // 3. Expand Category Roadmap (databases)
   try {
-    console.log('3. Expand Category Roadmap (system_design):');
+    console.log('3. Expand Category Roadmap (databases):');
     const res = await functions.createExecution(
       functionId,
-      JSON.stringify({ action: 'expand', category: 'system_design' }),
+      JSON.stringify({ action: 'expand', category: 'databases' }),
       false,
-      '/?action=expand&category=system_design',
+      '/?action=expand&category=databases',
       'POST'
     );
     console.log(`   Status: ${res.status}`);
     console.log(`   Response: ${res.responseBody}\n`);
   } catch (err) {
     console.error(`   ⚠️ Expand Error: ${err.message}\n`);
-  }
-
-  // 4. Trigger Pipeline
-  try {
-    console.log('4. Run Content Pipeline (batch=3):');
-    const res = await functions.createExecution(
-      functionId,
-      JSON.stringify({ action: 'pipeline', batch: 3 }),
-      false,
-      '/?action=pipeline&batch=3',
-      'POST'
-    );
-    console.log(`   Status: ${res.status}`);
-    console.log(`   Response: ${res.responseBody}\n`);
-  } catch (err) {
-    console.error(`   ⚠️ Pipeline Error: ${err.message}\n`);
   }
 }
 
