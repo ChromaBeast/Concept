@@ -11,6 +11,7 @@ import { useAuth } from '@/lib/authContext';
 import { StreakBadge } from '../ui/StreakBadge';
 import { ThemeToggle } from '../theme/ThemeToggle';
 import { UserNavDropdown } from './UserNavDropdown';
+import { Logo } from '../ui/Logo';
 
 const NAV_ITEMS = [
   { href: '/browse', label: 'Browse', icon: Compass },
@@ -42,15 +43,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-paper-border bg-paper-bg/90 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Left: Clean Minimal Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group select-none flex-shrink-0">
-          <div className="w-8 h-8 rounded-xl bg-ochre flex items-center justify-center font-black text-white text-base shadow-sm group-hover:scale-105 transition-transform font-mono">
-            C
-          </div>
-          <span className="font-bold text-lg tracking-tight text-paper-text group-hover:text-ochre transition-colors font-sans">
-            Concept
-          </span>
-        </Link>
+        {/* Left: Vector Optimized Logo */}
+        <Logo size="md" />
 
         {/* Center: Animated Sliding Pill Navigation */}
         <nav
