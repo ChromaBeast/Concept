@@ -5,9 +5,10 @@
 :root {
   /* Light mode: Ink & Ochre warm paper */
   --color-bg: #FBF9F5;
-  --color-surface: #F2EFE8;
+  --color-surface: #F4EFEB;
   --color-card: #FFFFFF;
-  --color-border: #E3DDD0;
+  --color-border: rgba(28, 27, 24, 0.09);
+  --color-border-subtle: rgba(28, 27, 24, 0.04);
   --color-text: #1C1B18;
   --color-text-muted: #6B6558;
   --color-text-sub: #8C8474;
@@ -15,17 +16,18 @@
   --color-accent-dim: #8E5704;
   --color-accent-2: #1F6F5C;
   --color-accent-2-dim: #165244;
-  --color-code-bg: #F4F1EA;
-  --color-selection: rgba(181, 114, 10, 0.22);
-  --color-grid: #8C8474;
+  --color-code-bg: #F5F2EC;
+  --color-selection: rgba(181, 114, 10, 0.18);
+  --color-grid: rgba(28, 27, 24, 0.04);
 }
 
 .dark {
   /* Dark mode: Ink & Ochre deep night technical almanac */
   --color-bg: #15130F;
-  --color-surface: #1D1B16;
-  --color-card: #23201A;
-  --color-border: #2E2A22;
+  --color-surface: #1B1914;
+  --color-card: #201E18;
+  --color-border: rgba(242, 238, 230, 0.09);
+  --color-border-subtle: rgba(242, 238, 230, 0.04);
   --color-text: #F2EEE6;
   --color-text-muted: #A69C89;
   --color-text-sub: #706859;
@@ -33,9 +35,9 @@
   --color-accent-dim: #B5720A;
   --color-accent-2: #4FB0A0;
   --color-accent-2-dim: #1F6F5C;
-  --color-code-bg: #0C0B08;
-  --color-selection: rgba(232, 163, 61, 0.28);
-  --color-grid: #524B3E;
+  --color-code-bg: #0E0D0A;
+  --color-selection: rgba(232, 163, 61, 0.22);
+  --color-grid: rgba(242, 238, 230, 0.04);
 }
 
 /* Custom Text Selection */
@@ -107,12 +109,12 @@ a:active {
 
 /* Bold Display Outline Text */
 .text-stroke {
-  -webkit-text-stroke: 1.5px var(--color-border);
+  -webkit-text-stroke: 1px var(--color-border);
   color: transparent;
 }
 
 .text-stroke-electric {
-  -webkit-text-stroke: 1.5px var(--color-accent);
+  -webkit-text-stroke: 1px var(--color-accent);
   color: transparent;
 }
 

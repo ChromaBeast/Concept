@@ -14,7 +14,7 @@ export function ConceptHeroVisual({ title, imageUrl, imagePrompt }: ConceptHeroV
   if (!imageUrl) return null;
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-obsidian-border bg-obsidian-surface my-4">
+    <div className="rounded-2xl overflow-hidden border border-paper-border bg-paper-surface my-4 shadow-sm">
       <div className="relative w-full h-56 sm:h-72">
         <Image
           src={imageUrl}
@@ -25,8 +25,8 @@ export function ConceptHeroVisual({ title, imageUrl, imagePrompt }: ConceptHeroV
         />
       </div>
       {imagePrompt && (
-        <div className="p-2.5 text-[11px] text-dark-muted bg-obsidian-surface/90 border-t border-obsidian-border italic flex items-center gap-1.5 font-mono">
-          <Sparkles className="w-3 h-3 text-electric flex-shrink-0" />
+        <div className="p-2.5 text-[11px] text-paper-muted bg-paper-card border-t border-paper-border italic flex items-center gap-1.5 font-mono">
+          <Sparkles className="w-3 h-3 text-ochre flex-shrink-0" />
           <span>Visual Architecture Brief: {imagePrompt}</span>
         </div>
       )}
