@@ -1,105 +1,94 @@
-# Concept Platform — Deployment Guide
+﻿# Concept Platform — Deployment Guide
 
-This guide covers deploying the **Appwrite Backend & Cloud Functions**, **Next.js Web App**, and **Flutter Mobile App**.
-
----
-
-## 1. Appwrite Cloud Backend Setup
-
-1. **Create Project**:
-   - Go to [Appwrite Cloud Console](https://cloud.appwrite.io) and create a project (e.g. `concept-app`).
-2. **Create Database & Collections**:
-   - Create Database ID: `concepts_db`
-   - Create Collections: `concepts`, `tags`, `courses`, `roadmapTopics`, `pipelineRuns`, `users`, `courseProgress`, `analyticsEvents`.
-   - Set Read permission on `concepts`, `tags`, `courses` to `Any` (public read).
-3. **Create Storage Bucket**:
-   - Bucket ID: `concept-images` (Max size: 10MB, Public Read: `Any`).
-4. **Create Server API Key**:
-   - Generate an API Key under **Overview → API Keys** with `databases.read`, `databases.write`, `files.read`, `files.write`, `functions.read`, `functions.write` scopes.
+Comprehensive deployment guide using the **Appwrite CLI**, **Next.js Web App** (Bun), and **Flutter Mobile App**.
 
 ---
 
-## 2. Deploying Appwrite Go Cloud Functions
+## 1. Appwrite CLI Automated Setup
 
-### Option A: Via Appwrite CLI (Recommended)
+The repository includes a complete `appwrite.json` configuration defining the database (`concepts_db`), all 6 collections, attribute schemas, indexes, storage buckets (`concept-images`), and Go cloud functions.
+
+### Step 1: Install & Authenticate Appwrite CLI
 ```bash
-# 1. Login to Appwrite CLI
+# Verify CLI installation
+appwrite --version
+
+# Authenticate with your Appwrite Cloud or self-hosted instance
 appwrite login
-
-# 2. Link your project
-appwrite init project
-
-# 3. Set Function Environment Variables in Appwrite Console:
-#    - GEMINI_API_KEY: Your Google Gemini API Key
-#    - GEMINI_MODEL: gemini-3.7-flash (or gemini-3.5-flash / gemini-2.5-flash)
-#    - GEMINI_VALIDATOR_MODEL: gemini-3.5-flash-lite (fast & cost-effective)
-#    - APPWRITE_API_KEY: Your Appwrite Server API Key
-#    - APPWRITE_ENDPOINT: https://cloud.appwrite.io/v1
-#    - APPWRITE_PROJECT_ID: concept-app
-#    - APPWRITE_DATABASE_ID: concepts_db
-
-# 4. Deploy all functions
-appwrite deploy function
 ```
 
-### Option B: Via Appwrite Git Integration
-Connect your Git repository in Appwrite Console $\to$ **Functions** $\to$ **Create Function** $\to$ select the folder (`backend/functions/runContentPipeline`, etc.) with Go 1.23 runtime.
+### Step 2: Link Project & Push Entire Architecture
+```bash
+# Link to your Appwrite project (e.g. concept-app)
+appwrite init project
+
+# Push database schema, collections, buckets, and cloud functions in one step
+appwrite push all
+```
+
+### Step 3: Configure Function Environment Variables
+In [Appwrite Console](https://cloud.appwrite.io) $\to$ **Functions** $\to$ **Settings** $\to$ **Global Variables**:
+- `GEMINI_API_KEY`: Your Google AI Gemini API Key
+- `GEMINI_MODEL`: `gemini-3.7-flash` (Primary synthesis & structured generation)
+- `GEMINI_VALIDATOR_MODEL`: `gemini-3.5-flash-lite` (Fast validation & roadmap expansion)
+- `APPWRITE_API_KEY`: Server API key with `databases.*`, `files.*`, `functions.*` scopes
+- `APPWRITE_ENDPOINT`: `https://cloud.appwrite.io/v1`
+- `APPWRITE_PROJECT_ID`: `concept-app`
+- `APPWRITE_DATABASE_ID`: `concepts_db`
 
 ---
 
-## 3. Seeding Roadmap Backlog
+## 2. Seed Initial Curriculum (197 Topics)
 
-Run the CLI seed script to insert initial 197 SWE topics:
 ```bash
 cd backend/scripts
 $env:APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1"
 $env:APPWRITE_PROJECT_ID="concept-app"
-$env:APPWRITE_API_KEY="your_api_key"
+$env:APPWRITE_API_KEY="your_server_api_key"
 $env:APPWRITE_DATABASE_ID="concepts_db"
 go run seed.go
 ```
 
 ---
 
-## 4. Deploying Next.js Web App (`web_app/`)
+## 3. Deploy Next.js Web App (`web_app/`)
 
-### Option A: Vercel (One-Click)
-1. Push to GitHub and import the repository into [Vercel](https://vercel.com).
+### Vercel (Recommended)
+1. Import repository `ChromaBeast/Concept` into [Vercel](https://vercel.com).
 2. Set **Root Directory** to `web_app`.
-3. Add Environment Variables:
-   - `NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1`
-   - `NEXT_PUBLIC_APPWRITE_PROJECT_ID=concept-app`
-   - `NEXT_PUBLIC_APPWRITE_DATABASE_ID=concepts_db`
-4. Deploy!
+3. Set Environment Variables:
+   - `NEXT_PUBLIC_APPWRITE_ENDPOINT`: `https://cloud.appwrite.io/v1`
+   - `NEXT_PUBLIC_APPWRITE_PROJECT_ID`: `concept-app`
+   - `NEXT_PUBLIC_APPWRITE_DATABASE_ID`: `concepts_db`
+4. Deploy.
 
-### Option B: Docker / Bun Server (Railway, Render, Fly.io)
+### Docker / Bun Production Container
 ```bash
 cd web_app
 docker build -t concept-web .
-docker run -p 3000:3000 -e NEXT_PUBLIC_APPWRITE_PROJECT_ID=concept-app concept-web
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_APPWRITE_ENDPOINT="https://cloud.appwrite.io/v1" \
+  -e NEXT_PUBLIC_APPWRITE_PROJECT_ID="concept-app" \
+  -e NEXT_PUBLIC_APPWRITE_DATABASE_ID="concepts_db" \
+  concept-web
 ```
 
 ---
 
-## 5. Building & Deploying Flutter Mobile App
+## 4. Deploy Flutter Mobile App
 
-### Android:
+### Android Production Build
 ```bash
-# Generate Android App Bundle (Google Play Store)
+# Build Google Play App Bundle
 flutter build appbundle --release
 
-# Generate standalone APK
+# Build split APKs
 flutter build apk --release --split-per-abi
 ```
-Output: `build/app/outputs/bundle/release/app-release.aab`
+Artifacts created at: `build/app/outputs/bundle/release/app-release.aab`
 
-### iOS:
+### iOS Production Build
 ```bash
 flutter build ipa --release
 ```
-Open `ios/Runner.xcworkspace` in Xcode to archive and upload to App Store Connect / TestFlight.
-
-### Web (Flutter Web alternative):
-```bash
-flutter build web --release
-```
+Open `ios/Runner.xcworkspace` in Xcode to upload archive to App Store Connect.

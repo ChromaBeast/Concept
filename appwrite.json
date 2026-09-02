@@ -1,6 +1,161 @@
 ﻿{
   "projectId": "concept-app",
   "projectName": "Concept",
+  "databases": [
+    {
+      "$id": "concepts_db",
+      "name": "Concept Database",
+      "enabled": true
+    }
+  ],
+  "collections": [
+    {
+      "$id": "concepts",
+      "$permissions": ["read(\"any\")"],
+      "databaseId": "concepts_db",
+      "name": "Concepts",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "slug", "type": "string", "size": 128, "required": true, "array": false },
+        { "key": "title", "type": "string", "size": 255, "required": true, "array": false },
+        { "key": "oneLiner", "type": "string", "size": 255, "required": true, "array": false },
+        { "key": "category", "type": "string", "size": 64, "required": true, "array": false },
+        { "key": "tagIds", "type": "string", "size": 64, "required": false, "array": true },
+        { "key": "difficulty", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "body", "type": "string", "size": 10000, "required": true, "array": false },
+        { "key": "estimatedReadSeconds", "type": "integer", "required": true, "array": false },
+        { "key": "status", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "source", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "aiModel", "type": "string", "size": 64, "required": false, "array": false },
+        { "key": "promptVersion", "type": "string", "size": 32, "required": false, "array": false },
+        { "key": "relatedConceptIds", "type": "string", "size": 64, "required": false, "array": true },
+        { "key": "askedByCompanies", "type": "string", "size": 64, "required": false, "array": true },
+        { "key": "viewCount", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "bookmarkCount", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "visualAid", "type": "boolean", "required": false, "array": false, "default": false },
+        { "key": "heroImageUrl", "type": "string", "size": 2048, "required": false, "array": false },
+        { "key": "imagePrompt", "type": "string", "size": 1024, "required": false, "array": false },
+        { "key": "needsReviewReasons", "type": "string", "size": 255, "required": false, "array": true }
+      ],
+      "indexes": [
+        { "key": "slug_idx", "type": "unique", "attributes": ["slug"] },
+        { "key": "category_idx", "type": "key", "attributes": ["category"] },
+        { "key": "difficulty_idx", "type": "key", "attributes": ["difficulty"] },
+        { "key": "status_idx", "type": "key", "attributes": ["status"] }
+      ]
+    },
+    {
+      "$id": "courses",
+      "$permissions": ["read(\"any\")"],
+      "databaseId": "concepts_db",
+      "name": "Courses",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "slug", "type": "string", "size": 128, "required": true, "array": false },
+        { "key": "title", "type": "string", "size": 255, "required": true, "array": false },
+        { "key": "description", "type": "string", "size": 1024, "required": true, "array": false },
+        { "key": "primaryCategory", "type": "string", "size": 64, "required": true, "array": false },
+        { "key": "difficulty", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "conceptIds", "type": "string", "size": 64, "required": false, "array": true },
+        { "key": "totalReadSeconds", "type": "integer", "required": true, "array": false },
+        { "key": "coverImageUrl", "type": "string", "size": 2048, "required": false, "array": false },
+        { "key": "status", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "source", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "startedCount", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "completedCount", "type": "integer", "required": false, "array": false, "default": 0 }
+      ],
+      "indexes": [
+        { "key": "slug_idx", "type": "unique", "attributes": ["slug"] }
+      ]
+    },
+    {
+      "$id": "tags",
+      "$permissions": ["read(\"any\")"],
+      "databaseId": "concepts_db",
+      "name": "Tags",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "name", "type": "string", "size": 64, "required": true, "array": false },
+        { "key": "slug", "type": "string", "size": 64, "required": true, "array": false },
+        { "key": "usageCount", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "category", "type": "string", "size": 64, "required": true, "array": false }
+      ],
+      "indexes": [
+        { "key": "slug_idx", "type": "unique", "attributes": ["slug"] }
+      ]
+    },
+    {
+      "$id": "roadmapTopics",
+      "$permissions": ["read(\"users\")"],
+      "databaseId": "concepts_db",
+      "name": "Roadmap Topics",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "topic", "type": "string", "size": 255, "required": true, "array": false },
+        { "key": "category", "type": "string", "size": 64, "required": true, "array": false },
+        { "key": "difficulty", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "priority", "type": "integer", "required": false, "array": false, "default": 1 },
+        { "key": "status", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "source", "type": "string", "size": 32, "required": true, "array": false },
+        { "key": "attempts", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "lastAttemptAt", "type": "string", "size": 64, "required": false, "array": false },
+        { "key": "lastError", "type": "string", "size": 1024, "required": false, "array": false }
+      ],
+      "indexes": [
+        { "key": "status_priority_idx", "type": "key", "attributes": ["status", "priority"] }
+      ]
+    },
+    {
+      "$id": "pipelineRuns",
+      "$permissions": ["read(\"users\")"],
+      "databaseId": "concepts_db",
+      "name": "Pipeline Runs",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "startedAt", "type": "string", "size": 64, "required": true, "array": false },
+        { "key": "finishedAt", "type": "string", "size": 64, "required": false, "array": false },
+        { "key": "attempted", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "published", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "needsReview", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "errors", "type": "integer", "required": false, "array": false, "default": 0 }
+      ]
+    },
+    {
+      "$id": "userProfiles",
+      "$permissions": ["read(\"users\")"],
+      "databaseId": "concepts_db",
+      "name": "User Profiles",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        { "key": "userId", "type": "string", "size": 64, "required": true, "array": false },
+        { "key": "streakCount", "type": "integer", "required": false, "array": false, "default": 0 },
+        { "key": "lastActiveDate", "type": "string", "size": 32, "required": false, "array": false },
+        { "key": "learnedConceptIds", "type": "string", "size": 64, "required": false, "array": true },
+        { "key": "bookmarkedConceptIds", "type": "string", "size": 64, "required": false, "array": true },
+        { "key": "themeMode", "type": "string", "size": 32, "required": false, "array": false, "default": "dark" }
+      ],
+      "indexes": [
+        { "key": "user_id_idx", "type": "unique", "attributes": ["userId"] }
+      ]
+    }
+  ],
+  "buckets": [
+    {
+      "$id": "concept-images",
+      "name": "Concept Images",
+      "$permissions": ["read(\"any\")"],
+      "fileSecurity": false,
+      "enabled": true,
+      "maximumFileSize": 10485760,
+      "allowedFileExtensions": ["jpg", "jpeg", "png", "webp", "svg"]
+    }
+  ],
   "functions": [
     {
       "$id": "runContentPipeline",
@@ -48,17 +203,6 @@
       "timeout": 60,
       "enabled": true,
       "logging": true
-    }
-  ],
-  "buckets": [
-    {
-      "$id": "concept-images",
-      "name": "Concept Images",
-      "$permissions": ["read(\"any\")"],
-      "fileSecurity": false,
-      "enabled": true,
-      "maximumFileSize": 10485760,
-      "allowedFileExtensions": ["jpg", "jpeg", "png", "webp", "svg"]
     }
   ]
 }
